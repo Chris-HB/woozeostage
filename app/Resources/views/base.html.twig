@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}WoozeoStage{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+        <link type="text/css" href="{{ asset('css/jquery.ui.chatbox.css') }}" rel="stylesheet" />
+        <script src="{{ asset('js/jquery.ui.chatbox.js') }}"></script>
+        <script src="{{ asset('js/chat.js') }}"></script>
+    </head>
+    <body>
+        <header>
+            <div id="user_header">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <div id="pseudo" data-pseudo={{ app.user.username }}>
+                    Bonjour {{ app.user.username }}
+                </div> 
+                - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                <a href="{{path('fos_user_profile_show') }}">Votre Profil</a>
+             {% else %}
+                    <div id="connexion">
+                        <a href="{{ path('fos_user_security_login') }}">Connexion</a>&nbsp
+                    </div>
+                    <div id="register">
+                        <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a>&nbsp
+                    </div>
+                    <div id="forget_password">
+                        <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>&nbsp
+                    </div>
+                {% endif %}
+            </div>
+        </header>
+            <div id="chat_div">
+            </div>
+            <hr />
+            <a href="{{ path('ws_chat_voir') }}">voir</a>
+            <div>
+                {{ render(controller("WSChatBundle:Chat:listUser")) }}
+            </div>
+            {% block body %}{% endblock %}
+            {% block javascripts %}{% endblock %}
+    </body>
+</html>
