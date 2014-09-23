@@ -40,6 +40,7 @@ class User extends BaseUser {
      * Constructor
      */
     public function __construct() {
+        parent::__construct();
         $this->evenements = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
     }

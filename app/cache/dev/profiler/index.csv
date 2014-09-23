@@ -2,3 +2,12 @@
 b49488,::1,GET,http://localhost/woozeostage/web/app_dev.php/,1411453641,
 2d5585,127.0.0.1,GET,http://localhost/woozeostage/web/app_dev.php/_fragment?_path=_format%3Dhtml%26_locale%3Dfr%26_controller%3DWSChatBundle%253AChat%253AlistUser,1411453692,71f86b
 71f86b,::1,GET,http://localhost/woozeostage/web/app_dev.php/,1411453692,
+0695b9,127.0.0.1,GET,http://localhost/woozeostage/web/app_dev.php/_fragment?_path=_format%3Dhtml%26_locale%3Dfr%26_controller%3DWSChatBundle%253AChat%253AlistUser,1411457147,a8f800
+a8f800,::1,GET,http://localhost/woozeostage/web/app_dev.php/,1411457147,
+bf6447,::1,GET,http://localhost/woozeostage/web/app_dev.php/login,1411457180,
+a171d2,::1,GET,http://localhost/woozeostage/web/app_dev.php/register/,1411457193,
+a8f407,::1,GET,http://localhost/woozeostage/web/app_dev.php/register/,1411457217,a7e32b
+a7e32b,::1,POST,http://localhost/woozeostage/web/app_dev.php/register/,1411457217,
+0196fc,::1,GET,http://localhost/woozeostage/web/app_dev.php/register/,1411457276,
+38b362,::1,POST,http://localhost/woozeostage/web/app_dev.php/register/,1411457316,
+dacc8d,::1,GET,http://localhost/woozeostage/web/app_dev.php/register/confirmed,1411457319,
