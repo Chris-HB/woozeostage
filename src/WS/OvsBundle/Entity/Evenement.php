@@ -29,6 +29,13 @@ class Evenement {
     private $nom;
 
     /**
+     * @var type
+     *
+     * @ORM\Column(name="heure", type="time")
+     */
+    private $heure;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="inscrit", type="integer")
@@ -47,6 +54,7 @@ class Evenement {
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -54,6 +62,7 @@ class Evenement {
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\OvsBundle\Entity\Sport", inversedBy="evenements")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $sport;
 
@@ -61,6 +70,7 @@ class Evenement {
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\OvsBundle\Entity\Date", inversedBy="evenements")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $date;
 
@@ -156,7 +166,7 @@ class Evenement {
      * @param \WS\UserBundle\Entity\User $user
      * @return Evenement
      */
-    public function setUser(\WS\UserBundle\Entity\User $user = null) {
+    public function setUser(\WS\UserBundle\Entity\User $user) {
         $this->user = $user;
         $user->addEvenement($this);
 
@@ -178,7 +188,7 @@ class Evenement {
      * @param \WS\OvsBundle\Entity\Sport $sport
      * @return Evenement
      */
-    public function setSport(\WS\OvsBundle\Entity\Sport $sport = null) {
+    public function setSport(\WS\OvsBundle\Entity\Sport $sport) {
         $this->sport = $sport;
         $sport->addEvenement($this);
 
@@ -200,7 +210,7 @@ class Evenement {
      * @param \WS\OvsBundle\Entity\Date $date
      * @return Evenement
      */
-    public function setDate(\WS\OvsBundle\Entity\Date $date = null) {
+    public function setDate(\WS\OvsBundle\Entity\Date $date) {
         $this->date = $date;
         $date->addEvenement($this);
 
@@ -244,6 +254,27 @@ class Evenement {
      */
     public function getUserEvenements() {
         return $this->userEvenements;
+    }
+
+    /**
+     * Set heure
+     *
+     * @param \DateTime $heure
+     * @return Evenement
+     */
+    public function setHeure($heure) {
+        $this->heure = $heure;
+
+        return $this;
+    }
+
+    /**
+     * Get heure
+     *
+     * @return \DateTime
+     */
+    public function getHeure() {
+        return $this->heure;
     }
 
 }

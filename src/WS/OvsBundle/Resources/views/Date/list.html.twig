@@ -1,0 +1,12 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - list date
+{% endblock %}
+{% block ovs %}
+    {% for date in dates%}
+        <p>{{ date.date|date('d/m/Y')}}</p>
+    {% else %}
+        <p>Pas encore de date</p>
+    {% endfor %}
+{% endblock %}

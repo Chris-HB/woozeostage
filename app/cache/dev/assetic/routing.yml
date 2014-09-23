@@ -2,4 +2,4 @@ _assetic:
     resource: .
     type: assetic
 _app:
-    resource: 'C:/wamp/www/woozeostage/trunk/app/config/routing_dev.yml'
+    resource: 'C:/wamp/www/woozeostage/app/config/routing_dev.yml'

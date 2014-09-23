@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+
+{% block titre %}Utilisateurs{% endblock %}
+
+{% block body %}
+    
+
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+    <div>
+        {% block utilisateur %}
+        {% endblock %}
+    </div>
+{% endblock %}

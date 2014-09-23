@@ -99,26 +99,38 @@ class __TwigTemplate_35818aeb6c6b8e9e10d7f5bb4e94b3951bc2e25f61c42c53ec6edf3e177
         // line 34
         echo "            </div>
         </header>
+            <div id=\"menu\">
+                <ul>
+                    <li><a href=\"";
+        // line 38
+        echo $this->env->getExtension('routing')->getPath("ws_ovs_date_add");
+        echo "\">ajouter date</a></li>
+                    <li><a href=\"";
+        // line 39
+        echo $this->env->getExtension('routing')->getPath("ws_ovs_date_list");
+        echo "\">liste date</a></li>
+                </ul>
+            </div>
             <div id=\"chat_div\">
             </div>
             <hr />
             <a href=\"";
-        // line 39
+        // line 45
         echo $this->env->getExtension('routing')->getPath("ws_chat_voir");
         echo "\">voir</a>
             <div>
                 ";
-        // line 41
+        // line 47
         echo $this->env->getExtension('http_kernel')->renderFragment($this->env->getExtension('http_kernel')->controller("WSChatBundle:Chat:listUser"));
         echo "
             </div>
             ";
-        // line 43
+        // line 49
         $this->displayBlock('body', $context, $blocks);
-        // line 44
+        // line 50
         echo "            ";
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 45
+        // line 51
         echo "    </body>
 </html>
 ";
@@ -135,12 +147,12 @@ class __TwigTemplate_35818aeb6c6b8e9e10d7f5bb4e94b3951bc2e25f61c42c53ec6edf3e177
     {
     }
 
-    // line 43
+    // line 49
     public function block_body($context, array $blocks = array())
     {
     }
 
-    // line 44
+    // line 50
     public function block_javascripts($context, array $blocks = array())
     {
     }
@@ -157,6 +169,6 @@ class __TwigTemplate_35818aeb6c6b8e9e10d7f5bb4e94b3951bc2e25f61c42c53ec6edf3e177
 
     public function getDebugInfo()
     {
-        return array (  144 => 44,  139 => 43,  134 => 6,  128 => 5,  122 => 45,  119 => 44,  117 => 43,  112 => 41,  107 => 39,  100 => 34,  94 => 31,  88 => 28,  82 => 25,  79 => 24,  74 => 22,  70 => 21,  65 => 19,  60 => 18,  58 => 17,  46 => 11,  35 => 7,  23 => 1,  50 => 12,  43 => 6,  40 => 5,  33 => 6,  30 => 2,  42 => 10,  39 => 5,  32 => 3,  29 => 5,);
+        return array (  156 => 50,  151 => 49,  146 => 6,  140 => 5,  134 => 51,  131 => 50,  129 => 49,  124 => 47,  119 => 45,  110 => 39,  106 => 38,  100 => 34,  94 => 31,  88 => 28,  82 => 25,  79 => 24,  74 => 22,  70 => 21,  65 => 19,  60 => 18,  58 => 17,  50 => 12,  46 => 11,  42 => 10,  35 => 7,  33 => 6,  29 => 5,  23 => 1,);
     }
 }
