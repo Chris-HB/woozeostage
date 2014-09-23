@@ -6,6 +6,7 @@ $(document).ready(function() {
         //var $username = event.srcElement;
         //alert($username);
         var pseudo = ($("#pseudo").data("pseudo"));
+
         if (box) {
             box.chatbox("option", "boxManager").toggleBox();
         }
@@ -15,7 +16,7 @@ $(document).ready(function() {
                 title: "woozeostage chat : " + $username,
                 messageSent: function(id, user, msg) {
                     $("#log").append(id + " said: " + msg + "<br/>");
-                    $("#chat_div").chatbox("option", "boxManager").addMsg(pseudo, msg);
+                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
                 }});
         }
     });

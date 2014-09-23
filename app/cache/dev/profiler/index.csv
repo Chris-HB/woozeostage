@@ -11,3 +11,5 @@ a7e32b,::1,POST,http://localhost/woozeostage/web/app_dev.php/register/,141145721
 0196fc,::1,GET,http://localhost/woozeostage/web/app_dev.php/register/,1411457276,
 38b362,::1,POST,http://localhost/woozeostage/web/app_dev.php/register/,1411457316,
 dacc8d,::1,GET,http://localhost/woozeostage/web/app_dev.php/register/confirmed,1411457319,
+92989e,127.0.0.1,GET,http://woozeostage.local/app_dev.php/_fragment?_path=_format%3Dhtml%26_locale%3Dfr%26_controller%3DWSChatBundle%253AChat%253AlistUser,1411457780,edf70d
+edf70d,127.0.0.1,GET,http://woozeostage.local/app_dev.php/,1411457780,

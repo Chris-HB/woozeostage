@@ -72,4 +72,3 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: WS\UserBundle\Entity\User
-
