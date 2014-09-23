@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new WS\UserBundle\WSUserBundle(),
             new WS\ChatBundle\WSChatBundle(),
+            new WS\OvsBundle\WSOvsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

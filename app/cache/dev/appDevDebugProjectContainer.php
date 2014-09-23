@@ -327,7 +327,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAnnotationReaderService()
     {
-        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), 'C:/wamp/www/woozeostage/trunk/app/cache/dev/annotations', true);
+        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), 'C:/wamp/www/woozeostage/app/cache/dev/annotations', true);
     }
 
     /**
@@ -340,9 +340,9 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAssetic_AssetManagerService()
     {
-        $this->services['assetic.asset_manager'] = $instance = new \Assetic\Factory\LazyAssetManager($this->get('assetic.asset_factory'), array('twig' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Assetic\Extension\Twig\TwigFormulaLoader($this->get('twig')), new \Assetic\Cache\ConfigCache('C:/wamp/www/woozeostage/trunk/app/cache/dev/assetic/config'), true)));
+        $this->services['assetic.asset_manager'] = $instance = new \Assetic\Factory\LazyAssetManager($this->get('assetic.asset_factory'), array('twig' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Assetic\Extension\Twig\TwigFormulaLoader($this->get('twig')), new \Assetic\Cache\ConfigCache('C:/wamp/www/woozeostage/app/cache/dev/assetic/config'), true)));
 
-        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($this->get('templating.loader'), '', 'C:/wamp/www/woozeostage/trunk/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($this->get('templating.loader'), '', 'C:/wamp/www/woozeostage/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
 
         return $instance;
     }
@@ -428,7 +428,7 @@ class appDevDebugProjectContainer extends Container
         $a = $this->get('kernel');
         $b = $this->get('templating.filename_parser');
 
-        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, 'C:/wamp/www/woozeostage/trunk/app/Resources');
+        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, 'C:/wamp/www/woozeostage/app/Resources');
 
         return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine')), 5 => new \JMS\DiExtraBundle\HttpKernel\ControllerInjectorsWarmer($a, $this->get('jms_di_extra.controller_resolver'), array())));
     }
@@ -683,46 +683,51 @@ class appDevDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \EntityManager541ffa70d012b_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager A EntityManager541ffa70d012b_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager instance.
+     * @return \EntityManager542113b9076ec_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager A EntityManager542113b9076ec_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager instance.
      */
     protected function getDoctrine_Orm_DefaultEntityManagerService()
     {
-        require_once 'C:/wamp/www/woozeostage/trunk/app/cache/dev/jms_diextra/doctrine/EntityManager_541ffa70d012b.php';
+        require_once 'C:/wamp/www/woozeostage/app/cache/dev/jms_diextra/doctrine/EntityManager_542113b9076ec.php';
 
-        $a = new \Doctrine\Common\Cache\ArrayCache();
-        $a->setNamespace('sf2orm_default_0dfeeff5ca89079395bb6c2a6fd734c14347f950330b963d4cbdb84ad818564e');
+        $a = $this->get('annotation_reader');
 
         $b = new \Doctrine\Common\Cache\ArrayCache();
-        $b->setNamespace('sf2orm_default_0dfeeff5ca89079395bb6c2a6fd734c14347f950330b963d4cbdb84ad818564e');
+        $b->setNamespace('sf2orm_default_60e3b2d8efb47dfe845403ab6d4006299562152d1dd63c700e651b3a1156416f');
 
         $c = new \Doctrine\Common\Cache\ArrayCache();
-        $c->setNamespace('sf2orm_default_0dfeeff5ca89079395bb6c2a6fd734c14347f950330b963d4cbdb84ad818564e');
+        $c->setNamespace('sf2orm_default_60e3b2d8efb47dfe845403ab6d4006299562152d1dd63c700e651b3a1156416f');
 
-        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver(array('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\Resources\\config\\doctrine' => 'FOS\\UserBundle\\Entity'));
-        $d->setGlobalBasename('mapping');
+        $d = new \Doctrine\Common\Cache\ArrayCache();
+        $d->setNamespace('sf2orm_default_60e3b2d8efb47dfe845403ab6d4006299562152d1dd63c700e651b3a1156416f');
 
-        $e = new \Doctrine\ORM\Mapping\Driver\DriverChain();
-        $e->addDriver($d, 'FOS\\UserBundle\\Entity');
-        $e->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($this->get('annotation_reader'), array(0 => 'C:\\wamp\\www\\woozeostage\\trunk\\src\\WS\\UserBundle\\Entity')), 'WS\\UserBundle\\Entity');
-        $e->addDriver(new \Doctrine\ORM\Mapping\Driver\XmlDriver(new \Doctrine\Common\Persistence\Mapping\Driver\SymfonyFileLocator(array('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\Resources\\config\\doctrine\\model' => 'FOS\\UserBundle\\Model'), '.orm.xml')), 'FOS\\UserBundle\\Model');
+        $e = new \Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver(array('C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\Resources\\config\\doctrine' => 'FOS\\UserBundle\\Entity'));
+        $e->setGlobalBasename('mapping');
 
-        $f = new \Doctrine\ORM\Configuration();
-        $f->setEntityNamespaces(array('FOSUserBundle' => 'FOS\\UserBundle\\Entity', 'WSUserBundle' => 'WS\\UserBundle\\Entity'));
-        $f->setMetadataCacheImpl($a);
-        $f->setQueryCacheImpl($b);
-        $f->setResultCacheImpl($c);
-        $f->setMetadataDriverImpl($e);
-        $f->setProxyDir('C:/wamp/www/woozeostage/trunk/app/cache/dev/doctrine/orm/Proxies');
-        $f->setProxyNamespace('Proxies');
-        $f->setAutoGenerateProxyClasses(true);
-        $f->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
-        $f->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
-        $f->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
+        $f = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => 'C:\\wamp\\www\\woozeostage\\src\\WS\\UserBundle\\Entity', 1 => 'C:\\wamp\\www\\woozeostage\\src\\WS\\OvsBundle\\Entity'));
 
-        $g = \Doctrine\ORM\EntityManager::create($this->get('doctrine.dbal.default_connection'), $f);
-        $this->get('doctrine.orm.default_manager_configurator')->configure($g);
+        $g = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+        $g->addDriver($e, 'FOS\\UserBundle\\Entity');
+        $g->addDriver($f, 'WS\\UserBundle\\Entity');
+        $g->addDriver($f, 'WS\\OvsBundle\\Entity');
+        $g->addDriver(new \Doctrine\ORM\Mapping\Driver\XmlDriver(new \Doctrine\Common\Persistence\Mapping\Driver\SymfonyFileLocator(array('C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\Resources\\config\\doctrine\\model' => 'FOS\\UserBundle\\Model'), '.orm.xml')), 'FOS\\UserBundle\\Model');
 
-        return $this->services['doctrine.orm.default_entity_manager'] = new \EntityManager541ffa70d012b_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager($g, $this);
+        $h = new \Doctrine\ORM\Configuration();
+        $h->setEntityNamespaces(array('FOSUserBundle' => 'FOS\\UserBundle\\Entity', 'WSUserBundle' => 'WS\\UserBundle\\Entity', 'WSOvsBundle' => 'WS\\OvsBundle\\Entity'));
+        $h->setMetadataCacheImpl($b);
+        $h->setQueryCacheImpl($c);
+        $h->setResultCacheImpl($d);
+        $h->setMetadataDriverImpl($g);
+        $h->setProxyDir('C:/wamp/www/woozeostage/app/cache/dev/doctrine/orm/Proxies');
+        $h->setProxyNamespace('Proxies');
+        $h->setAutoGenerateProxyClasses(true);
+        $h->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
+        $h->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
+        $h->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
+
+        $i = \Doctrine\ORM\EntityManager::create($this->get('doctrine.dbal.default_connection'), $h);
+        $this->get('doctrine.orm.default_manager_configurator')->configure($i);
+
+        return $this->services['doctrine.orm.default_entity_manager'] = new \EntityManager542113b9076ec_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager($i, $this);
     }
 
     /**
@@ -774,7 +779,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getFileLocatorService()
     {
-        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), 'C:/wamp/www/woozeostage/trunk/app/Resources');
+        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), 'C:/wamp/www/woozeostage/app/Resources');
     }
 
     /**
@@ -1745,7 +1750,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['jms_di_extra.metadata.metadata_factory'] = $instance = new \Metadata\MetadataFactory(new \Metadata\Driver\LazyLoadingDriver($this, 'jms_di_extra.metadata_driver'), 'Metadata\\ClassHierarchyMetadata', true);
 
-        $instance->setCache(new \Metadata\Cache\FileCache('C:/wamp/www/woozeostage/trunk/app/cache/dev/jms_diextra/metadata'));
+        $instance->setCache(new \Metadata\Cache\FileCache('C:/wamp/www/woozeostage/app/cache/dev/jms_diextra/metadata'));
 
         return $instance;
     }
@@ -1844,7 +1849,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getMonolog_Handler_MainService()
     {
-        return $this->services['monolog.handler.main'] = new \Monolog\Handler\StreamHandler('C:/wamp/www/woozeostage/trunk/app/logs/dev.log', 100, true);
+        return $this->services['monolog.handler.main'] = new \Monolog\Handler\StreamHandler('C:/wamp/www/woozeostage/app/logs/dev.log', 100, true);
     }
 
     /**
@@ -2058,7 +2063,7 @@ class appDevDebugProjectContainer extends Container
         $d = new \Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector($this->get('doctrine'));
         $d->addLogger('default', $this->get('doctrine.dbal.logger.profiling.default'));
 
-        $this->services['profiler'] = $instance = new \Symfony\Component\HttpKernel\Profiler\Profiler(new \Symfony\Component\HttpKernel\Profiler\FileProfilerStorage('file:C:/wamp/www/woozeostage/trunk/app/cache/dev/profiler', '', '', 86400), $a);
+        $this->services['profiler'] = $instance = new \Symfony\Component\HttpKernel\Profiler\Profiler(new \Symfony\Component\HttpKernel\Profiler\FileProfilerStorage('file:C:/wamp/www/woozeostage/app/cache/dev/profiler', '', '', 86400), $a);
 
         $instance->add($c);
         $instance->add($this->get('data_collector.request'));
@@ -2156,7 +2161,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getRouterService()
     {
-        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, 'C:/wamp/www/woozeostage/trunk/app/cache/dev/assetic/routing.yml', array('cache_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev', 'debug' => true, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appDevUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appDevUrlMatcher', 'strict_requirements' => true), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, 'C:/wamp/www/woozeostage/app/cache/dev/assetic/routing.yml', array('cache_dir' => 'C:/wamp/www/woozeostage/app/cache/dev', 'debug' => true, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appDevUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appDevUrlMatcher', 'strict_requirements' => true), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
@@ -2383,7 +2388,7 @@ class appDevDebugProjectContainer extends Container
         $g = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array('always_use_default_target_path' => false, 'default_target_path' => '/', 'login_path' => '/login', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $g->setProviderKey('main');
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.in_memory'), 1 => $this->get('fos_user.user_provider.username')), 'main', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('check_path' => '/login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, $this->get('form.csrf_provider')), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '541ffa6fade49', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.in_memory'), 1 => $this->get('fos_user.user_provider.username')), 'main', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('check_path' => '/login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, $this->get('form.csrf_provider')), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '542113b7a3ae3', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
     }
 
     /**
@@ -2422,7 +2427,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_SecureRandomService()
     {
-        return $this->services['security.secure_random'] = new \Symfony\Component\Security\Core\Util\SecureRandom('C:/wamp/www/woozeostage/trunk/app/cache/dev/secure_random.seed', $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['security.secure_random'] = new \Symfony\Component\Security\Core\Util\SecureRandom('C:/wamp/www/woozeostage/app/cache/dev/secure_random.seed', $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
@@ -2474,7 +2479,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSensioDistribution_WebconfiguratorService()
     {
-        $this->services['sensio_distribution.webconfigurator'] = $instance = new \Sensio\Bundle\DistributionBundle\Configurator\Configurator('C:/wamp/www/woozeostage/trunk/app');
+        $this->services['sensio_distribution.webconfigurator'] = $instance = new \Sensio\Bundle\DistributionBundle\Configurator\Configurator('C:/wamp/www/woozeostage/app');
 
         $instance->addStep(new \Sensio\Bundle\DistributionBundle\Configurator\Step\DoctrineStep(), 10);
         $instance->addStep(new \Sensio\Bundle\DistributionBundle\Configurator\Step\SecretStep(), 0);
@@ -2640,7 +2645,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSession_Storage_FilesystemService()
     {
-        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('C:/wamp/www/woozeostage/trunk/app/cache/dev/sessions', 'MOCKSESSID', $this->get('session.storage.metadata_bag'));
+        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('C:/wamp/www/woozeostage/app/cache/dev/sessions', 'MOCKSESSID', $this->get('session.storage.metadata_bag'));
     }
 
     /**
@@ -2888,7 +2893,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTemplating_Helper_CodeService()
     {
-        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, 'C:/wamp/www/woozeostage/trunk/app', 'UTF-8');
+        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, 'C:/wamp/www/woozeostage/app', 'UTF-8');
     }
 
     /**
@@ -3409,198 +3414,201 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTranslator_DefaultService()
     {
-        $this->services['translator.default'] = $instance = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, new \Symfony\Component\Translation\MessageSelector(), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/translations', 'debug' => true));
+        $this->services['translator.default'] = $instance = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, new \Symfony\Component\Translation\MessageSelector(), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => 'C:/wamp/www/woozeostage/app/cache/dev/translations', 'debug' => true));
 
         $instance->setFallbackLocales(array(0 => 'fr'));
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.af.xlf', 'af', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ar.xlf', 'ar', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.bg.xlf', 'bg', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ca.xlf', 'ca', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.cs.xlf', 'cs', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.cy.xlf', 'cy', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.da.xlf', 'da', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.de.xlf', 'de', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.el.xlf', 'el', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.en.xlf', 'en', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.es.xlf', 'es', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.et.xlf', 'et', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.eu.xlf', 'eu', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.fa.xlf', 'fa', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.fi.xlf', 'fi', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.fr.xlf', 'fr', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.gl.xlf', 'gl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.he.xlf', 'he', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.hr.xlf', 'hr', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.hu.xlf', 'hu', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.hy.xlf', 'hy', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.id.xlf', 'id', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.it.xlf', 'it', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ja.xlf', 'ja', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.lb.xlf', 'lb', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.lt.xlf', 'lt', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.mn.xlf', 'mn', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.nb.xlf', 'nb', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.nl.xlf', 'nl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.no.xlf', 'no', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.pl.xlf', 'pl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.pt.xlf', 'pt', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.pt_BR.xlf', 'pt_BR', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ro.xlf', 'ro', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ru.xlf', 'ru', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sk.xlf', 'sk', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sl.xlf', 'sl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sq.xlf', 'sq', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sr_Cyrl.xlf', 'sr_Cyrl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sr_Latn.xlf', 'sr_Latn', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sv.xlf', 'sv', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.th.xlf', 'th', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.tr.xlf', 'tr', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.uk.xlf', 'uk', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.vi.xlf', 'vi', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.zh_CN.xlf', 'zh_CN', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.zh_TW.xlf', 'zh_TW', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ar.xlf', 'ar', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.bg.xlf', 'bg', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ca.xlf', 'ca', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.cs.xlf', 'cs', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.da.xlf', 'da', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.de.xlf', 'de', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.el.xlf', 'el', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.en.xlf', 'en', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.es.xlf', 'es', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.et.xlf', 'et', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.eu.xlf', 'eu', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.fa.xlf', 'fa', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.fi.xlf', 'fi', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.fr.xlf', 'fr', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.gl.xlf', 'gl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.he.xlf', 'he', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.hr.xlf', 'hr', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.hu.xlf', 'hu', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.hy.xlf', 'hy', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.id.xlf', 'id', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.it.xlf', 'it', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ja.xlf', 'ja', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.lb.xlf', 'lb', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.lt.xlf', 'lt', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.lv.xlf', 'lv', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.mn.xlf', 'mn', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.nb.xlf', 'nb', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.nl.xlf', 'nl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.pl.xlf', 'pl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.pt.xlf', 'pt', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.pt_BR.xlf', 'pt_BR', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ro.xlf', 'ro', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ru.xlf', 'ru', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sk.xlf', 'sk', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sl.xlf', 'sl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sr_Cyrl.xlf', 'sr_Cyrl', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sr_Latn.xlf', 'sr_Latn', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sv.xlf', 'sv', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.uk.xlf', 'uk', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.zh_CN.xlf', 'zh_CN', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ar.xlf', 'ar', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ca.xlf', 'ca', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.cs.xlf', 'cs', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.da.xlf', 'da', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.de.xlf', 'de', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.el.xlf', 'el', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.en.xlf', 'en', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.es.xlf', 'es', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.fa.xlf', 'fa', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.fr.xlf', 'fr', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.gl.xlf', 'gl', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.hu.xlf', 'hu', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.it.xlf', 'it', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.lb.xlf', 'lb', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.nl.xlf', 'nl', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.no.xlf', 'no', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.pl.xlf', 'pl', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.pt_BR.xlf', 'pt_BR', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.pt_PT.xlf', 'pt_PT', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ro.xlf', 'ro', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ru.xlf', 'ru', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sk.xlf', 'sk', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sl.xlf', 'sl', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sr_Cyrl.xlf', 'sr_Cyrl', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sr_Latn.xlf', 'sr_Latn', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sv.xlf', 'sv', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.tr.xlf', 'tr', 'security');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ua.xlf', 'ua', 'security');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ar.yml', 'ar', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.bg.yml', 'bg', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ca.yml', 'ca', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.cs.yml', 'cs', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.da.yml', 'da', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.de.yml', 'de', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.en.yml', 'en', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.es.yml', 'es', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.et.yml', 'et', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.fa.yml', 'fa', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.fi.yml', 'fi', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.fr.yml', 'fr', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.he.yml', 'he', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.hr.yml', 'hr', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.hu.yml', 'hu', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.id.yml', 'id', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.it.yml', 'it', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ja.yml', 'ja', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.lb.yml', 'lb', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.lt.yml', 'lt', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.lv.yml', 'lv', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.nb.yml', 'nb', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.nl.yml', 'nl', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.pl.yml', 'pl', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.pt.yml', 'pt', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.pt_BR.yml', 'pt_BR', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ro.yml', 'ro', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ru.yml', 'ru', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sk.yml', 'sk', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sl.yml', 'sl', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sr_Latn.yml', 'sr_Latn', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sv.yml', 'sv', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.th.yml', 'th', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.tr.yml', 'tr', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.uk.yml', 'uk', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.vi.yml', 'vi', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.zh_CN.yml', 'zh_CN', 'FOSUserBundle');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ar.yml', 'ar', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.bg.yml', 'bg', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ca.yml', 'ca', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.cs.yml', 'cs', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.da.yml', 'da', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.de.yml', 'de', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.en.yml', 'en', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.es.yml', 'es', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.fa.yml', 'fa', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.fi.yml', 'fi', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.fr.yml', 'fr', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.he.yml', 'he', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.hr.yml', 'hr', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.hu.yml', 'hu', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.id.yml', 'id', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.it.yml', 'it', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ja.yml', 'ja', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.lt.yml', 'lt', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.lv.yml', 'lv', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.nb.yml', 'nb', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.nl.yml', 'nl', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.pl.yml', 'pl', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.pt.yml', 'pt', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.pt_BR.yml', 'pt_BR', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ro.yml', 'ro', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ru.yml', 'ru', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sk.yml', 'sk', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sl.yml', 'sl', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sr_Latn.yml', 'sr_Latn', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sv.yml', 'sv', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.th.yml', 'th', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.tr.yml', 'tr', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.uk.yml', 'uk', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.vi.yml', 'vi', 'validators');
-        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.zh_CN.yml', 'zh_CN', 'validators');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\src\\WS\\UserBundle/Resources/translations\\messages.fr.xlf', 'fr', 'messages');
-        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\trunk\\src\\WS\\ChatBundle/Resources/translations\\messages.fr.xlf', 'fr', 'messages');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.af.xlf', 'af', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ar.xlf', 'ar', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.bg.xlf', 'bg', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ca.xlf', 'ca', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.cs.xlf', 'cs', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.cy.xlf', 'cy', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.da.xlf', 'da', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.de.xlf', 'de', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.el.xlf', 'el', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.en.xlf', 'en', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.es.xlf', 'es', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.et.xlf', 'et', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.eu.xlf', 'eu', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.fa.xlf', 'fa', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.fi.xlf', 'fi', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.fr.xlf', 'fr', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.gl.xlf', 'gl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.he.xlf', 'he', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.hr.xlf', 'hr', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.hu.xlf', 'hu', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.hy.xlf', 'hy', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.id.xlf', 'id', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.it.xlf', 'it', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ja.xlf', 'ja', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.lb.xlf', 'lb', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.lt.xlf', 'lt', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.mn.xlf', 'mn', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.nb.xlf', 'nb', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.nl.xlf', 'nl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.no.xlf', 'no', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.pl.xlf', 'pl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.pt.xlf', 'pt', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.pt_BR.xlf', 'pt_BR', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ro.xlf', 'ro', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.ru.xlf', 'ru', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sk.xlf', 'sk', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sl.xlf', 'sl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sq.xlf', 'sq', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sr_Cyrl.xlf', 'sr_Cyrl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sr_Latn.xlf', 'sr_Latn', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.sv.xlf', 'sv', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.th.xlf', 'th', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.tr.xlf', 'tr', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.uk.xlf', 'uk', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.vi.xlf', 'vi', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.zh_CN.xlf', 'zh_CN', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Validator/Resources/translations\\validators.zh_TW.xlf', 'zh_TW', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ar.xlf', 'ar', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.bg.xlf', 'bg', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ca.xlf', 'ca', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.cs.xlf', 'cs', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.da.xlf', 'da', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.de.xlf', 'de', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.el.xlf', 'el', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.en.xlf', 'en', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.es.xlf', 'es', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.et.xlf', 'et', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.eu.xlf', 'eu', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.fa.xlf', 'fa', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.fi.xlf', 'fi', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.fr.xlf', 'fr', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.gl.xlf', 'gl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.he.xlf', 'he', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.hr.xlf', 'hr', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.hu.xlf', 'hu', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.hy.xlf', 'hy', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.id.xlf', 'id', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.it.xlf', 'it', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ja.xlf', 'ja', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.lb.xlf', 'lb', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.lt.xlf', 'lt', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.lv.xlf', 'lv', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.mn.xlf', 'mn', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.nb.xlf', 'nb', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.nl.xlf', 'nl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.pl.xlf', 'pl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.pt.xlf', 'pt', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.pt_BR.xlf', 'pt_BR', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ro.xlf', 'ro', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.ru.xlf', 'ru', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sk.xlf', 'sk', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sl.xlf', 'sl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sr_Cyrl.xlf', 'sr_Cyrl', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sr_Latn.xlf', 'sr_Latn', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.sv.xlf', 'sv', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.uk.xlf', 'uk', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/translations\\validators.zh_CN.xlf', 'zh_CN', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ar.xlf', 'ar', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ca.xlf', 'ca', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.cs.xlf', 'cs', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.da.xlf', 'da', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.de.xlf', 'de', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.el.xlf', 'el', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.en.xlf', 'en', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.es.xlf', 'es', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.fa.xlf', 'fa', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.fr.xlf', 'fr', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.gl.xlf', 'gl', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.hu.xlf', 'hu', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.it.xlf', 'it', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.lb.xlf', 'lb', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.nl.xlf', 'nl', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.no.xlf', 'no', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.pl.xlf', 'pl', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.pt_BR.xlf', 'pt_BR', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.pt_PT.xlf', 'pt_PT', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ro.xlf', 'ro', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ru.xlf', 'ru', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sk.xlf', 'sk', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sl.xlf', 'sl', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sr_Cyrl.xlf', 'sr_Cyrl', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sr_Latn.xlf', 'sr_Latn', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.sv.xlf', 'sv', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.tr.xlf', 'tr', 'security');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Security\\Core\\Exception/../Resources/translations\\security.ua.xlf', 'ua', 'security');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ar.yml', 'ar', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.bg.yml', 'bg', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ca.yml', 'ca', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.cs.yml', 'cs', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.da.yml', 'da', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.de.yml', 'de', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.en.yml', 'en', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.es.yml', 'es', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.et.yml', 'et', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.fa.yml', 'fa', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.fi.yml', 'fi', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.fr.yml', 'fr', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.gr.yml', 'gr', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.he.yml', 'he', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.hr.yml', 'hr', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.hu.yml', 'hu', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.id.yml', 'id', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.it.yml', 'it', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ja.yml', 'ja', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.lb.yml', 'lb', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.lt.yml', 'lt', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.lv.yml', 'lv', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.nb.yml', 'nb', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.nl.yml', 'nl', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.pl.yml', 'pl', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.pt.yml', 'pt', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.pt_BR.yml', 'pt_BR', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ro.yml', 'ro', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.ru.yml', 'ru', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sk.yml', 'sk', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sl.yml', 'sl', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sr_Latn.yml', 'sr_Latn', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.sv.yml', 'sv', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.th.yml', 'th', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.tr.yml', 'tr', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.uk.yml', 'uk', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.vi.yml', 'vi', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\FOSUserBundle.zh_CN.yml', 'zh_CN', 'FOSUserBundle');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ar.yml', 'ar', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.bg.yml', 'bg', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ca.yml', 'ca', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.cs.yml', 'cs', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.da.yml', 'da', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.de.yml', 'de', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.en.yml', 'en', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.es.yml', 'es', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.fa.yml', 'fa', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.fi.yml', 'fi', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.fr.yml', 'fr', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.gr.yml', 'gr', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.he.yml', 'he', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.hr.yml', 'hr', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.hu.yml', 'hu', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.id.yml', 'id', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.it.yml', 'it', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ja.yml', 'ja', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.lt.yml', 'lt', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.lv.yml', 'lv', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.nb.yml', 'nb', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.nl.yml', 'nl', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.pl.yml', 'pl', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.pt.yml', 'pt', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.pt_BR.yml', 'pt_BR', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ro.yml', 'ro', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.ru.yml', 'ru', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sk.yml', 'sk', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sl.yml', 'sl', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sr_Latn.yml', 'sr_Latn', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.sv.yml', 'sv', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.th.yml', 'th', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.tr.yml', 'tr', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.uk.yml', 'uk', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.vi.yml', 'vi', 'validators');
+        $instance->addResource('yml', 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/translations\\validators.zh_CN.yml', 'zh_CN', 'validators');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\src\\WS\\UserBundle/Resources/translations\\messages.fr.xlf', 'fr', 'messages');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\src\\WS\\ChatBundle/Resources/translations\\messages.fr.xlf', 'fr', 'messages');
+        $instance->addResource('xlf', 'C:\\wamp\\www\\woozeostage\\src\\WS\\OvsBundle/Resources/translations\\messages.fr.xlf', 'fr', 'messages');
 
         return $instance;
     }
@@ -3615,14 +3623,14 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTwigService()
     {
-        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => true, 'strict_variables' => true, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'cache' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/twig', 'charset' => 'UTF-8', 'paths' => array()));
+        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => true, 'strict_variables' => true, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'cache' => 'C:/wamp/www/woozeostage/app/cache/dev/twig', 'charset' => 'UTF-8', 'paths' => array()));
 
         $instance->addExtension(new \Symfony\Bundle\SecurityBundle\Twig\Extension\LogoutUrlExtension($this->get('templating.helper.logout_url')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\SecurityExtension($this->get('security.context', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($this->get('translator.default')));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\AssetsExtension($this, $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\ActionsExtension($this));
-        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, 'C:/wamp/www/woozeostage/trunk/app', 'UTF-8'));
+        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, 'C:/wamp/www/woozeostage/app', 'UTF-8'));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\RoutingExtension($this->get('router')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\YamlExtension());
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\StopwatchExtension($this->get('debug.stopwatch', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
@@ -3677,19 +3685,20 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['twig.loader'] = $instance = new \Symfony\Bundle\TwigBundle\Loader\FilesystemLoader($this->get('templating.locator'), $this->get('templating.name_parser'));
 
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\FrameworkBundle/Resources/views', 'Framework');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\SecurityBundle/Resources/views', 'Security');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\TwigBundle/Resources/views', 'Twig');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\swiftmailer-bundle\\Symfony\\Bundle\\SwiftmailerBundle/Resources/views', 'Swiftmailer');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\doctrine\\doctrine-bundle\\Doctrine\\Bundle\\DoctrineBundle/Resources/views', 'Doctrine');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/views', 'FOSUser');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\src\\WS\\UserBundle/Resources/views', 'WSUser');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\src\\WS\\ChatBundle/Resources/views', 'WSChat');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\src\\Acme\\DemoBundle/Resources/views', 'AcmeDemo');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\WebProfilerBundle/Resources/views', 'WebProfiler');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\sensio\\distribution-bundle\\Sensio\\Bundle\\DistributionBundle/Resources/views', 'SensioDistribution');
-        $instance->addPath('C:/wamp/www/woozeostage/trunk/app/Resources/views');
-        $instance->addPath('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Bridge\\Twig/Resources/views/Form');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\FrameworkBundle/Resources/views', 'Framework');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\SecurityBundle/Resources/views', 'Security');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\TwigBundle/Resources/views', 'Twig');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\symfony\\swiftmailer-bundle\\Symfony\\Bundle\\SwiftmailerBundle/Resources/views', 'Swiftmailer');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\doctrine\\doctrine-bundle\\Doctrine\\Bundle\\DoctrineBundle/Resources/views', 'Doctrine');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle/Resources/views', 'FOSUser');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\src\\WS\\UserBundle/Resources/views', 'WSUser');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\src\\WS\\ChatBundle/Resources/views', 'WSChat');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\src\\WS\\OvsBundle/Resources/views', 'WSOvs');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\src\\Acme\\DemoBundle/Resources/views', 'AcmeDemo');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\WebProfilerBundle/Resources/views', 'WebProfiler');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\sensio\\distribution-bundle\\Sensio\\Bundle\\DistributionBundle/Resources/views', 'SensioDistribution');
+        $instance->addPath('C:/wamp/www/woozeostage/app/Resources/views');
+        $instance->addPath('C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Bridge\\Twig/Resources/views/Form');
 
         return $instance;
     }
@@ -3748,12 +3757,12 @@ class appDevDebugProjectContainer extends Container
         $instance->setConstraintValidatorFactory(new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('validator.expression' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\EmailValidator' => 'validator.email', 'security.validator.user_password' => 'security.validator.user_password', 'doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique')));
         $instance->setTranslator($this->get('translator.default'));
         $instance->setTranslationDomain('validators');
-        $instance->addXmlMappings(array(0 => 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml', 1 => 'C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\Resources\\config\\validation.xml'));
+        $instance->addXmlMappings(array(0 => 'C:\\wamp\\www\\woozeostage\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml', 1 => 'C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\Resources\\config\\validation.xml'));
         $instance->enableAnnotationMapping($this->get('annotation_reader'));
         $instance->addMethodMapping('loadValidatorMetadata');
         $instance->setApiVersion(3);
         $instance->addObjectInitializers(array(0 => $this->get('doctrine.orm.validator_initializer'), 1 => new \FOS\UserBundle\Validator\Initializer($this->get('fos_user.user_manager'))));
-        $instance->addXmlMapping('C:\\wamp\\www\\woozeostage\\trunk\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\DependencyInjection\\Compiler/../../Resources/config/validation/orm.xml');
+        $instance->addXmlMapping('C:\\wamp\\www\\woozeostage\\vendor\\friendsofsymfony\\user-bundle\\FOS\\UserBundle\\DependencyInjection\\Compiler/../../Resources/config/validation/orm.xml');
 
         return $instance;
     }
@@ -3850,7 +3859,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAssetic_AssetFactoryService()
     {
-        $this->services['assetic.asset_factory'] = $instance = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), 'C:/wamp/www/woozeostage/trunk/app/../web', true);
+        $this->services['assetic.asset_factory'] = $instance = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), 'C:/wamp/www/woozeostage/app/../web', true);
 
         $instance->addWorker(new \Symfony\Bundle\AsseticBundle\Factory\Worker\UseControllerWorker());
 
@@ -3871,7 +3880,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAssetic_CacheService()
     {
-        return $this->services['assetic.cache'] = new \Assetic\Cache\FilesystemCache('C:/wamp/www/woozeostage/trunk/app/cache/dev/assetic/assets');
+        return $this->services['assetic.cache'] = new \Assetic\Cache\FilesystemCache('C:/wamp/www/woozeostage/app/cache/dev/assetic/assets');
     }
 
     /**
@@ -4034,7 +4043,7 @@ class appDevDebugProjectContainer extends Container
         $a = $this->get('security.user_checker');
         $b = $this->get('security.encoder_factory');
 
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.in_memory'), $a, 'demo_secured_area', $b, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('fos_user.user_provider.username'), $a, 'main', $b, true), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('541ffa6fade49')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.in_memory'), $a, 'demo_secured_area', $b, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('fos_user.user_provider.username'), $a, 'main', $b, true), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('542113b7a3ae3')), true);
 
         $instance->setEventDispatcher($this->get('debug.event_dispatcher'));
 
@@ -4108,7 +4117,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['security.extra.metadata_factory'] = $instance = new \Metadata\MetadataFactory(new \Metadata\Driver\LazyLoadingDriver($this, 'security.extra.metadata_driver'));
 
-        $instance->setCache(new \Metadata\Cache\FileCache('C:/wamp/www/woozeostage/trunk/app/cache/dev/jms_security', true));
+        $instance->setCache(new \Metadata\Cache\FileCache('C:/wamp/www/woozeostage/app/cache/dev/jms_security', true));
         $instance->setIncludeInterfaces(true);
 
         return $instance;
@@ -4237,7 +4246,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTemplating_LocatorService()
     {
-        return $this->services['templating.locator'] = new \Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator($this->get('file_locator'), 'C:/wamp/www/woozeostage/trunk/app/cache/dev');
+        return $this->services['templating.locator'] = new \Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator($this->get('file_locator'), 'C:/wamp/www/woozeostage/app/cache/dev');
     }
 
     /**
@@ -4308,12 +4317,12 @@ class appDevDebugProjectContainer extends Container
     protected function getDefaultParameters()
     {
         return array(
-            'kernel.root_dir' => 'C:/wamp/www/woozeostage/trunk/app',
+            'kernel.root_dir' => 'C:/wamp/www/woozeostage/app',
             'kernel.environment' => 'dev',
             'kernel.debug' => true,
             'kernel.name' => 'app',
-            'kernel.cache_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev',
-            'kernel.logs_dir' => 'C:/wamp/www/woozeostage/trunk/app/logs',
+            'kernel.cache_dir' => 'C:/wamp/www/woozeostage/app/cache/dev',
+            'kernel.logs_dir' => 'C:/wamp/www/woozeostage/app/logs',
             'kernel.bundles' => array(
                 'FrameworkBundle' => 'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
                 'SecurityBundle' => 'Symfony\\Bundle\\SecurityBundle\\SecurityBundle',
@@ -4329,6 +4338,7 @@ class appDevDebugProjectContainer extends Container
                 'FOSUserBundle' => 'FOS\\UserBundle\\FOSUserBundle',
                 'WSUserBundle' => 'WS\\UserBundle\\WSUserBundle',
                 'WSChatBundle' => 'WS\\ChatBundle\\WSChatBundle',
+                'WSOvsBundle' => 'WS\\OvsBundle\\WSOvsBundle',
                 'AcmeDemoBundle' => 'Acme\\DemoBundle\\AcmeDemoBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',
@@ -4351,7 +4361,6 @@ class appDevDebugProjectContainer extends Container
             'debug_toolbar' => true,
             'debug_redirects' => false,
             'use_assetic_controller' => true,
-            'database_path' => NULL,
             'controller_resolver.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerResolver',
             'controller_name_converter.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerNameParser',
             'response_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener',
@@ -4403,7 +4412,7 @@ class appDevDebugProjectContainer extends Container
             'debug.errors_logger_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ErrorsLoggerListener',
             'debug.event_dispatcher.class' => 'Symfony\\Component\\HttpKernel\\Debug\\TraceableEventDispatcher',
             'debug.stopwatch.class' => 'Symfony\\Component\\Stopwatch\\Stopwatch',
-            'debug.container.dump' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/appDevDebugProjectContainer.xml',
+            'debug.container.dump' => 'C:/wamp/www/woozeostage/app/cache/dev/appDevDebugProjectContainer.xml',
             'debug.controller_resolver.class' => 'Symfony\\Component\\HttpKernel\\Controller\\TraceableControllerResolver',
             'debug.debug_handlers_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\DebugHandlersListener',
             'kernel.secret' => 'cc330aaa4b2f52fd5fcce0d9746c90e507fd26a6',
@@ -4429,7 +4438,7 @@ class appDevDebugProjectContainer extends Container
             'session.storage.options' => array(
                 'gc_probability' => 1,
             ),
-            'session.save_path' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/sessions',
+            'session.save_path' => 'C:/wamp/www/woozeostage/app/cache/dev/sessions',
             'session.metadata.update_threshold' => '0',
             'security.secure_random.class' => 'Symfony\\Component\\Security\\Core\\Util\\SecureRandom',
             'form.resolved_type_factory.class' => 'Symfony\\Component\\Form\\ResolvedFormTypeFactory',
@@ -4505,7 +4514,7 @@ class appDevDebugProjectContainer extends Container
             'data_collector.form.extractor.class' => 'Symfony\\Component\\Form\\Extension\\DataCollector\\FormDataExtractor',
             'profiler_listener.only_exceptions' => false,
             'profiler_listener.only_master_requests' => false,
-            'profiler.storage.dsn' => 'file:C:/wamp/www/woozeostage/trunk/app/cache/dev/profiler',
+            'profiler.storage.dsn' => 'file:C:/wamp/www/woozeostage/app/cache/dev/profiler',
             'profiler.storage.username' => '',
             'profiler.storage.password' => '',
             'profiler.storage.lifetime' => 86400,
@@ -4529,7 +4538,7 @@ class appDevDebugProjectContainer extends Container
             'router.request_context.host' => 'localhost',
             'router.request_context.scheme' => 'http',
             'router.request_context.base_url' => '',
-            'router.resource' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/assetic/routing.yml',
+            'router.resource' => 'C:/wamp/www/woozeostage/app/cache/dev/assetic/routing.yml',
             'router.cache_class_prefix' => 'appDev',
             'request_listener.http_port' => 80,
             'request_listener.https_port' => 443,
@@ -4650,7 +4659,7 @@ class appDevDebugProjectContainer extends Container
                 'exception_controller' => 'twig.controller.exception:showAction',
                 'autoescape_service' => NULL,
                 'autoescape_service_method' => NULL,
-                'cache' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/twig',
+                'cache' => 'C:/wamp/www/woozeostage/app/cache/dev/twig',
                 'charset' => 'UTF-8',
                 'paths' => array(
 
@@ -4724,7 +4733,7 @@ class appDevDebugProjectContainer extends Container
             'swiftmailer.mailer.default.transport.smtp.auth_mode' => NULL,
             'swiftmailer.mailer.default.transport.smtp.timeout' => 30,
             'swiftmailer.mailer.default.transport.smtp.source_ip' => NULL,
-            'swiftmailer.spool.default.memory.path' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/swiftmailer/spool/default',
+            'swiftmailer.spool.default.memory.path' => 'C:/wamp/www/woozeostage/app/cache/dev/swiftmailer/spool/default',
             'swiftmailer.mailer.default.spool.enabled' => true,
             'swiftmailer.mailer.default.plugin.impersonate' => NULL,
             'swiftmailer.mailer.default.single_address' => NULL,
@@ -4750,7 +4759,7 @@ class appDevDebugProjectContainer extends Container
             'assetic.node.paths' => array(
 
             ),
-            'assetic.cache_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/assetic',
+            'assetic.cache_dir' => 'C:/wamp/www/woozeostage/app/cache/dev/assetic',
             'assetic.bundles' => array(
 
             ),
@@ -4762,12 +4771,12 @@ class appDevDebugProjectContainer extends Container
             'assetic.debug' => true,
             'assetic.use_controller' => true,
             'assetic.enable_profiler' => false,
-            'assetic.read_from' => 'C:/wamp/www/woozeostage/trunk/app/../web',
-            'assetic.write_to' => 'C:/wamp/www/woozeostage/trunk/app/../web',
+            'assetic.read_from' => 'C:/wamp/www/woozeostage/app/../web',
+            'assetic.write_to' => 'C:/wamp/www/woozeostage/app/../web',
             'assetic.variables' => array(
 
             ),
-            'assetic.java.bin' => 'C:\\Windows\\system32\\java.EXE',
+            'assetic.java.bin' => 'C:\\ProgramData\\Oracle\\Java\\javapath\\java.EXE',
             'assetic.node.bin' => '/usr/bin/node',
             'assetic.ruby.bin' => '/usr/bin/ruby',
             'assetic.sass.bin' => '/usr/bin/sass',
@@ -4836,7 +4845,7 @@ class appDevDebugProjectContainer extends Container
             'doctrine.orm.naming_strategy.default.class' => 'Doctrine\\ORM\\Mapping\\DefaultNamingStrategy',
             'doctrine.orm.naming_strategy.underscore.class' => 'Doctrine\\ORM\\Mapping\\UnderscoreNamingStrategy',
             'doctrine.orm.auto_generate_proxy_classes' => true,
-            'doctrine.orm.proxy_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/doctrine/orm/Proxies',
+            'doctrine.orm.proxy_dir' => 'C:/wamp/www/woozeostage/app/cache/dev/doctrine/orm/Proxies',
             'doctrine.orm.proxy_namespace' => 'Proxies',
             'sensio_framework_extra.view.guesser.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Templating\\TemplateGuesser',
             'sensio_framework_extra.controller.listener.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\ControllerListener',
@@ -4848,7 +4857,7 @@ class appDevDebugProjectContainer extends Container
             'sensio_framework_extra.converter.doctrine.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DoctrineParamConverter',
             'sensio_framework_extra.converter.datetime.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DateTimeParamConverter',
             'sensio_framework_extra.view.listener.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\TemplateListener',
-            'jms_aop.cache_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/jms_aop',
+            'jms_aop.cache_dir' => 'C:/wamp/www/woozeostage/app/cache/dev/jms_aop',
             'jms_aop.interceptor_loader.class' => 'JMS\\AopBundle\\Aop\\InterceptorLoader',
             'security.secured_services' => array(
 
@@ -4871,7 +4880,7 @@ class appDevDebugProjectContainer extends Container
             'security.extra.annotation_driver.class' => 'JMS\\SecurityExtraBundle\\Metadata\\Driver\\AnnotationDriver',
             'security.extra.file_cache.class' => 'Metadata\\Cache\\FileCache',
             'security.access.secure_all_services' => false,
-            'security.extra.cache_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/jms_security',
+            'security.extra.cache_dir' => 'C:/wamp/www/woozeostage/app/cache/dev/jms_security',
             'security.authenticated_voter.disabled' => false,
             'security.role_voter.disabled' => false,
             'security.acl_voter.disabled' => false,
@@ -4896,14 +4905,14 @@ class appDevDebugProjectContainer extends Container
             'jms_di_extra.directories' => array(
 
             ),
-            'jms_di_extra.cache_dir' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/jms_diextra',
+            'jms_di_extra.cache_dir' => 'C:/wamp/www/woozeostage/app/cache/dev/jms_diextra',
             'jms_di_extra.disable_grep' => false,
             'jms_di_extra.doctrine_integration' => true,
             'jms_di_extra.cache_warmer.controller_file_blacklist' => array(
 
             ),
-            'jms_di_extra.doctrine_integration.entity_manager.file' => 'C:/wamp/www/woozeostage/trunk/app/cache/dev/jms_diextra/doctrine/EntityManager_541ffa70d012b.php',
-            'jms_di_extra.doctrine_integration.entity_manager.class' => 'EntityManager541ffa70d012b_546a8d27f194334ee012bfe64f629947b07e4919\\__CG__\\Doctrine\\ORM\\EntityManager',
+            'jms_di_extra.doctrine_integration.entity_manager.file' => 'C:/wamp/www/woozeostage/app/cache/dev/jms_diextra/doctrine/EntityManager_542113b9076ec.php',
+            'jms_di_extra.doctrine_integration.entity_manager.class' => 'EntityManager542113b9076ec_546a8d27f194334ee012bfe64f629947b07e4919\\__CG__\\Doctrine\\ORM\\EntityManager',
             'fos_user.backend_type_orm' => true,
             'fos_user.security.interactive_login_listener.class' => 'FOS\\UserBundle\\EventListener\\LastLoginListener',
             'fos_user.security.login_manager.class' => 'FOS\\UserBundle\\Security\\LoginManager',

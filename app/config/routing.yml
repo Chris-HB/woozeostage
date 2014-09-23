@@ -1,3 +1,8 @@
+ws_ovs:
+    resource: "@WSOvsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ws_chat:
     resource: "@WSChatBundle/Controller/"
     type:     annotation
