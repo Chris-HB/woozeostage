@@ -39,7 +39,7 @@ class __TwigTemplate_c521f21fc471fc4d638dd3cc0ae8b2336aec46fe386a249c97bd5712cfd
     public function block_ovs($context, array $blocks = array())
     {
         // line 7
-        echo "    Evènement du ";
+        echo "    Liste evènement du ";
         echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute((isset($context["date"]) ? $context["date"] : $this->getContext($context, "date")), "date"), "d/m/Y"), "html", null, true);
         echo "
     ";
@@ -75,6 +75,8 @@ class __TwigTemplate_c521f21fc471fc4d638dd3cc0ae8b2336aec46fe386a249c97bd5712cfd
                 echo "</td>
                     <td>";
                 // line 22
+                echo twig_escape_filter($this->env, twig_length_filter($this->env, $this->getAttribute((isset($context["evenement"]) ? $context["evenement"] : $this->getContext($context, "evenement")), "userEvenements")), "html", null, true);
+                echo " / ";
                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["evenement"]) ? $context["evenement"] : $this->getContext($context, "evenement")), "inscrit"), "html", null, true);
                 echo "</td>
                     <td>";
@@ -109,6 +111,6 @@ class __TwigTemplate_c521f21fc471fc4d638dd3cc0ae8b2336aec46fe386a249c97bd5712cfd
 
     public function getDebugInfo()
     {
-        return array (  95 => 28,  91 => 26,  82 => 23,  78 => 22,  74 => 21,  70 => 20,  66 => 19,  63 => 18,  59 => 17,  49 => 9,  47 => 8,  42 => 7,  39 => 6,  32 => 4,  29 => 3,);
+        return array (  97 => 28,  93 => 26,  84 => 23,  78 => 22,  74 => 21,  70 => 20,  66 => 19,  63 => 18,  59 => 17,  49 => 9,  47 => 8,  42 => 7,  39 => 6,  32 => 4,  29 => 3,);
     }
 }

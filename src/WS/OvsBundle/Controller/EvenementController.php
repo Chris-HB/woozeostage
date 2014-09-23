@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use WS\OvsBundle\Entity\Evenement;
 use WS\OvsBundle\Form\EvenementType;
+use WS\OvsBundle\Entity\UserEvenement;
 
 /**
  * @Route("/evenement")
@@ -38,6 +39,9 @@ class EvenementController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $user = $this->getUser();
                 $evenement->setUser($user);
+                $userEvenement = new UserEvenement();
+                $userEvenement->setEvenement($evenement);
+                $userEvenement->setUser($user);
                 $em->persist($evenement);
                 $em->flush();
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_list', array('id' => $date->getId())));
