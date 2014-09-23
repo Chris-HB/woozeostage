@@ -3,12 +3,15 @@
 namespace WS\OvsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Sport
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="WS\OvsBundle\Entity\SportRepository")
+ * @UniqueEntity("nom", message="Ce sport existe déjà")
  */
 class Sport {
 
@@ -24,7 +27,7 @@ class Sport {
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, unique=true)
      */
     private $nom;
 

@@ -1,0 +1,30 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - list evenement
+{% endblock %}
+{% block ovs %}
+    Liste evènement du {{ date.date|date('d/m/Y')}}
+    {% if evenements is not empty %}
+        <table>
+            <tr>
+                <th>Heure</th>
+                <th>Sport</th>
+                <th>Sortie</th>
+                <th>Inscrit</th>
+                <th>organisateur</th>
+            </tr>
+            {% for evenement in evenements %}
+                <tr>
+                    <td>{{ evenement.heure|date('H:i') }}</td>
+                    <td>{{ evenement.sport.nom }}</td>
+                    <td>{{ evenement.nom }}</td>
+                    <td>{{ evenement.inscrit }}</td>
+                    <td>{{ evenement.user.username }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Pas d'évènement pour cette date.</p>
+    {% endif %}
+{% endblock %}

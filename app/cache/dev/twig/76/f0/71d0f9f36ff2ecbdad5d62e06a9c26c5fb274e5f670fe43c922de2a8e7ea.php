@@ -47,7 +47,11 @@ class __TwigTemplate_76f071d0f9f36ff2ecbdad5d62e06a9c26c5fb274e5f670fe43c922de2a
             // line 8
             echo "        <p>";
             echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute((isset($context["date"]) ? $context["date"] : $this->getContext($context, "date")), "date"), "d/m/Y"), "html", null, true);
-            echo "</p>
+            echo " <a href=\"";
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("ws_ovs_evenement_add", array("id" => $this->getAttribute((isset($context["date"]) ? $context["date"] : $this->getContext($context, "date")), "id"))), "html", null, true);
+            echo "\">ajouter un évènement</a> <a href=\"";
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("ws_ovs_evenement_list", array("id" => $this->getAttribute((isset($context["date"]) ? $context["date"] : $this->getContext($context, "date")), "id"))), "html", null, true);
+            echo "\">liste des évènements</a></p>
     ";
             $context['_iterated'] = true;
         }
@@ -73,6 +77,6 @@ class __TwigTemplate_76f071d0f9f36ff2ecbdad5d62e06a9c26c5fb274e5f670fe43c922de2a
 
     public function getDebugInfo()
     {
-        return array (  56 => 10,  48 => 8,  42 => 7,  39 => 6,  32 => 4,  29 => 3,);
+        return array (  60 => 10,  48 => 8,  42 => 7,  39 => 6,  32 => 4,  29 => 3,);
     }
 }

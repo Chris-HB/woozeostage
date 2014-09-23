@@ -3,6 +3,7 @@
 namespace WS\OvsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Evenement
@@ -84,7 +85,9 @@ class Evenement {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct(Date $date) {
+        $this->setDate($date);
+        $this->actif = 1;
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

@@ -1,0 +1,1 @@
+<?php return unserialize('C:46:"JMS\\SecurityExtraBundle\\Metadata\\ClassMetadata":108:{a:5:{i:0;s:43:"WS\\OvsBundle\\Controller\\EvenementController";i:1;a:0:{}i:2;a:0:{}i:3;a:0:{}i:4;i:1411465672;}}');

@@ -31,12 +31,12 @@ class DateController extends Controller {
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bind();
+            $form->bind($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($date);
                 $em->flush();
-                return $this->redirect($this->generateUrl());
+                return $this->redirect($this->generateUrl('ws_ovs_date_list'));
             }
         }
         return array('form' => $form->createView(), 'date' => $date);

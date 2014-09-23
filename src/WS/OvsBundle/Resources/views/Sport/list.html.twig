@@ -1,0 +1,12 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - list sport
+{% endblock %}
+{% block ovs %}
+    {% for sport in sports%}
+        <p>{{ sport.nom }}</p>
+    {% else %}
+        <p>Pas encore de sport</p>
+    {% endfor %}
+{% endblock %}

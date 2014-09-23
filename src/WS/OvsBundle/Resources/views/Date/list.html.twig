@@ -5,7 +5,7 @@
 {% endblock %}
 {% block ovs %}
     {% for date in dates%}
-        <p>{{ date.date|date('d/m/Y')}}</p>
+        <p>{{ date.date|date('d/m/Y')}} <a href="{{ path('ws_ovs_evenement_add', {'id': date.id}) }}">ajouter un évènement</a> <a href="{{ path('ws_ovs_evenement_list', {'id': date.id}) }}">liste des évènements</a></p>
     {% else %}
         <p>Pas encore de date</p>
     {% endfor %}

@@ -158,14 +158,40 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'ws_ovs_default_index')), array (  '_controller' => 'WS\\OvsBundle\\Controller\\DefaultController::indexAction',));
         }
 
-        // ws_ovs_evenement_index
-        if ($pathinfo === '/evenement/index') {
-            return array (  '_controller' => 'WS\\OvsBundle\\Controller\\EvenementController::indexAction',  '_route' => 'ws_ovs_evenement_index',);
+        if (0 === strpos($pathinfo, '/evenement')) {
+            // ws_ovs_evenement_index
+            if ($pathinfo === '/evenement/index') {
+                return array (  '_controller' => 'WS\\OvsBundle\\Controller\\EvenementController::indexAction',  '_route' => 'ws_ovs_evenement_index',);
+            }
+
+            // ws_ovs_evenement_add
+            if (0 === strpos($pathinfo, '/evenement/add') && preg_match('#^/evenement/add/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'ws_ovs_evenement_add')), array (  '_controller' => 'WS\\OvsBundle\\Controller\\EvenementController::addAction',));
+            }
+
+            // ws_ovs_evenement_list
+            if (0 === strpos($pathinfo, '/evenement/list') && preg_match('#^/evenement/list/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'ws_ovs_evenement_list')), array (  '_controller' => 'WS\\OvsBundle\\Controller\\EvenementController::listAction',));
+            }
+
         }
 
-        // ws_ovs_sport_index
-        if ($pathinfo === '/sport/index') {
-            return array (  '_controller' => 'WS\\OvsBundle\\Controller\\SportController::indexAction',  '_route' => 'ws_ovs_sport_index',);
+        if (0 === strpos($pathinfo, '/sport')) {
+            // ws_ovs_sport_index
+            if ($pathinfo === '/sport/index') {
+                return array (  '_controller' => 'WS\\OvsBundle\\Controller\\SportController::indexAction',  '_route' => 'ws_ovs_sport_index',);
+            }
+
+            // ws_ovs_sport_add
+            if ($pathinfo === '/sport/add') {
+                return array (  '_controller' => 'WS\\OvsBundle\\Controller\\SportController::addAction',  '_route' => 'ws_ovs_sport_add',);
+            }
+
+            // ws_ovs_sport_list
+            if ($pathinfo === '/sport/list') {
+                return array (  '_controller' => 'WS\\OvsBundle\\Controller\\SportController::listAction',  '_route' => 'ws_ovs_sport_list',);
+            }
+
         }
 
         // ws_chat_chat_index

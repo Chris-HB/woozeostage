@@ -3,12 +3,15 @@
 namespace WS\OvsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Date
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="WS\OvsBundle\Entity\DateRepository")
+ * @UniqueEntity("date", message="Cette date existe déjà")
  */
 class Date {
 
@@ -24,7 +27,7 @@ class Date {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="date", unique=true)
      */
     private $date;
 
