@@ -15,6 +15,8 @@
     <p>Adresse
         <br/>
         {{ evenement.adresse|nl2br }}
+        <div id="map">
+        </div>
     </p>
     <p>Liste des inscrits ({{ evenement.userEvenements|length }}/{{ evenement.inscrit }} reste {{ evenement.inscrit - evenement.userEvenements|length }})<p>
     {% for us in evenement.userEvenements %}
