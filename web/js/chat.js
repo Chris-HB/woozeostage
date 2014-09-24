@@ -5,7 +5,8 @@ $(document).ready(function() {
         var pseudo = ($("#pseudo").data("pseudo"));
         var $container = $("#chat_div");
         var $divexiste = false;
-        var $nbBox = $('div.cha_tbox').length;
+        var $nbBox = $('div.chatbox').length;
+        var $marge = $nbBox * 320 + 20;
         // ----------
         // Affichage
         // ----------
@@ -17,32 +18,21 @@ $(document).ready(function() {
             }
         });
 
-        if ($nbBox) {
-            alert($nbBox);
-            //ghjgjhgjhg
-        }
         // ---
         // si il n'existe pas, je le créer (id=username)
         // ---
         if (!$divexiste) {
-            $container.append('<div class="chat_box" id="' + $username + '"></div>');
+            $container.append('<div id="' + $username + '"></div>');
             //
             // je crée une box
             box = $('#' + $username).chatbox({id: $username,
                 title: "woozeostage chat : " + $username,
-                offset: 20,
+                offset: $marge,
                 user: {key: "value"},
                 messageSent: function(id, user, msg) {
                     $("#log").append(id + " said: " + msg + "<br/>");
                     $('#' + $username).chatbox("option", "boxManager").addMsg(pseudo, msg);
                 }});
         }
-        // ---
-        // on rend la box draggable
-        // ---
-//        $(function() {
-//            $('#' + $username + '_box').draggable();
-//        });
-
     });
 });
