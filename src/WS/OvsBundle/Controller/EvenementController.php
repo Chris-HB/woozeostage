@@ -46,7 +46,7 @@ class EvenementController extends Controller {
     }
 
     /**
-     * @Route("/list", name="ws_ovs_evenement_list")
+     * @Route("/list", name="ws_ovs_evenement_list", options={"expose"=true})
      * @Template()
      */
     public function listAction() {

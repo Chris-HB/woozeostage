@@ -1,4 +1,22 @@
-$(document).ready(function(){
-    $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
-    $( "#datepicker" ).datepicker();
+$(document).ready(function () {
+    $("#datepicker").datepicker({
+        altField: "#datepicker",
+        closeText: 'Fermer',
+        prevText: 'Précédent',
+        nextText: 'Suivant',
+        currentText: 'Aujourd\'hui',
+        monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+        dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+        dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+        weekHeader: 'Sem.',
+        firstDay: 1,
+        dateFormat: 'yy-mm-dd',
+        onSelect: function (dateText, inst) {
+            //alert(dateText);
+            window.location = Routing.generate('ws_ovs_evenement_list');
+        }
+    });
 });
+

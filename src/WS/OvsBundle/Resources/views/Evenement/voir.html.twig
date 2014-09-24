@@ -16,7 +16,7 @@
         <br/>
         {{ evenement.adresse|nl2br }}
     </p>
-    <p>Liste des inscrits<p>
+    <p>Liste des inscrits ({{ evenement.userEvenements|length }}/{{ evenement.inscrit }} reste {{ evenement.inscrit - evenement.userEvenements|length }})<p>
     {% for us in evenement.userEvenements %}
         <p>{{ us.user.username }}</p>
     {% endfor %}
