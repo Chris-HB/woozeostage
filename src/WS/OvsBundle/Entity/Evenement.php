@@ -52,6 +52,18 @@ class Evenement {
     private $actif;
 
     /**
+     * @ORM\Column(name="descriptif", type="text")
+     */
+    private $descriptif;
+
+    /**
+     * @var type
+     *
+     * @ORM\Column(name="adresse", type="text")
+     */
+    private $adresse;
+
+    /**
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
@@ -280,4 +292,48 @@ class Evenement {
         return $this->heure;
     }
 
+    /**
+     * Set descriptif
+     *
+     * @param string $descriptif
+     * @return Evenement
+     */
+    public function setDescriptif($descriptif) {
+        $this->descriptif = $descriptif;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptif
+     *
+     * @return string
+     */
+    public function getDescriptif() {
+        return $this->descriptif;
+    }
+
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     * @return Evenement
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string 
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
 }

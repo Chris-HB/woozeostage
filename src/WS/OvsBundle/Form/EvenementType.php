@@ -16,11 +16,13 @@ class EvenementType extends AbstractType {
         $builder
                 ->add('nom', 'text')
                 ->add('heure', 'time')
-                ->add('inscrit', 'integer')
+                ->add('inscrit', 'integer', array('attr' => array('min' => 2), 'data' => 2))
                 ->add('sport', 'entity', array(
                     'class' => 'WSOvsBundle:Sport',
                     'property' => 'nom'
                 ))
+                ->add('descriptif', 'textarea')
+                ->add('adresse', 'textarea')
         ;
     }
 

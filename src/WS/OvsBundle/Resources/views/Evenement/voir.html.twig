@@ -1,0 +1,25 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - evenement
+{% endblock %}
+{% block ovs %}
+    <p>{{ evenement. nom }}</p>
+    <p>le {{ evenement.date.date|date('d/m/Y') }} à {{ evenement.heure|date('H:i')}}</p>
+    <p>Type de sport : {{ evenement.sport.nom }}<p>
+    <p>Description
+        <br/>
+       {{ evenement.descriptif|nl2br }}
+    </p>
+    <p>Nombre de place maximun {{ evenement.inscrit }}</p>
+    <p>Adresse
+        <br/>
+        {{ evenement.adresse|nl2br }}
+    </p>
+    <p>Liste des inscrits<p>
+    {% for us in evenement.userEvenements %}
+        <p>{{ us.user.username }}</p>
+    {% endfor %}
+    
+    <p><a href="{{ path('ws_ovs_evenement_list', {'id': evenement.date.id}) }}">Retour à la liste des évènements</a></p>
+{% endblock %}

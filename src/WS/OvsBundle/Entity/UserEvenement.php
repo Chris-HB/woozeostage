@@ -29,6 +29,14 @@ class UserEvenement {
     private $evenement;
 
     /**
+     *
+     * @var type
+     *
+     * @ORM\Column(name="statut", type="string", length=255)
+     */
+    private $statut;
+
+    /**
      * Set user
      *
      * @param \WS\UserBundle\Entity\User $user
@@ -72,4 +80,27 @@ class UserEvenement {
         return $this->evenement;
     }
 
+
+    /**
+     * Set statut
+     *
+     * @param string $statut
+     * @return UserEvenement
+     */
+    public function setStatut($statut)
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * Get statut
+     *
+     * @return string 
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
 }

@@ -18,7 +18,7 @@
                 <tr>
                     <td>{{ evenement.heure|date('H:i') }}</td>
                     <td>{{ evenement.sport.nom }}</td>
-                    <td>{{ evenement.nom }}</td>
+                    <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
                     <td>{{ evenement.userEvenements|length }} / {{ evenement.inscrit }}</td>
                     <td>{{ evenement.user.username }}</td>
                 </tr>
@@ -27,4 +27,5 @@
     {% else %}
         <p>Pas d'évènement pour cette date.</p>
     {% endif %}
+    <p><a href="{{ path('ws_ovs_evenement_add', {'id': date.id}) }}">Ajouter un évènement</a></p>
 {% endblock %}

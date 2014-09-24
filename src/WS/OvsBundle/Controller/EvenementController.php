@@ -39,12 +39,9 @@ class EvenementController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $user = $this->getUser();
                 $evenement->setUser($user);
-                $userEvenement = new UserEvenement();
-                $userEvenement->setEvenement($evenement);
-                $userEvenement->setUser($user);
                 $em->persist($evenement);
                 $em->flush();
-                return $this->redirect($this->generateUrl('ws_ovs_evenement_list', array('id' => $date->getId())));
+                return $this->redirect($this->generateUrl('ws_ovs_userevenement_add', array('id' => $evenement->getId())));
             }
         }
         return array('form' => $form->createView(), 'evenement' => $evenement, 'date' => $date);
@@ -61,6 +58,16 @@ class EvenementController extends Controller {
         $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');
         $evenements = $em->findBy(array('date' => $date, 'actif' => 1), array('heure' => 'ASC'));
         return array('date' => $date, 'evenements' => $evenements);
+    }
+
+    /**
+     * @param Evenement $evenement
+     *
+     * @Route("/voir/{id}", name="ws_ovs_evenement_voir")
+     * @Template()
+     */
+    public function voirAction(Evenement $evenement) {
+        return array('evenement' => $evenement);
     }
 
 }
