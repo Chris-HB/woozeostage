@@ -17,7 +17,9 @@ $(document).ready(function() {
             }
         });
 
-        alert($nbBox);
+        if ($nbBox) {
+            alert($nbBox);
+        }
         // ---
         // si il n'existe pas, je le créer (id=username)
         // ---
