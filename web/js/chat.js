@@ -10,16 +10,16 @@ $(document).ready(function() {
         // ----------
         //
         // on teste si un div ayant un id du même nom que le username existe déjà
-//        $('#chat_div>div[id]').each(function() {
-//
-//            if ($(this).attr('id') == $username) {
-//                $divexiste = true;
-//            }
-//            alert('toto - ' + $divexiste);
-//        });
-        $($container.attr('id')).each(function() {
-            alert($(this).attr('id'));
+        $('#chat_div>div[id]').each(function() {
+
+            if ($(this).attr('id') == $username) {
+                $divexiste = true;
+            }
+            alert('toto - ' + $divexiste);
         });
+//        $container.children('id').each(function() {
+//            alert('toto-');
+//        });
 // ---
 // si il n'existe pas, je le créer (id=username)
 // ---

@@ -43,13 +43,13 @@
                     <li><a href="{{ path('ws_ovs_sport_list') }}">liste sport</a></li>
                 </ul>
             </div>
-            <div id="chat_div">
-            </div>
             <div id="datepicker"></div>
             <hr />
             <a href="{{ path('ws_chat_voir') }}">voir</a>
             <div>
                 {{ render(controller("WSChatBundle:Chat:listUser")) }}
+            </div>
+            <div id="chat_div">
             </div>
             {% block body %}{% endblock %}
             {% block javascripts %}{% endblock %}
