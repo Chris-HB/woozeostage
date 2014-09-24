@@ -46,13 +46,27 @@ class EvenementController extends Controller {
     }
 
     /**
-     * @Route("/list", name="ws_ovs_evenement_list", options={"expose"=true})
+     * @Route("/list", name="ws_ovs_evenement_list")
      * @Template()
      */
     public function listAction() {
         $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');
         $evenements = $em->findBy(array('actif' => 1), array('heure' => 'ASC'));
         return array('evenements' => $evenements);
+    }
+
+    /**
+     * @param type $date
+     * @return type
+     *
+     * @Route("/listDate/{date}", name="ws_ovs_evenement_listdate", options={"expose"=true})
+     * @Template()
+     */
+    public function listDateAction($date) {
+        $dateO = new \DateTime($date);
+        $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');
+        $evenements = $em->findBy(array('actif' => 1, 'date' => $dateO), array('heure' => 'ASC'));
+        return array('date' => $date, 'evenements' => $evenements);
     }
 
     /**

@@ -71,6 +71,12 @@ class Evenement {
     private $adresse;
 
     /**
+     *
+     * @var type @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
+
+    /**
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
@@ -97,6 +103,7 @@ class Evenement {
      * Constructor
      */
     public function __construct() {
+        $this->date = new \DateTime();
         $this->actif = 1;
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -310,15 +317,13 @@ class Evenement {
         return $this->adresse;
     }
 
-
     /**
      * Set date
      *
      * @param \DateTime $date
      * @return Evenement
      */
-    public function setDate($date)
-    {
+    public function setDate($date) {
         $this->date = $date;
 
         return $this;
@@ -327,10 +332,33 @@ class Evenement {
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getDate()
-    {
+    public function getDate() {
         return $this->date;
+    }
+
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Evenement
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

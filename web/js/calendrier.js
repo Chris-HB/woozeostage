@@ -15,7 +15,7 @@ $(document).ready(function () {
         dateFormat: 'yy-mm-dd',
         onSelect: function (dateText, inst) {
             //alert(dateText);
-            window.location = Routing.generate('ws_ovs_evenement_list');
+            window.location = Routing.generate('ws_ovs_evenement_listdate', {date: dateText});
         }
     });
 });
