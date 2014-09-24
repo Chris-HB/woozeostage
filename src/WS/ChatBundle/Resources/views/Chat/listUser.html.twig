@@ -1,5 +1,7 @@
 <ul id="userclick">
 {% for user in users %}
-        <li><span>{{ user.username }}</span></li>
+        {%if user!=app.user%}
+            <li><span>{{ user.username }}</span></li>
+        {% endif %}
 {% endfor %}
 </ul>
