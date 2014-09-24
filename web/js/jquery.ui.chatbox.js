@@ -99,7 +99,7 @@
                     options = self.options,
                     title = options.title || "No Title",
                     // chatbox
-                    uiChatbox = (self.uiChatbox = $('<div></div>'))
+                    uiChatbox = (self.uiChatbox = $('<div class="chatbox"></div>'))
                     //.appendTo(document.body)
                     // chaque création de Box est contenu dans le DIV "#chat_div"
                     .appendTo("#chat_div")
