@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     $("#datepicker").datepicker({
         altField: "#datepicker",
         closeText: 'Fermer',
@@ -13,7 +13,7 @@ $(document).ready(function () {
         weekHeader: 'Sem.',
         firstDay: 1,
         dateFormat: 'yy-mm-dd',
-        onSelect: function (dateText, inst) {
+        onSelect: function(dateText, inst) {
             //alert(dateText);
             window.location = Routing.generate('ws_ovs_evenement_list');
         }
