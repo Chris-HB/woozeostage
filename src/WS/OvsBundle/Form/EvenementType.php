@@ -24,6 +24,7 @@ class EvenementType extends AbstractType {
                 ))
                 ->add('descriptif', 'textarea')
                 ->add('adresse', 'textarea')
+                ->add('type', 'choice', array('choices' => array('public' => 'public', 'priver' => 'priver'), 'expanded' => true));
         ;
     }
 
