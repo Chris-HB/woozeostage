@@ -19,6 +19,7 @@ $(document).ready(function() {
 
         if ($nbBox) {
             alert($nbBox);
+            //ghjgjhgjhg
         }
         // ---
         // si il n'existe pas, je le créer (id=username)
