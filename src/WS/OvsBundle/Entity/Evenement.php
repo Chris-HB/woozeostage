@@ -23,6 +23,13 @@ class Evenement {
     private $id;
 
     /**
+     * @var type
+     *
+     * @ORM\Column(name="date", type="date")
+     */
+    private $date;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
@@ -82,14 +89,6 @@ class Evenement {
     /**
      * @var type
      *
-     * @ORM\ManyToOne(targetEntity="WS\OvsBundle\Entity\Date", inversedBy="evenements")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $date;
-
-    /**
-     * @var type
-     *
      * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\UserEvenement", mappedBy="evenement")
      */
     private $userEvenements;
@@ -97,8 +96,7 @@ class Evenement {
     /**
      * Constructor
      */
-    public function __construct(Date $date) {
-        $this->setDate($date);
+    public function __construct() {
         $this->actif = 1;
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -220,28 +218,6 @@ class Evenement {
     }
 
     /**
-     * Set date
-     *
-     * @param \WS\OvsBundle\Entity\Date $date
-     * @return Evenement
-     */
-    public function setDate(\WS\OvsBundle\Entity\Date $date) {
-        $this->date = $date;
-        $date->addEvenement($this);
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \WS\OvsBundle\Entity\Date
-     */
-    public function getDate() {
-        return $this->date;
-    }
-
-    /**
      * Add userEvenements
      *
      * @param \WS\OvsBundle\Entity\UserEvenement $userEvenements
@@ -313,15 +289,13 @@ class Evenement {
         return $this->descriptif;
     }
 
-
     /**
      * Set adresse
      *
      * @param string $adresse
      * @return Evenement
      */
-    public function setAdresse($adresse)
-    {
+    public function setAdresse($adresse) {
         $this->adresse = $adresse;
 
         return $this;
@@ -330,10 +304,33 @@ class Evenement {
     /**
      * Get adresse
      *
-     * @return string 
+     * @return string
      */
-    public function getAdresse()
-    {
+    public function getAdresse() {
         return $this->adresse;
+    }
+
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Evenement
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

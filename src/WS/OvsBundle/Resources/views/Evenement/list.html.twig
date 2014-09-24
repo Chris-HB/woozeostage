@@ -4,10 +4,10 @@
     {{ parent() }} - list evenement
 {% endblock %}
 {% block ovs %}
-    Liste evènement du {{ date.date|date('d/m/Y')}}
     {% if evenements is not empty %}
         <table>
             <tr>
+                <th>Date</th>
                 <th>Heure</th>
                 <th>Sport</th>
                 <th>Sortie</th>
@@ -16,6 +16,7 @@
             </tr>
             {% for evenement in evenements %}
                 <tr>
+                    <td>{{ evenement.date|date('d/m/Y')}}</td>
                     <td>{{ evenement.heure|date('H:i') }}</td>
                     <td>{{ evenement.sport.nom }}</td>
                     <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
@@ -25,7 +26,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>Pas d'évènement pour cette date.</p>
+        <p>Pas d'évènement.</p>
     {% endif %}
-    <p><a href="{{ path('ws_ovs_evenement_add', {'id': date.id}) }}">Ajouter un évènement</a></p>
+    <p><a href="{{ path('ws_ovs_evenement_add') }}">Ajouter un évènement</a></p>
 {% endblock %}

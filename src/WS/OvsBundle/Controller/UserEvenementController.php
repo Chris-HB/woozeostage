@@ -21,7 +21,6 @@ class UserEvenementController extends Controller {
     public function addAction($id) {
         $em = $this->getDoctrine()->getManager();
         $evenement = $em->getRepository('WSOvsBundle:Evenement')->find($id);
-        $date = $evenement->getDate();
         $user = $this->getUser();
 
         $userEvenement = new UserEvenement();
@@ -36,7 +35,7 @@ class UserEvenementController extends Controller {
 
         $em->persist($userEvenement);
         $em->flush();
-        return $this->redirect($this->generateUrl('ws_ovs_evenement_list', array('id' => $date->getId())));
+        return $this->redirect($this->generateUrl('ws_ovs_evenement_list'));
     }
 
 }

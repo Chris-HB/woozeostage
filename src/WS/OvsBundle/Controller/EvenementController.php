@@ -23,13 +23,11 @@ class EvenementController extends Controller {
     }
 
     /**
-     * @Route("/add/{id}", name="ws_ovs_evenement_add")
+     * @Route("/add", name="ws_ovs_evenement_add")
      * @Template()
      */
-    public function addAction($id) {
-        $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Date');
-        $date = $em->find($id);
-        $evenement = new Evenement($date);
+    public function addAction() {
+        $evenement = new Evenement();
         $form = $this->createForm(new EvenementType(), $evenement);
 
         $request = $this->get('request');
@@ -44,20 +42,17 @@ class EvenementController extends Controller {
                 return $this->redirect($this->generateUrl('ws_ovs_userevenement_add', array('id' => $evenement->getId())));
             }
         }
-        return array('form' => $form->createView(), 'evenement' => $evenement, 'date' => $date);
+        return array('form' => $form->createView(), 'evenement' => $evenement);
     }
 
     /**
-     * @Route("/list/{id}", name="ws_ovs_evenement_list")
+     * @Route("/list", name="ws_ovs_evenement_list")
      * @Template()
      */
-    public function listAction($id) {
-        $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Date');
-        $date = $em->find($id);
-
+    public function listAction() {
         $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');
-        $evenements = $em->findBy(array('date' => $date, 'actif' => 1), array('heure' => 'ASC'));
-        return array('date' => $date, 'evenements' => $evenements);
+        $evenements = $em->findBy(array('actif' => 1), array('heure' => 'ASC'));
+        return array('evenements' => $evenements);
     }
 
     /**
