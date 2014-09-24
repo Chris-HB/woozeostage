@@ -9,20 +9,15 @@ $(document).ready(function() {
         // Affichage
         // ----------
         //
-        // on teste si un div ayant un id du même nom que le username existe déjà
-        $('#chat_div>div[id]').each(function() {
-
-            if ($(this).attr('id') == $username) {
+        // on teste si un div ayant un id du même nom que le username_box existe déjà
+        $('div').each(function() {
+            if ($(this).attr('id') == $username + '_box') {
                 $divexiste = true;
             }
-            alert('toto - ' + $divexiste);
         });
-//        $container.children('id').each(function() {
-//            alert('toto-');
-//        });
-// ---
-// si il n'existe pas, je le créer (id=username)
-// ---
+        // ---
+        // si il n'existe pas, je le créer (id=username)
+        // ---
         if (!$divexiste) {
             $container.append('<div id="' + $username + '" style="float :left;"></div>');
             //
@@ -36,18 +31,19 @@ $(document).ready(function() {
                     $('#' + $username).chatbox("option", "boxManager").addMsg(pseudo, msg);
                 }});
         }
-        else {
-//
-// je crée une box
-            box = $('#' + $username).chatbox({id: $username,
-                title: "woozeostage chat : " + $username,
-                offset: 20,
-                user: {key: "value"},
-                messageSent: function(id, user, msg) {
-                    $("#log").append(id + " said: " + msg + "<br/>");
-                    $('#' + $username).chatbox("option", "boxManager").addMsg(pseudo, msg);
-                }});
-        }
+//        else {
+//            //
+//            // je crée une box
+//            //
+//            box = $('#' + $username).chatbox({id: $username,
+//                title: "woozeostage chat : " + $username,
+//                offset: 20,
+//                user: {key: "value"},
+//                messageSent: function(id, user, msg) {
+//                    $("#log").append(id + " said: " + msg + "<br/>");
+//                    $('#' + $username).chatbox("option", "boxManager").addMsg(pseudo, msg);
+//                }});
+//        }
 
     });
 });
