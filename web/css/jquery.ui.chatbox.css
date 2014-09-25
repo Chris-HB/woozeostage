@@ -1,4 +1,7 @@
 /* style sheets */
+#chat_div {
+    position: absolute;
+}
 .ui-chatbox {
     position: fixed;
     bottom: 2px;

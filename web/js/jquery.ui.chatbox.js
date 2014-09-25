@@ -21,14 +21,37 @@
             user: null, // can be anything associated with this chatbox
             hidden: false,
             offset: 0, // relative to right edge of the browser window
+            tab: null,
             width: 300, // width of the chatbox
             messageSent: function(id, user, msg) {
                 // override this
                 this.boxManager.addMsg(user.first_name, msg);
             },
-            boxClosed: function(id) {
+            boxClosed: function(id, tab) {
                 // supprime le DIV id_box
                 $("#" + id + '_box').remove();
+                //
+                // on récupère la position de l'id dans le tableau
+                var pos = $.inArray(id, tab);
+                // supprime un element de tab correspond à l'id
+                tab = $.grep(tab, function(value) {
+                    return value != id;
+                });
+                //---
+                // test boxTab (ici tab)
+                //---
+                //
+                var result = '';
+                for (j = 0; j < tab.length; j++) {
+                    result = result + tab[j] + "--";
+                }
+                alert(result);
+                // animation vers la droite des div se trouvant à gauche de celui supprimé
+                for (i = pos; i < tab.length; i++) {
+                    $("#" + tab[i] + '_box').animate({right: "340px"});
+                }
+
+
             }, // called when the close icon is clicked
             boxManager: {
                 // thanks to the widget factory facility
@@ -92,7 +115,7 @@
             }
         },
         widget: function() {
-            return this.uiChatbox
+            return this.uiChatbox;
         },
         _create: function() {
             var self = this,
@@ -145,7 +168,7 @@
                     })
                     .click(function(event) {
                 uiChatbox.hide();
-                self.options.boxClosed(self.options.id);
+                self.options.boxClosed(self.options.id, self.options.tab);
                 return false;
             })
                     .appendTo(uiChatboxTitlebar),
