@@ -79,4 +79,27 @@ class EvenementController extends Controller {
         return array('evenement' => $evenement);
     }
 
+    /**
+     * @Route("/supprimer/{id}", name="ws_ovs_evenement_desactiver")
+     * @Template()
+     */
+    public function desactiverAction(Evenement $evenement) {
+        $user = $this->getUser();
+        if ($user != $evenement->getUser()) {
+            $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour supprimer cette sortie');
+            return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+        } else {
+            $this->get('session')->getFlashBag()->add('info', 'Vous avez les droits pour supprimer cette sortie');
+            return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+        }
+    }
+
+    /**
+     * @Route("/modifier/{id}", name="ws_ovs_evenement_modifier")
+     * @Template()
+     */
+    public function modifierAction(Evenement $evenement) {
+
+    }
+
 }

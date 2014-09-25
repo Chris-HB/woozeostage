@@ -4,7 +4,7 @@
     {{ parent() }} - evenement
 {% endblock %}
 {% block ovs %}
-    <p>{{ evenement. nom }}</p>
+    <p>{{ evenement. nom }} par {{ evenement.user.username }}</p>
     <p>le {{ evenement.date|date('d/m/Y') }} à {{ evenement.heure|date('H:i')}}</p>
     <p>Type de sport : {{ evenement.sport.nom }}<p>
     <p>Description
@@ -22,6 +22,31 @@
     {% for us in evenement.userEvenements %}
         <p>{{ us.user.username }}</p>
     {% endfor %}
+    
+    <p>
+        {% if app.user == evenement.user %}
+            <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">supprimer cette sortie</a>
+        {% else %}
+            {% set present = false %}
+            {% for us in evenement.userEvenements %}
+                {% if us == app.user %}
+                    {% set present = true %}
+                {% endif %}
+            {% endfor %}
+            {% if present == true %}
+                <a href="">Modifier ma participation</a>
+            {% else %}
+                {% if evenement.inscrit - evenement.userEvenements|length > 0 %}
+                    <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévènement</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {#
+            Si creatueur alors supprimer
+            si deja inscrit alors modifier
+            si pas inscrit et qu'il reste des place alors s'inscrire
+        #}
+    </p>
     
     <p><a href="{{ path('ws_ovs_evenement_list') }}">Retour à la liste des évènements</a></p>
 {% endblock %}
