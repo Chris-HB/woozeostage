@@ -77,6 +77,13 @@ class Evenement {
     private $type;
 
     /**
+     *
+     * @var type
+     * @ORM\Column(name="nombrevalide", type="integer")
+     */
+    private $nombreValide;
+
+    /**
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
@@ -105,6 +112,7 @@ class Evenement {
     public function __construct() {
         $this->date = new \DateTime();
         $this->actif = 1;
+        $this->nombreValide = 0;
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -338,15 +346,13 @@ class Evenement {
         return $this->date;
     }
 
-
     /**
      * Set type
      *
      * @param string $type
      * @return Evenement
      */
-    public function setType($type)
-    {
+    public function setType($type) {
         $this->type = $type;
 
         return $this;
@@ -355,10 +361,31 @@ class Evenement {
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
+
+    /**
+     * Set nombreValide
+     *
+     * @param integer $nombreValide
+     * @return Evenement
+     */
+    public function setNombreValide($nombreValide) {
+        $this->nombreValide = $nombreValide;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreValide
+     *
+     * @return integer
+     */
+    public function getNombreValide() {
+        return $this->nombreValide;
+    }
+
 }
