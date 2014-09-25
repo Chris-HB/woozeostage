@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class EvenementEditType extends AbstractType {
+class UserEvenementType extends AbstractType {
 
     /**
      * @param FormBuilderInterface $builder
@@ -14,7 +14,7 @@ class EvenementEditType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('inscrit', 'integer', array('attr' => array('min' => 2), 'data' => 2))
+                ->add('statut', 'choice', array('choices' => array('En attente' => 'En attente', 'Refusé' => 'Refusé')))
         ;
     }
 
@@ -23,7 +23,7 @@ class EvenementEditType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'WS\OvsBundle\Entity\Evenement'
+            'data_class' => 'WS\OvsBundle\Entity\UserEvenement'
         ));
     }
 
@@ -31,7 +31,7 @@ class EvenementEditType extends AbstractType {
      * @return string
      */
     public function getName() {
-        return 'ws_ovsbundle_evenement_edit';
+        return 'ws_ovsbundle_userevenement';
     }
 
 }

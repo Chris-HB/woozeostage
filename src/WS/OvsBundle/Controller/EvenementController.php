@@ -94,12 +94,4 @@ class EvenementController extends Controller {
         }
     }
 
-    /**
-     * @Route("/modifier/{id}", name="ws_ovs_evenement_modifier")
-     * @Template()
-     */
-    public function modifierAction(Evenement $evenement) {
-
-    }
-
 }

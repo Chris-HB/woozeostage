@@ -22,7 +22,7 @@
     {% for us in evenement.userEvenements %}
         <p>{{ us.user.username }}</p>
     {% endfor %}
-    
+     <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
     <p>
         {% if app.user == evenement.user %}
             <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">supprimer cette sortie</a>
@@ -34,7 +34,7 @@
                 {% endif %}
             {% endfor %}
             {% if present == true %}
-                <a href="">Modifier ma participation</a>
+                <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
             {% else %}
                 {% if evenement.inscrit - evenement.userEvenements|length > 0 %}
                     <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévènement</a>
