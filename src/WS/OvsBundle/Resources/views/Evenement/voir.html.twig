@@ -18,11 +18,14 @@
         <div id="map">
         </div>
     </p>
-    <p>Liste des inscrits ({{ evenement.userEvenements|length }}/{{ evenement.inscrit }} reste {{ evenement.inscrit - evenement.userEvenements|length }})<p>
-    {% for us in evenement.userEvenements %}
-        <p>{{ us.user.username }}</p>
+    <p>Liste des inscrits ({{ userEvenementValides|length }}/{{ evenement.inscrit }} reste {{ evenement.inscrit - userEvenementValides|length }})<p>
+    {% for ue in userEvenementValides %}
+        <p>{{ ue.user.username }}</p>
     {% endfor %}
-     <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
+    <p>Liste d'attente ({{ userEvenementAttentes|length }})</p>
+    {% for ue in userEvenementAttentes %}
+        <p>{{ ue.user.username }}</p>
+    {% endfor %}
     <p>
         {% if app.user == evenement.user %}
             <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">supprimer cette sortie</a>
@@ -36,16 +39,11 @@
             {% if present == true %}
                 <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
             {% else %}
-                {% if evenement.inscrit - evenement.userEvenements|length > 0 %}
+                {% if evenement.inscrit - userEvenementValides|length > 0 %}
                     <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévènement</a>
                 {% endif %}
             {% endif %}
         {% endif %}
-        {#
-            Si creatueur alors supprimer
-            si deja inscrit alors modifier
-            si pas inscrit et qu'il reste des place alors s'inscrire
-        #}
     </p>
     
     <p><a href="{{ path('ws_ovs_evenement_list') }}">Retour à la liste des évènements</a></p>

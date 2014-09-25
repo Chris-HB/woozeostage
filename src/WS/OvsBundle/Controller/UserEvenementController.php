@@ -45,19 +45,17 @@ class UserEvenementController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $userEvenement = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement));
-//        $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findAll();
-//        $form = $this->createForm(new UserEvenementType(), $userEvenement);
-//        $request = $this->get('request');
-//        if ($request->getMethod() == 'POST') {
-//            $form->bind($request);
-//            if ($form->isValid()) {
-//                $em->persist($userEvenement);
-//                $em->flush();
-//            }
-//        }
-//        return array('form' => $form->createView(), 'userEvenement' => $userEvenement);
-
-        return array('userEvenement' => $userEvenement);
+        $form = $this->createForm(new UserEvenementType(), $userEvenement);
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em->persist($userEvenement);
+                $em->flush();
+                return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            }
+        }
+        return array('form' => $form->createView(), 'userEvenement' => $userEvenement);
     }
 
 }

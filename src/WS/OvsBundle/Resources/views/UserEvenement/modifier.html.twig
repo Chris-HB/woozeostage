@@ -4,16 +4,8 @@
     {{ parent() }} - modifier ma participation
 {% endblock %}
 {% block ovs %}
-    {#{% include 'WSOvsBundle:formulaire:formulaire.html.twig' %}#}
-    {#{% for userEvenement in userEvenements %}
-    <p>Personne : {{ userEvenement.user.username}}</p>
-    <p>Sortie : {{ userEvenement.evenement.nom }}</p>
-    <p>Statut : {{ userEvenement.statut }}</p>
+    {% include 'WSOvsBundle:formulaire:formulaire.html.twig' %}
     <br/>
     <p><a href="{{ path('ws_ovs_evenement_voir', {'id': userEvenement.evenement.id}) }}">retour</a></p>
-    {% endfor %}#}
-    <p>Personne : {{ userEvenement.user.username}}</p>
-    <p>Sortie : {{ userEvenement.evenement.nom }}</p>
-    <p>Statut : {{ userEvenement.statut }}</p>
 {% endblock %}
 

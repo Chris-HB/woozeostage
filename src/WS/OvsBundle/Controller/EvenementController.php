@@ -63,9 +63,11 @@ class EvenementController extends Controller {
      * @Template()
      */
     public function listDateAction($date) {
-        $dateO = new \DateTime($date);
-        $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');
-        $evenements = $em->findBy(array('actif' => 1, 'date' => $dateO), array('heure' => 'ASC'));
+        $date = new \DateTime($date);
+        $em = $this->getDoctrine()->getManager();
+        $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('actif' => 1, 'date' => $date), array('heure' => 'ASC'));
+        //$userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 'Validé', 'evenement' => $evenement));
+
         return array('date' => $date, 'evenements' => $evenements);
     }
 
@@ -76,7 +78,10 @@ class EvenementController extends Controller {
      * @Template()
      */
     public function voirAction(Evenement $evenement) {
-        return array('evenement' => $evenement);
+        $em = $this->getDoctrine()->getManager();
+        $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 'Validé', 'evenement' => $evenement));
+        $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 'En attente', 'evenement' => $evenement));
+        return array('evenement' => $evenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes);
     }
 
     /**
