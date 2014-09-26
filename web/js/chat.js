@@ -1,10 +1,20 @@
 var boxTab = [];
+var messTab = [];
 var $margeDroiteDesBox = 10;
 var $espaceEntreBox = 20;
 
-
 $(document).ready(function() {
     var box = null;
+
+    // si la page est réactualisée
+    window.onload = afficheBox;
+
+    function afficheBox() {
+        alert('toto');
+        $("#chris").chatbox("option", "boxManager").addMsg("Bob", "Barrr!");
+        $("#chris").chatbox("option", "boxManager").addMsg("Chris", "mais t'es où Bob!");
+    }
+
     $("#userclick li").click(function() {
         var $username = $(this).text();
         var pseudo = ($("#pseudo").data("pseudo"));
@@ -41,9 +51,18 @@ $(document).ready(function() {
                 user: {key: "value"},
                 messageSent: function(id, user, msg) {
                     $("#log").append(id + " said: " + msg + "<br/>");
-                    $('#' + $username).chatbox("option", "boxManager").addMsg(pseudo, msg);
+                    $('#' + $username).chatbox("option", "boxManager").addMsg(id, pseudo, msg);
                 }});
         }
 
+        //---
+        // TEST messTab
+        var message = '';
+        for (j = 0; j < messTab.length; j++) {
+            message = message + j + ': ' + messTab[j] + "  \n";
+        }
+        alert(message);
+//        $("#chris").chatbox("option", "boxManager").addMsg("Bob", "Barrr!");
+//        $("#chris").chatbox("option", "boxManager").addMsg("Chris", "mais t'es où Bob!");
     });
 });

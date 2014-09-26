@@ -23,7 +23,7 @@
             width: 300, // width of the chatbox
             messageSent: function(id, user, msg) {
                 // override this
-                this.boxManager.addMsg(user.first_name, msg);
+                this.boxManager.addMsg(id, user.first_name, msg);
             },
             boxClosed: function(id) {
                 // supprime le DIV id_box
@@ -45,7 +45,7 @@
 //                }
 //                result = result + 'pos = ' + pos;
 //                alert(result);
-//                
+//
                 // animation vers la droite des div se trouvant à gauche de celui supprimé
                 var mg = 0;
                 for (i = pos; i < boxTab.length; i++) {
@@ -61,7 +61,7 @@
                 init: function(elem) {
                     this.elem = elem;
                 },
-                addMsg: function(peer, msg) {
+                addMsg: function(id, peer, msg) {
                     var self = this;
                     var box = self.elem.uiChatboxLog;
                     var e = document.createElement('div');
@@ -92,6 +92,8 @@
                         self.highlightLock = true;
                         self.highlightBox();
                     }
+                    //var test = self.options.id;
+                    messTab.push(id + '--' + msg);
                 },
                 highlightBox: function() {
                     var self = this;
