@@ -14,7 +14,7 @@ class UserEvenementType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('statut', 'choice', array('choices' => array('En attente' => 'En attente', 'Refusé' => 'Refusé')))
+                ->add('statut', 'choice', array('choices' => array(2 => 'En attente', 3 => 'Refusé')))
         ;
     }
 

@@ -26,13 +26,15 @@ class UserEvenementController extends Controller {
         $userEvenement->setEvenement($evenement);
 
         if ($user == $evenement->getUser()) {
-            $userEvenement->setStatut("Validé");
+            $userEvenement->setStatut(1);
         } else {
-            $userEvenement()->setStatut("En attente");
+            $userEvenement()->setStatut(2);
         }
-
+        if ($userEvenement->getStatut() == 1) {
+            $evenement->setNombreValide($evenement->getNombreValide() + 1);
+        }
         $em = $this->getDoctrine()->getManager();
-        $em->persist($userEvenement);
+        $em->persist($userEvenement, $evenement);
         $em->flush();
         return $this->redirect($this->generateUrl('ws_ovs_evenement_list'));
     }

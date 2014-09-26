@@ -19,9 +19,7 @@
                     <td>{{ evenement.heure|date('H:i') }}</td>
                     <td>{{ evenement.sport.nom }}</td>
                     <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
-                    {% for userevenement in user%}
-                    {% endfor %}
-                    <td>{{ nombre }} / {{ evenement.inscrit }}</td>
+                    <td>{{ evenement.nombreValide }} / {{ evenement.inscrit }}</td>
                     <td>{{ evenement.user.username }}</td>
                 </tr>
             {% endfor %}
