@@ -45,6 +45,7 @@
                 for (j = 0; j < tab.length; j++) {
                     result = result + tab[j] + "--";
                 }
+                result = result + 'pos = ' + pos;
                 alert(result);
                 // animation vers la droite des div se trouvant à gauche de celui supprimé
                 for (i = pos; i < tab.length; i++) {
