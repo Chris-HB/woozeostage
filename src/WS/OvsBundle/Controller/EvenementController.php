@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use WS\OvsBundle\Entity\Evenement;
 use WS\OvsBundle\Form\EvenementType;
 use WS\OvsBundle\Entity\UserEvenement;
+use WS\OvsBundle\Form\EvenementGererType;
 
 /**
  * @Route("/evenement")
@@ -78,9 +79,14 @@ class EvenementController extends Controller {
      */
     public function voirAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
+
+        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
+        $dateEvenement = new \DateTime($dateE);
+
         $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 1, 'evenement' => $evenement));
         $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 2, 'evenement' => $evenement));
-        return array('evenement' => $evenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes);
+
+        return array('evenement' => $evenement, 'dateEvenement' => $dateEvenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes);
     }
 
     /**
@@ -93,8 +99,9 @@ class EvenementController extends Controller {
             $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour supprimer cette sortie');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
+            $date = $evenement->getDate()->format('Y-m-d');
             $form = $this->createFormBuilder()->getForm();
-            $request = $this->getRequest();
+            $request = $this->get('request');
             if ($request->getMethod() == 'POST') {
                 $form->bind($request);
                 if ($form->isValid()) {
@@ -108,11 +115,45 @@ class EvenementController extends Controller {
                     }
                     $em->flush();
                     $this->get('session')->getFlashBag()->add('info', 'Evènement bien supprimé');
-                    return $this->redirect($this->generateUrl('utilisateur_lister'));
+                    return $this->redirect($this->generateUrl('ws_ovs_evenement_listdate', array('date' => $date)));
                 }
             }
             return array('form' => $form->createView(), 'evenement' => $evenement);
         }
+    }
+
+    /**
+     *
+     * @param Evenement $evenement
+     * @Route("/gerer/{id}", name="ws_ovs_evenement_gerer")
+     * @Template()
+     */
+    public function gererAction(Evenement $evenement) {
+        $form = $this->createForm(new EvenementGererType(), $evenement);
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                foreach ($evenement->getUserEvenements()as $userEvenement) {
+                    $em->persist($userEvenement);
+                }
+                $nombre = $em->getRepository('WSOvsBundle:UserEvenement')->compte($evenement);
+//                if ($nombre[0]['nombre']) {
+//                    $test = 'a';
+//                } else {
+//                    $test = 'b';
+//                }
+                $test = $nombre[0]['nombre'];
+                $evenement->setNombreValide($nombre[0]['nombre']);
+                $em->persist($evenement);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
+                return new \Symfony\Component\HttpFoundation\Response($test);
+                return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            }
+        }
+        return array('form' => $form->createView(), 'evenement' => $evenement);
     }
 
 }
