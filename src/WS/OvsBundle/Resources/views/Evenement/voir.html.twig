@@ -28,18 +28,19 @@
     {% endfor %}
     <p>
         {% if app.user == evenement.user %}
-            <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">supprimer cette sortie</a>
+            <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">Supprimer cette sortie</a>
+            <a href="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}">Gerer les inscrits</a>
         {% else %}
             {% set present = false %}
             {% for us in evenement.userEvenements %}
-                {% if us == app.user %}
+                {% if us.user == app.user %}
                     {% set present = true %}
                 {% endif %}
             {% endfor %}
             {% if present == true %}
                 <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
             {% else %}
-                {% if evenement.inscrit - userEvenementValides|length > 0 %}
+                {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
                     <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévènement</a>
                 {% endif %}
             {% endif %}
