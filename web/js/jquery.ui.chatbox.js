@@ -11,7 +11,6 @@
  *
  */
 
-
 // TODO: implement destroy()
 (function($) {
     $.widget("ui.chatbox", {
@@ -21,35 +20,37 @@
             user: null, // can be anything associated with this chatbox
             hidden: false,
             offset: 0, // relative to right edge of the browser window
-            tab: null,
             width: 300, // width of the chatbox
             messageSent: function(id, user, msg) {
                 // override this
                 this.boxManager.addMsg(user.first_name, msg);
             },
-            boxClosed: function(id, tab) {
+            boxClosed: function(id) {
                 // supprime le DIV id_box
                 $("#" + id + '_box').remove();
                 //
                 // on récupère la position de l'id dans le tableau
-                var pos = $.inArray(id, tab);
+                var pos = $.inArray(id, boxTab);
                 // supprime un element de tab correspond à l'id
-                tab = $.grep(tab, function(value) {
+                boxTab = $.grep(boxTab, function(value) {
                     return value != id;
                 });
-                //---
-                // test boxTab (ici tab)
-                //---
-                //
-                var result = '';
-                for (j = 0; j < tab.length; j++) {
-                    result = result + tab[j] + "--";
-                }
-                result = result + 'pos = ' + pos;
-                alert(result);
+//                //---
+//                // test boxTab
+//                //---
+//                //
+//                var result = '';
+//                for (j = 0; j < boxTab.length; j++) {
+//                    result = result + boxTab[j] + "--";
+//                }
+//                result = result + 'pos = ' + pos;
+//                alert(result);
+//                
                 // animation vers la droite des div se trouvant à gauche de celui supprimé
-                for (i = pos; i < tab.length; i++) {
-                    $("#" + tab[i] + '_box').animate({right: "340px"});
+                var mg = 0;
+                for (i = pos; i < boxTab.length; i++) {
+                    mg = i * (300 + $espaceEntreBox) + $margeDroiteDesBox;
+                    $("#" + boxTab[i] + '_box').animate({right: mg + 'px'});
                 }
 
 
@@ -169,7 +170,7 @@
                     })
                     .click(function(event) {
                 uiChatbox.hide();
-                self.options.boxClosed(self.options.id, self.options.tab);
+                self.options.boxClosed(self.options.id);
                 return false;
             })
                     .appendTo(uiChatboxTitlebar),
