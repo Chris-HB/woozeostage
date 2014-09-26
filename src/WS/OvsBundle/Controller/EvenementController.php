@@ -107,7 +107,7 @@ class EvenementController extends Controller {
                         $em->persist($userEvenement);
                     }
                     $em->flush();
-                    $this->get('session')->getFlashBag()->add('info', 'Sortie bien supprimé');
+                    $this->get('session')->getFlashBag()->add('info', 'Evènement bien supprimé');
                     return $this->redirect($this->generateUrl('utilisateur_lister'));
                 }
             }
