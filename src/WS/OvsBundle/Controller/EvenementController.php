@@ -66,7 +66,6 @@ class EvenementController extends Controller {
         $date = new \DateTime($date);
         $em = $this->getDoctrine()->getManager();
         $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('actif' => 1, 'date' => $date), array('heure' => 'ASC'));
-        //$userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 'Validé', 'evenement' => $evenement));
 
         return array('date' => $date, 'evenements' => $evenements);
     }
@@ -79,8 +78,8 @@ class EvenementController extends Controller {
      */
     public function voirAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
-        $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 'Validé', 'evenement' => $evenement));
-        $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 'En attente', 'evenement' => $evenement));
+        $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 1, 'evenement' => $evenement));
+        $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 2, 'evenement' => $evenement));
         return array('evenement' => $evenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes);
     }
 
@@ -94,8 +93,25 @@ class EvenementController extends Controller {
             $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour supprimer cette sortie');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
-            $this->get('session')->getFlashBag()->add('info', 'Vous avez les droits pour supprimer cette sortie');
-            return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            $form = $this->createFormBuilder()->getForm();
+            $request = $this->getRequest();
+            if ($request->getMethod() == 'POST') {
+                $form->bind($request);
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+                    $evenement->setActif(0);
+                    $em->persist($evenement);
+                    $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('evenement' => $evenement));
+                    foreach ($userEvenements as $userEvenement) {
+                        $userEvenement->setActif(0);
+                        $em->persist($userEvenement);
+                    }
+                    $em->flush();
+                    $this->get('session')->getFlashBag()->add('info', 'Sortie bien supprimé');
+                    return $this->redirect($this->generateUrl('utilisateur_lister'));
+                }
+            }
+            return array('form' => $form->createView(), 'evenement' => $evenement);
         }
     }
 

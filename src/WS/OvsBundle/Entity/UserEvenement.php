@@ -32,9 +32,22 @@ class UserEvenement {
      *
      * @var type
      *
-     * @ORM\Column(name="statut", type="string", length=255)
+     * @ORM\Column(name="statut", type="integer")
+     * Le staut correspond a 1: validé, 2: en attente, 3 :refusé
      */
     private $statut;
+
+    /**
+     *
+     * @var type
+     *
+     * @ORM\Column(name="actif", type="boolean")
+     */
+    private $actif;
+
+    public function __construct() {
+        $this->actif = 1;
+    }
 
     /**
      * Set user
@@ -80,15 +93,13 @@ class UserEvenement {
         return $this->evenement;
     }
 
-
     /**
      * Set statut
      *
      * @param string $statut
      * @return UserEvenement
      */
-    public function setStatut($statut)
-    {
+    public function setStatut($statut) {
         $this->statut = $statut;
 
         return $this;
@@ -97,10 +108,31 @@ class UserEvenement {
     /**
      * Get statut
      *
-     * @return string 
+     * @return string
      */
-    public function getStatut()
-    {
+    public function getStatut() {
         return $this->statut;
     }
+
+    /**
+     * Set actif
+     *
+     * @param boolean $actif
+     * @return UserEvenement
+     */
+    public function setActif($actif) {
+        $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * Get actif
+     *
+     * @return boolean
+     */
+    public function getActif() {
+        return $this->actif;
+    }
+
 }
