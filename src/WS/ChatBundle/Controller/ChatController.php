@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ChatController extends Controller {
 
     /**
-     * @Route("/")
+     * @Route("/", name="ws_chat_index")
      * @Template()
      */
     public function indexAction() {
@@ -25,14 +25,6 @@ class ChatController extends Controller {
         $em = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:User');
         $users = $em->findAll();
         return array('users' => $users);
-    }
-
-    /**
-     * @Route("/voir", name="ws_chat_voir")
-     * @Template()
-     */
-    public function voirAction() {
-        return array();
     }
 
 }
