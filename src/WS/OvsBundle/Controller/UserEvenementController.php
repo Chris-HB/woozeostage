@@ -20,6 +20,7 @@ class UserEvenementController extends Controller {
      */
     public function addAction(Evenement $evenement) {
         $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
 
         $userEvenement = new UserEvenement();
         $userEvenement->setUser($user);
@@ -28,15 +29,28 @@ class UserEvenementController extends Controller {
         if ($user == $evenement->getUser()) {
             $userEvenement->setStatut(1);
         } else {
-            $userEvenement()->setStatut(2);
+            $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
+            $dateEvenement = new \DateTime($dateE);
+            $dateActuelle = new \DateTime();
+            if ($dateActuelle > $dateEvenement) {
+                $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
+                return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            } else {
+                $userEvenementVerif = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user));
+                if ($userEvenementVerif != null) {
+                    $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà inscrit a cette sortie');
+                    return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+                } else {
+                    $userEvenement->setStatut(2);
+                }
+            }
         }
         if ($userEvenement->getStatut() == 1) {
             $evenement->setNombreValide($evenement->getNombreValide() + 1);
         }
-        $em = $this->getDoctrine()->getManager();
         $em->persist($userEvenement, $evenement);
         $em->flush();
-        return $this->redirect($this->generateUrl('ws_ovs_evenement_list'));
+        return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
     }
 
     /**
