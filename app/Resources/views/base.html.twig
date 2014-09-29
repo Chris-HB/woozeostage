@@ -67,26 +67,7 @@
                     {% endfor %}
                 {% endfor %}
             </div>
-            <p><a href="{{ path('ws_chat_fichierText') }}">test Fichier</a></p>
-            <p><a id="testajax" href="#">test Ajax encore</a></p>
-            <script>
-            $(document).ready(function() {
-               $("#testajax").click(function() {
-                    alert('bob');
-                    
-                    var $ligne='vive Bob';
-                    var $ligne2='ajax c bien';
-                    
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ path ('ws_chat_fichierText')}}",
-                        //data: "{'ligne':'"+$ligne+"', 'ligne2':'"+$ligne2+"'}",
-                        data: {ligne: $ligne , ligne2: $ligne2},
-                        cache: false
-                    });
-               });
-            });
-                </script>
+            
             {% block body %}{% endblock %}
             {% block javascripts %}{% endblock %}
     </body>

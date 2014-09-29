@@ -92,13 +92,14 @@
                         self.highlightLock = true;
                         self.highlightBox();
                     }
-                    //on ecrit ligne dans messTab et dans le fichier text "contenuBox.txt"
+                    //ligne prend pour valeur l'émetteur, le récepteur et le message
                     var ligne = peer + '--' + id + '--' + msg;
-                    messTab.push(ligne);
+                    //messTab.push(ligne);
 
+                    // Je passe au Controller addMessageBase de ChatBundle l'émetteur, le récepteur et le message
                     $.ajax({
                         type: "POST",
-                        url: "{{ path ('ws_chat_fichierText')}}",
+                        url: Routing.generate('ws_chat_addMessageBase'),
                         data: {emetteur: peer, recepteur: id, message: msg},
                         cache: false
                     });

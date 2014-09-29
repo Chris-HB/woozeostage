@@ -37,12 +37,26 @@ class User extends BaseUser {
     private $userEvenements;
 
     /**
+     *
+     * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="emetteur")
+     */
+    private $emetteurs;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="recepteur")
+     */
+    private $recepteurs;
+
+    /**
      * Constructor
      */
     public function __construct() {
         parent::__construct();
         $this->evenements = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->emetteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recepteurs = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -112,6 +126,66 @@ class User extends BaseUser {
      */
     public function getUserEvenements() {
         return $this->userEvenements;
+    }
+
+    /**
+     * Add emetteurs
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $emetteurs
+     * @return User
+     */
+    public function addEmetteur(\WS\ChatBundle\Entity\Messagebox $emetteurs) {
+        $this->emetteurs[] = $emetteurs;
+
+        return $this;
+    }
+
+    /**
+     * Remove emetteurs
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $emetteurs
+     */
+    public function removeEmetteur(\WS\ChatBundle\Entity\Messagebox $emetteurs) {
+        $this->emetteurs->removeElement($emetteurs);
+    }
+
+    /**
+     * Get emetteurs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmetteurs() {
+        return $this->emetteurs;
+    }
+
+    /**
+     * Add recepteurs
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $recepteurs
+     * @return User
+     */
+    public function addRecepteur(\WS\ChatBundle\Entity\Messagebox $recepteurs) {
+        $this->recepteurs[] = $recepteurs;
+
+        return $this;
+    }
+
+    /**
+     * Remove recepteurs
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $recepteurs
+     */
+    public function removeRecepteur(\WS\ChatBundle\Entity\Messagebox $recepteurs) {
+        $this->recepteurs->removeElement($recepteurs);
+    }
+
+    /**
+     * Get recepteurs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecepteurs() {
+        return $this->recepteurs;
     }
 
 }

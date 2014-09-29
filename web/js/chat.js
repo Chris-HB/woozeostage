@@ -1,5 +1,5 @@
 var boxTab = [];
-var messTab = [];
+//var messTab = [];
 var $margeDroiteDesBox = 10;
 var $espaceEntreBox = 20;
 
@@ -61,11 +61,12 @@ $(document).ready(function() {
 
         //---
         // TEST messTab
-        var message = '';
-        for (j = 0; j < messTab.length; j++) {
-            message = message + j + ': ' + messTab[j] + "  \n";
-        }
-        alert(message);
+//        var message = '';
+//        for (j = 0; j < messTab.length; j++) {
+//            message = message + j + ': ' + messTab[j] + "  \n";
+//        }
+//        alert(message);
+
 //        $("#chris").chatbox("option", "boxManager").addMsg("Bob", "Barrr!");
 //        $("#chris").chatbox("option", "boxManager").addMsg("Chris", "mais t'es où Bob!");
     });
