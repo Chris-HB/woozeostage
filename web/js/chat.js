@@ -11,10 +11,28 @@ $(document).ready(function() {
     // si la page est réactualisée
     // ----------------------------
     window.onload = afficheBox;
+    window.onbeforeunload = enregistreInfosBox;
 
     function afficheBox() {
         //alert('toto');
-        //alert('messTab : ' + messTab);
+        $.ajax({
+            type: "POST",
+            url: Routing.generate('ws_chat_recupSession'),
+            cache: false,
+            success: function(data) {
+                boxTab = data;
+            }
+        });
+
+    }
+
+    function enregistreInfosBox() {
+        $.ajax({
+            type: "POST",
+            url: Routing.generate('ws_chat_varSession'),
+            data: {infosbox: boxTab},
+            cache: false
+        });
     }
     //------------------------------
 

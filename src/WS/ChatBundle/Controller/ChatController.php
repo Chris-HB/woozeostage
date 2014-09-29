@@ -66,4 +66,32 @@ class ChatController extends Controller {
         return $this->redirect($this->generateUrl('ws_chat_index'));
     }
 
+    /**
+     * @Route("/varSession", name="ws_chat_varSession", options={"expose"=true})
+     * @Template()
+     */
+    public function varSessionAction() {
+        $request = $this->get('request');
+        if ($request->isXmlHttpRequest()) {
+            $tab = '';
+            $tab = $request->request->get('infosbox');
+            $session = $request->getSession();
+            $session->set('infosbox', $tab);
+        }
+        return $this->redirect($this->generateUrl('ws_chat_index'));
+    }
+
+    /**
+     * @Route("/recupSession", name="ws_chat_recupSession", options={"expose"=true})
+     * @Template()
+     */
+    public function recupSessionAction() {
+        $request = $this->get('request');
+        if ($request->isXmlHttpRequest()) {
+            $session = $request->getSession();
+            $tab = $session->get('infosbox');
+        }
+        return $this->redirect($this->generateUrl('ws_chat_index'), array('tabinfo' => $tab));
+    }
+
 }
