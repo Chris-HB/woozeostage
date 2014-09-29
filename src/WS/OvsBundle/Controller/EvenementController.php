@@ -135,21 +135,24 @@ class EvenementController extends Controller {
             $form->bind($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                $nombre = 0;
                 foreach ($evenement->getUserEvenements()as $userEvenement) {
+                    if ($userEvenement->getUser() == $evenement->getUser()) {
+                        $userEvenement->setStatut(1);
+                    }
+                    if ($userEvenement->getStatut() == 1) {
+                        $nombre ++;
+                    }
+                    if ($nombre > $evenement->getInscrit()) {
+                        $userEvenement->setStatut(2);
+                        $nombre --;
+                    }
                     $em->persist($userEvenement);
                 }
-                $nombre = $em->getRepository('WSOvsBundle:UserEvenement')->compte($evenement);
-//                if ($nombre[0]['nombre']) {
-//                    $test = 'a';
-//                } else {
-//                    $test = 'b';
-//                }
-                $test = $nombre[0]['nombre'];
-                $evenement->setNombreValide($nombre[0]['nombre']);
+                $evenement->setNombreValide($nombre);
                 $em->persist($evenement);
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
-                return new \Symfony\Component\HttpFoundation\Response($test);
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             }
         }

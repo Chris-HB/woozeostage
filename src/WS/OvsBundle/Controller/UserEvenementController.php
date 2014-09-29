@@ -36,7 +36,7 @@ class UserEvenementController extends Controller {
                 $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
-                $userEvenementVerif = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user));
+                $userEvenementVerif = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement));
                 if ($userEvenementVerif != null) {
                     $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà inscrit a cette sortie');
                     return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
