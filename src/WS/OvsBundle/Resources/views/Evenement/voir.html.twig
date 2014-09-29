@@ -30,6 +30,7 @@
         {% if app.user == evenement.user %}
             <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">Supprimer cette sortie</a>
             <a href="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}">Gerer les inscrits</a>
+            <a href="{{ path('ws_ovs_evenement_modifier', {'id': evenement.id}) }}">Modifier l'évènement</a>
         {% else %}
             {% set present = false %}
             {% for us in evenement.userEvenements %}

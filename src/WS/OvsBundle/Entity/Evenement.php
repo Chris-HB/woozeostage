@@ -84,6 +84,13 @@ class Evenement {
     private $nombreValide;
 
     /**
+     *
+     * @var type
+     * @ORM\Column(name="modification", type="text", nullable=true)
+     */
+    private $modification;
+
+    /**
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
@@ -388,4 +395,27 @@ class Evenement {
         return $this->nombreValide;
     }
 
+
+    /**
+     * Set modification
+     *
+     * @param string $modification
+     * @return Evenement
+     */
+    public function setModification($modification)
+    {
+        $this->modification = $modification;
+
+        return $this;
+    }
+
+    /**
+     * Get modification
+     *
+     * @return string 
+     */
+    public function getModification()
+    {
+        return $this->modification;
+    }
 }

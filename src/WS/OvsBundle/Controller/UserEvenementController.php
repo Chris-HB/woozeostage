@@ -74,4 +74,22 @@ class UserEvenementController extends Controller {
         return array('form' => $form->createView(), 'userEvenement' => $userEvenement);
     }
 
+    /**
+     * @Route("/modifierevenment/{id}", name="ws_ovs_userevenement_modifierevenement")
+     * @Template()
+     */
+    public function modifierEvenementAction(Evenement $evenement) {
+        $em = $this->getDoctrine()->getManager();
+        foreach ($evenement->getUserEvenements() as $userEvenement) {
+            if ($userEvenement->getUser() == $evenement->getUser()) {
+                $userEvenement->setStatut(1);
+            } else {
+                $userEvenement->setStatut(2);
+            }
+            $em->persist($userEvenement);
+        }
+        $em->flush();
+        return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+    }
+
 }
