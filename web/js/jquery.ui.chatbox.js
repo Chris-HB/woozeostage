@@ -92,8 +92,17 @@
                         self.highlightLock = true;
                         self.highlightBox();
                     }
-                    //var test = self.options.id;
-                    messTab.push(id + '--' + msg);
+                    //on ecrit ligne dans messTab et dans le fichier text "contenuBox.txt"
+                    var ligne = peer + '--' + id + '--' + msg;
+                    messTab.push(ligne);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path ('ws_chat_fichierText')}}",
+                        data: {emetteur: peer, recepteur: id, message: msg},
+                        cache: false
+                    });
+
                 },
                 highlightBox: function() {
                     var self = this;

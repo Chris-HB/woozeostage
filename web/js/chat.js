@@ -6,14 +6,18 @@ var $espaceEntreBox = 20;
 $(document).ready(function() {
     var box = null;
 
+
+    // ----------------------------
     // si la page est réactualisée
+    // ----------------------------
     window.onload = afficheBox;
 
     function afficheBox() {
         //alert('toto');
-        $("#chris").chatbox("option", "boxManager").addMsg("Bob", "Barrr!");
-        $("#chris").chatbox("option", "boxManager").addMsg("Chris", "mais t'es où Bob!");
+        //alert('messTab : ' + messTab);
     }
+    //------------------------------
+
 
     $("#userclick li").click(function() {
         var $username = $(this).text();
