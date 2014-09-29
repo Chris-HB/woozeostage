@@ -73,13 +73,10 @@
             $(document).ready(function() {
                $("#testajax").click(function() {
                     alert('bob');
-                    //var ligne=[];
-                    //ligne.push('vive Bob');
-                    //ligne.push('ajax c\'est le bien');
+                    
                     var $ligne='vive Bob';
                     var $ligne2='ajax c bien';
-                    //var DATA= 'ligne='+ligne;
-                    //var DATA = JSON.stringify(ligne);
+                    
                     $.ajax({
                         type: "POST",
                         url: "{{ path ('ws_chat_fichierText')}}",
