@@ -10,7 +10,7 @@ $(document).ready(function() {
     window.onload = afficheBox;
 
     function afficheBox() {
-        alert('toto');
+        //alert('toto');
         $("#chris").chatbox("option", "boxManager").addMsg("Bob", "Barrr!");
         $("#chris").chatbox("option", "boxManager").addMsg("Chris", "mais t'es où Bob!");
     }
