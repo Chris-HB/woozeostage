@@ -50,14 +50,14 @@ class User extends BaseUser {
     /**
      * @var type
      *
-     * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="recepteur")
+     * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Commentaire", mappedBy="user")
      */
     private $commentaires;
 
     /**
      * @var type
      *
-     * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="recepteur")
+     * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Commentaire", mappedBy="userEdition")
      */
     private $commentaireEditions;
 
@@ -206,10 +206,10 @@ class User extends BaseUser {
     /**
      * Add commentaires
      *
-     * @param \WS\ChatBundle\Entity\Messagebox $commentaires
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaires
      * @return User
      */
-    public function addCommentaire(\WS\ChatBundle\Entity\Messagebox $commentaires) {
+    public function addCommentaire(\WS\OvsBundle\Entity\Commentaire $commentaires) {
         $this->commentaires[] = $commentaires;
 
         return $this;
@@ -218,9 +218,9 @@ class User extends BaseUser {
     /**
      * Remove commentaires
      *
-     * @param \WS\ChatBundle\Entity\Messagebox $commentaires
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaires
      */
-    public function removeCommentaire(\WS\ChatBundle\Entity\Messagebox $commentaires) {
+    public function removeCommentaire(\WS\OvsBundle\Entity\Commentaire $commentaires) {
         $this->commentaires->removeElement($commentaires);
     }
 
@@ -236,10 +236,10 @@ class User extends BaseUser {
     /**
      * Add commentaireEditions
      *
-     * @param \WS\ChatBundle\Entity\Messagebox $commentaireEditions
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaireEditions
      * @return User
      */
-    public function addCommentaireEdition(\WS\ChatBundle\Entity\Messagebox $commentaireEditions) {
+    public function addCommentaireEdition(\WS\OvsBundle\Entity\Commentaire $commentaireEditions) {
         $this->commentaireEditions[] = $commentaireEditions;
 
         return $this;
@@ -248,9 +248,9 @@ class User extends BaseUser {
     /**
      * Remove commentaireEditions
      *
-     * @param \WS\ChatBundle\Entity\Messagebox $commentaireEditions
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaireEditions
      */
-    public function removeCommentaireEdition(\WS\ChatBundle\Entity\Messagebox $commentaireEditions) {
+    public function removeCommentaireEdition(\WS\OvsBundle\Entity\Commentaire $commentaireEditions) {
         $this->commentaireEditions->removeElement($commentaireEditions);
     }
 

@@ -1,0 +1,11 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - modifier commentaire
+{% endblock %}
+{% block ovs %}
+    <p>Modifier le commentaire associé à l'évènement "{{ commentaire.evenement.nom }}" du "{{ commentaire.evenement.date|date('d-m-Y') }}"</p>
+    {% include 'WSOvsBundle:formulaire:formulaire.html.twig' %}
+    <br/>
+    <p><a href="{{ path('ws_ovs_evenement_voir', {'id': commentaire.evenement.id}) }}">retour à l'évènement</a></p>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% for commentaire in commentaires %}
+    <p>Le {{ commentaire.dateCreation|date('d-m-Y') }} à {{ commentaire.dateCreation|date('H:i:s') }} par {{ commentaire.user.username }}</p>
+    <p>{{ commentaire.contenue|nl2br }}</p>
+    {% if commentaire.dateEdition %}
+        <p>Derniere édition le Le {{ commentaire.dateEdition|date('d-m-Y') }} à {{ commentaire.dateEdition|date('H:i:s') }} par {{ commentaire.userEdition.username }}</p>
+    {% endif %}
+    <p><a href="{{ path('ws_ovs_commentaire_modifier', {'id': commentaire.id}) }}">Modifier</a> <a href="{{ path('ws_ovs_commentaire_desactiver', {'id': commentaire.id}) }}">Supprimer</a></p>
+{% else %}
+    <p>Pas encore de commentaire pour cette évènement</p>
+{% endfor %}

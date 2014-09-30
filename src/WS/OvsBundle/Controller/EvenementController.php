@@ -109,10 +109,13 @@ class EvenementController extends Controller {
                     $em = $this->getDoctrine()->getManager();
                     $evenement->setActif(0);
                     $em->persist($evenement);
-                    $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('evenement' => $evenement));
-                    foreach ($userEvenements as $userEvenement) {
+                    foreach ($evenement->getUserEvenements() as $userEvenement) {
                         $userEvenement->setActif(0);
                         $em->persist($userEvenement);
+                    }
+                    foreach ($evenement->getCommentaires() as $commentaire) {
+                        $commentaire->setActif(0);
+                        $em->persist($commentaire);
                     }
                     $em->flush();
                     $this->get('session')->getFlashBag()->add('info', 'Evènement bien supprimé');

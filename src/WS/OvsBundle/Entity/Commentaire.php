@@ -74,7 +74,7 @@ class Commentaire {
     private $userEdition;
 
     public function __construct() {
-        $this->date = new \DateTime();
+        $this->dateCreation = new \DateTime();
         $this->actif = 1;
     }
 

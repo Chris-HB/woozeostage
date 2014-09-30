@@ -1,0 +1,16 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - supprimer le commentaire
+{% endblock %}
+{% block ovs %}
+    <p>Etes-vous certain de vouloir supprimer ce commentaire ?</p>
+    <form action="{{ path('ws_ovs_commentaire_desactiver', {'id': commentaire.id}) }}" method="post">
+    <a href="{{ path('ws_ovs_evenement_voir', {'id': commentaire.evenement.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à l'évènement
+    </a>
+    <input type="submit" value="Supprimer" class="btn btn-danger" />
+    {{ form_rest(form) }}
+  </form>
+{% endblock %}

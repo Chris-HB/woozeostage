@@ -1,0 +1,6 @@
+<div class='formulaire'>
+    <form method="post" action="{{ path('ws_ovs_commentaire_add', {'id': evenement.id}) }}" {{form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>
