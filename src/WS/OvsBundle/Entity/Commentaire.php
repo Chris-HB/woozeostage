@@ -46,6 +46,13 @@ class Commentaire {
     /**
      * @var type
      *
+     * @ORM\Column(name="actif", type="boolean")
+     */
+    private $actif;
+
+    /**
+     * @var type
+     *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="commentaires")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -204,4 +211,27 @@ class Commentaire {
         return $this->userEdition;
     }
 
+
+    /**
+     * Set actif
+     *
+     * @param boolean $actif
+     * @return Commentaire
+     */
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * Get actif
+     *
+     * @return boolean 
+     */
+    public function getActif()
+    {
+        return $this->actif;
+    }
 }
