@@ -73,6 +73,11 @@ class Commentaire {
      */
     private $userEdition;
 
+    public function __construct() {
+        $this->date = new \DateTime();
+        $this->actif = 1;
+    }
+
     /**
      * Get id
      *
@@ -211,15 +216,13 @@ class Commentaire {
         return $this->userEdition;
     }
 
-
     /**
      * Set actif
      *
      * @param boolean $actif
      * @return Commentaire
      */
-    public function setActif($actif)
-    {
+    public function setActif($actif) {
         $this->actif = $actif;
 
         return $this;
@@ -228,10 +231,10 @@ class Commentaire {
     /**
      * Get actif
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getActif()
-    {
+    public function getActif() {
         return $this->actif;
     }
+
 }
