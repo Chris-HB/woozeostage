@@ -94,7 +94,6 @@
                     }
                     //ligne prend pour valeur l'émetteur, le récepteur et le message
                     var ligne = peer + '--' + id + '--' + msg;
-                    //messTab.push(ligne);
 
                     // Je passe au Controller addMessageBase de ChatBundle l'émetteur, le récepteur et le message
                     $.ajax({

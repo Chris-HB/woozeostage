@@ -1,7 +1,11 @@
+//--- VARIABLES GLOBALES -----
+
 var boxTab = [];
-//var messTab = [];
 var $margeDroiteDesBox = 10;
 var $espaceEntreBox = 20;
+//---------------------------
+
+
 
 $(document).ready(function() {
     var box = null;
@@ -13,31 +17,35 @@ $(document).ready(function() {
     window.onload = afficheBox;
     window.onbeforeunload = enregistreInfosBox;
 
-    $(window).unload(function() {
-        alert('salut');
-    });
     //--
     // cette fonction récupère le contenu de la variable session "infosbox"
     // à savoir le tableau boxTab
     // après avoir réactualisé ou rechargé la page
     //--
     function afficheBox() {
-        //alert('toto');
+        alert('function afficheBox');
         $.ajax({
             type: "POST",
             url: Routing.generate('ws_chat_recupSession'),
+            async: false,
             cache: false,
             success: function(data) {
-                boxTab = data;
+                $data = JSON.parse(data);
             }
         });
+        // on affecte à boxTab le tableau JSON $data
+        if (boxTab == null && $data != null) {
+            var boxTab = [];
+            for (i = 0; i < $data.length; i++) {
+                boxTab.push($data[i]);
+            }
+        }
         //---
-        var message = 'essai-';
+        var message = '- Tableau boxTab - ' + " \n";
         for (j = 0; j < boxTab.length; j++) {
             message = message + j + ': ' + boxTab[j] + "  \n";
         }
         alert(message);
-
     }
 
     //--
@@ -45,12 +53,12 @@ $(document).ready(function() {
     // avant de réactualiser ou recharger la page
     //--
     function enregistreInfosBox() {
-        alert('toto');
-        $test = 'salut ça va ?';
+        alert('function enregistreInfosBox');
         $.ajax({
             type: "POST",
+            async: false,
             url: Routing.generate('ws_chat_varSession'),
-            data: {infosbox: $test},
+            data: {infosbox: boxTab},
             cache: false
         });
     }
@@ -62,7 +70,7 @@ $(document).ready(function() {
         var pseudo = ($("#pseudo").data("pseudo"));
         var $container = $("#chat_div");
         var $divexiste = false;
-        //---
+//        //---
         var $nbBox = $('div.chatbox').length;
         var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
 
@@ -97,15 +105,11 @@ $(document).ready(function() {
                 }});
         }
 
+        //-------------------
+        // affichage des box
         //---
-        // TEST messTab
-//        var message = '';
-//        for (j = 0; j < messTab.length; j++) {
-//            message = message + j + ': ' + messTab[j] + "  \n";
-//        }
-//        alert(message);
 
-//        $("#chris").chatbox("option", "boxManager").addMsg("Bob", "Barrr!");
-//        $("#chris").chatbox("option", "boxManager").addMsg("Chris", "mais t'es où Bob!");
+        $("#chris").chatbox("option", "boxManager").addMsg("chris", "Bob", "Barrr!");
+        $("#chris").chatbox("option", "boxManager").addMsg("Chris", "Chris", "mais t'es où Bob!");
     });
 });

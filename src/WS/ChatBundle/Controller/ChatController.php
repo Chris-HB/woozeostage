@@ -72,15 +72,12 @@ class ChatController extends Controller {
      */
     public function varSessionAction() {
         $request = $this->get('request');
-        $session = $request->getSession();
         if ($request->isXmlHttpRequest()) {
             $tab = '';
             $tab = $request->request->get('infosbox');
+            $session = $request->getSession();
             $session->set('infosbox', $tab);
             return new \Symfony\Component\HttpFoundation\Response($tab);
-        } else {
-            $testtab = $session->get('infosbox');
-            return new \Symfony\Component\HttpFoundation\Response($testtab);
         }
 
         return $this->redirect($this->generateUrl('ws_chat_index'));
@@ -95,8 +92,10 @@ class ChatController extends Controller {
         if ($request->isXmlHttpRequest()) {
             $session = $request->getSession();
             $tab = $session->get('infosbox');
+            $tabjson = json_encode($tab);
         }
-        return $this->redirect($this->generateUrl('ws_chat_index'), array('tabinfo' => $tab));
+        //return $this->redirect($this->generateUrl('ws_chat_index'), array('tabinfo' => $tab));
+        return new \Symfony\Component\HttpFoundation\Response($tabjson);
     }
 
     /**
@@ -105,11 +104,12 @@ class ChatController extends Controller {
      */
     public function TestAction() {
         $request = $this->get('request');
-        $tab = 'ça marche pas !';
+        //$tab = 'ça marche pas !';
         $session = $request->getSession();
-        $session->set('infosbox', $tab);
+        //$session->set('infosbox', $tab);
         $testtab = $session->get('infosbox');
-        return new \Symfony\Component\HttpFoundation\Response($testtab);
+        $testtab_json = json_decode($testtab);
+        return new \Symfony\Component\HttpFoundation\Response($testtab_json);
     }
 
 }
