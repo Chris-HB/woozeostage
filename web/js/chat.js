@@ -13,6 +13,14 @@ $(document).ready(function() {
     window.onload = afficheBox;
     window.onbeforeunload = enregistreInfosBox;
 
+    $(window).unload(function() {
+        alert('salut');
+    });
+    //--
+    // cette fonction récupère le contenu de la variable session "infosbox"
+    // à savoir le tableau boxTab
+    // après avoir réactualisé ou rechargé la page
+    //--
     function afficheBox() {
         //alert('toto');
         $.ajax({
@@ -23,14 +31,26 @@ $(document).ready(function() {
                 boxTab = data;
             }
         });
+        //---
+        var message = 'essai-';
+        for (j = 0; j < boxTab.length; j++) {
+            message = message + j + ': ' + boxTab[j] + "  \n";
+        }
+        alert(message);
 
     }
 
+    //--
+    // cette fonction envoi le tableau boxTab (contenant les id des boites ouvertes) dans une variable session
+    // avant de réactualiser ou recharger la page
+    //--
     function enregistreInfosBox() {
+        alert('toto');
+        $test = 'salut ça va ?';
         $.ajax({
             type: "POST",
             url: Routing.generate('ws_chat_varSession'),
-            data: {infosbox: boxTab},
+            data: {infosbox: $test},
             cache: false
         });
     }
