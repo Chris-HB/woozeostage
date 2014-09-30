@@ -4,6 +4,7 @@ namespace WS\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -37,16 +38,28 @@ class User extends BaseUser {
     private $userEvenements;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="emetteur")
      */
     private $emetteurs;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="recepteur")
      */
     private $recepteurs;
+
+    /**
+     * @var type
+     *
+     * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="recepteur")
+     */
+    private $commentaires;
+
+    /**
+     * @var type
+     *
+     * @ORM\OneToMany(targetEntity="WS\ChatBundle\Entity\Messagebox", mappedBy="recepteur")
+     */
+    private $commentaireEditions;
 
     /**
      * Constructor
@@ -57,6 +70,8 @@ class User extends BaseUser {
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
         $this->emetteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->recepteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaireEditions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -186,6 +201,66 @@ class User extends BaseUser {
      */
     public function getRecepteurs() {
         return $this->recepteurs;
+    }
+
+    /**
+     * Add commentaires
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $commentaires
+     * @return User
+     */
+    public function addCommentaire(\WS\ChatBundle\Entity\Messagebox $commentaires) {
+        $this->commentaires[] = $commentaires;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaires
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $commentaires
+     */
+    public function removeCommentaire(\WS\ChatBundle\Entity\Messagebox $commentaires) {
+        $this->commentaires->removeElement($commentaires);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaires() {
+        return $this->commentaires;
+    }
+
+    /**
+     * Add commentaireEditions
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $commentaireEditions
+     * @return User
+     */
+    public function addCommentaireEdition(\WS\ChatBundle\Entity\Messagebox $commentaireEditions) {
+        $this->commentaireEditions[] = $commentaireEditions;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaireEditions
+     *
+     * @param \WS\ChatBundle\Entity\Messagebox $commentaireEditions
+     */
+    public function removeCommentaireEdition(\WS\ChatBundle\Entity\Messagebox $commentaireEditions) {
+        $this->commentaireEditions->removeElement($commentaireEditions);
+    }
+
+    /**
+     * Get commentaireEditions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaireEditions() {
+        return $this->commentaireEditions;
     }
 
 }

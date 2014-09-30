@@ -114,6 +114,13 @@ class Evenement {
     private $userEvenements;
 
     /**
+     * @var type
+     *
+     * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Commentaire", mappedBy="evenement")
+     */
+    private $commentaires;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -121,6 +128,7 @@ class Evenement {
         $this->actif = 1;
         $this->nombreValide = 0;
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -130,6 +138,27 @@ class Evenement {
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Evenement
+     */
+    public function setDate($date) {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate() {
+        return $this->date;
     }
 
     /**
@@ -151,6 +180,27 @@ class Evenement {
      */
     public function getNom() {
         return $this->nom;
+    }
+
+    /**
+     * Set heure
+     *
+     * @param \DateTime $heure
+     * @return Evenement
+     */
+    public function setHeure($heure) {
+        $this->heure = $heure;
+
+        return $this;
+    }
+
+    /**
+     * Get heure
+     *
+     * @return \DateTime
+     */
+    public function getHeure() {
+        return $this->heure;
     }
 
     /**
@@ -196,101 +246,6 @@ class Evenement {
     }
 
     /**
-     * Set user
-     *
-     * @param \WS\UserBundle\Entity\User $user
-     * @return Evenement
-     */
-    public function setUser(\WS\UserBundle\Entity\User $user) {
-        $this->user = $user;
-        $user->addEvenement($this);
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \WS\UserBundle\Entity\User
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
-     * Set sport
-     *
-     * @param \WS\OvsBundle\Entity\Sport $sport
-     * @return Evenement
-     */
-    public function setSport(\WS\OvsBundle\Entity\Sport $sport) {
-        $this->sport = $sport;
-        $sport->addEvenement($this);
-
-        return $this;
-    }
-
-    /**
-     * Get sport
-     *
-     * @return \WS\OvsBundle\Entity\Sport
-     */
-    public function getSport() {
-        return $this->sport;
-    }
-
-    /**
-     * Add userEvenements
-     *
-     * @param \WS\OvsBundle\Entity\UserEvenement $userEvenements
-     * @return Evenement
-     */
-    public function addUserEvenement(\WS\OvsBundle\Entity\UserEvenement $userEvenements) {
-        $this->userEvenements[] = $userEvenements;
-
-        return $this;
-    }
-
-    /**
-     * Remove userEvenements
-     *
-     * @param \WS\OvsBundle\Entity\UserEvenement $userEvenements
-     */
-    public function removeUserEvenement(\WS\OvsBundle\Entity\UserEvenement $userEvenements) {
-        $this->userEvenements->removeElement($userEvenements);
-    }
-
-    /**
-     * Get userEvenements
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUserEvenements() {
-        return $this->userEvenements;
-    }
-
-    /**
-     * Set heure
-     *
-     * @param \DateTime $heure
-     * @return Evenement
-     */
-    public function setHeure($heure) {
-        $this->heure = $heure;
-
-        return $this;
-    }
-
-    /**
-     * Get heure
-     *
-     * @return \DateTime
-     */
-    public function getHeure() {
-        return $this->heure;
-    }
-
-    /**
      * Set descriptif
      *
      * @param string $descriptif
@@ -330,27 +285,6 @@ class Evenement {
      */
     public function getAdresse() {
         return $this->adresse;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Evenement
-     */
-    public function setDate($date) {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate() {
-        return $this->date;
     }
 
     /**
@@ -395,15 +329,13 @@ class Evenement {
         return $this->nombreValide;
     }
 
-
     /**
      * Set modification
      *
      * @param string $modification
      * @return Evenement
      */
-    public function setModification($modification)
-    {
+    public function setModification($modification) {
         $this->modification = $modification;
 
         return $this;
@@ -412,10 +344,112 @@ class Evenement {
     /**
      * Get modification
      *
-     * @return string 
+     * @return string
      */
-    public function getModification()
-    {
+    public function getModification() {
         return $this->modification;
     }
+
+    /**
+     * Set user
+     *
+     * @param \WS\UserBundle\Entity\User $user
+     * @return Evenement
+     */
+    public function setUser(\WS\UserBundle\Entity\User $user) {
+        $this->user = $user;
+        $user->addEvenement($this);
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \WS\UserBundle\Entity\User
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * Set sport
+     *
+     * @param \WS\OvsBundle\Entity\Sport $sport
+     * @return Evenement
+     */
+    public function setSport(\WS\OvsBundle\Entity\Sport $sport) {
+        $this->sport = $sport;
+        $sport->addEvenement($this);
+        return $this;
+    }
+
+    /**
+     * Get sport
+     *
+     * @return \WS\OvsBundle\Entity\Sport
+     */
+    public function getSport() {
+        return $this->sport;
+    }
+
+    /**
+     * Add userEvenements
+     *
+     * @param \WS\OvsBundle\Entity\UserEvenement $userEvenements
+     * @return Evenement
+     */
+    public function addUserEvenement(\WS\OvsBundle\Entity\UserEvenement $userEvenements) {
+        $this->userEvenements[] = $userEvenements;
+
+        return $this;
+    }
+
+    /**
+     * Remove userEvenements
+     *
+     * @param \WS\OvsBundle\Entity\UserEvenement $userEvenements
+     */
+    public function removeUserEvenement(\WS\OvsBundle\Entity\UserEvenement $userEvenements) {
+        $this->userEvenements->removeElement($userEvenements);
+    }
+
+    /**
+     * Get userEvenements
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserEvenements() {
+        return $this->userEvenements;
+    }
+
+    /**
+     * Add commentaires
+     *
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaires
+     * @return Evenement
+     */
+    public function addCommentaire(\WS\OvsBundle\Entity\Commentaire $commentaires) {
+        $this->commentaires[] = $commentaires;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaires
+     *
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaires
+     */
+    public function removeCommentaire(\WS\OvsBundle\Entity\Commentaire $commentaires) {
+        $this->commentaires->removeElement($commentaires);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaires() {
+        return $this->commentaires;
+    }
+
 }
