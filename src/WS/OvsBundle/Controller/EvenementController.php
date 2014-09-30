@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use WS\OvsBundle\Entity\Evenement;
 use WS\OvsBundle\Form\EvenementType;
+use WS\OvsBundle\Form\EvenementEditType;
 use WS\OvsBundle\Entity\UserEvenement;
 use WS\OvsBundle\Form\EvenementGererType;
 
@@ -154,6 +155,27 @@ class EvenementController extends Controller {
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            }
+        }
+        return array('form' => $form->createView(), 'evenement' => $evenement);
+    }
+
+    /**
+     * @Route("/modifier/{id}", name="ws_ovs_evenement_modifier")
+     * @Template()
+     */
+    public function modifierAction(Evenement $evenement) {
+        $form = $this->createForm(new EvenementEditType(), $evenement);
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($evenement);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('info', 'Evènement bien modifié, merci de gérer les utilisateurs inscrits');
+                return $this->redirect($this->generateUrl('ws_ovs_userevenement_modifierevenement', array('id' => $evenement->getId())));
             }
         }
         return array('form' => $form->createView(), 'evenement' => $evenement);

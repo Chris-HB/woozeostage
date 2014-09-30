@@ -84,6 +84,13 @@ class Evenement {
     private $nombreValide;
 
     /**
+     *
+     * @var type
+     * @ORM\Column(name="modification", type="text", nullable=true)
+     */
+    private $modification;
+
+    /**
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
@@ -107,6 +114,13 @@ class Evenement {
     private $userEvenements;
 
     /**
+     * @var type
+     *
+     * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Commentaire", mappedBy="evenement")
+     */
+    private $commentaires;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -114,6 +128,7 @@ class Evenement {
         $this->actif = 1;
         $this->nombreValide = 0;
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -123,6 +138,27 @@ class Evenement {
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Evenement
+     */
+    public function setDate($date) {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate() {
+        return $this->date;
     }
 
     /**
@@ -144,6 +180,27 @@ class Evenement {
      */
     public function getNom() {
         return $this->nom;
+    }
+
+    /**
+     * Set heure
+     *
+     * @param \DateTime $heure
+     * @return Evenement
+     */
+    public function setHeure($heure) {
+        $this->heure = $heure;
+
+        return $this;
+    }
+
+    /**
+     * Get heure
+     *
+     * @return \DateTime
+     */
+    public function getHeure() {
+        return $this->heure;
     }
 
     /**
@@ -189,6 +246,111 @@ class Evenement {
     }
 
     /**
+     * Set descriptif
+     *
+     * @param string $descriptif
+     * @return Evenement
+     */
+    public function setDescriptif($descriptif) {
+        $this->descriptif = $descriptif;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptif
+     *
+     * @return string
+     */
+    public function getDescriptif() {
+        return $this->descriptif;
+    }
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     * @return Evenement
+     */
+    public function setAdresse($adresse) {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string
+     */
+    public function getAdresse() {
+        return $this->adresse;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Evenement
+     */
+    public function setType($type) {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType() {
+        return $this->type;
+    }
+
+    /**
+     * Set nombreValide
+     *
+     * @param integer $nombreValide
+     * @return Evenement
+     */
+    public function setNombreValide($nombreValide) {
+        $this->nombreValide = $nombreValide;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreValide
+     *
+     * @return integer
+     */
+    public function getNombreValide() {
+        return $this->nombreValide;
+    }
+
+    /**
+     * Set modification
+     *
+     * @param string $modification
+     * @return Evenement
+     */
+    public function setModification($modification) {
+        $this->modification = $modification;
+
+        return $this;
+    }
+
+    /**
+     * Get modification
+     *
+     * @return string
+     */
+    public function getModification() {
+        return $this->modification;
+    }
+
+    /**
      * Set user
      *
      * @param \WS\UserBundle\Entity\User $user
@@ -197,7 +359,6 @@ class Evenement {
     public function setUser(\WS\UserBundle\Entity\User $user) {
         $this->user = $user;
         $user->addEvenement($this);
-
         return $this;
     }
 
@@ -219,7 +380,6 @@ class Evenement {
     public function setSport(\WS\OvsBundle\Entity\Sport $sport) {
         $this->sport = $sport;
         $sport->addEvenement($this);
-
         return $this;
     }
 
@@ -263,129 +423,33 @@ class Evenement {
     }
 
     /**
-     * Set heure
+     * Add commentaires
      *
-     * @param \DateTime $heure
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaires
      * @return Evenement
      */
-    public function setHeure($heure) {
-        $this->heure = $heure;
+    public function addCommentaire(\WS\OvsBundle\Entity\Commentaire $commentaires) {
+        $this->commentaires[] = $commentaires;
 
         return $this;
     }
 
     /**
-     * Get heure
+     * Remove commentaires
      *
-     * @return \DateTime
+     * @param \WS\OvsBundle\Entity\Commentaire $commentaires
      */
-    public function getHeure() {
-        return $this->heure;
+    public function removeCommentaire(\WS\OvsBundle\Entity\Commentaire $commentaires) {
+        $this->commentaires->removeElement($commentaires);
     }
 
     /**
-     * Set descriptif
+     * Get commentaires
      *
-     * @param string $descriptif
-     * @return Evenement
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setDescriptif($descriptif) {
-        $this->descriptif = $descriptif;
-
-        return $this;
-    }
-
-    /**
-     * Get descriptif
-     *
-     * @return string
-     */
-    public function getDescriptif() {
-        return $this->descriptif;
-    }
-
-    /**
-     * Set adresse
-     *
-     * @param string $adresse
-     * @return Evenement
-     */
-    public function setAdresse($adresse) {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    /**
-     * Get adresse
-     *
-     * @return string
-     */
-    public function getAdresse() {
-        return $this->adresse;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Evenement
-     */
-    public function setDate($date) {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate() {
-        return $this->date;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return Evenement
-     */
-    public function setType($type) {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType() {
-        return $this->type;
-    }
-
-    /**
-     * Set nombreValide
-     *
-     * @param integer $nombreValide
-     * @return Evenement
-     */
-    public function setNombreValide($nombreValide) {
-        $this->nombreValide = $nombreValide;
-
-        return $this;
-    }
-
-    /**
-     * Get nombreValide
-     *
-     * @return integer
-     */
-    public function getNombreValide() {
-        return $this->nombreValide;
+    public function getCommentaires() {
+        return $this->commentaires;
     }
 
 }

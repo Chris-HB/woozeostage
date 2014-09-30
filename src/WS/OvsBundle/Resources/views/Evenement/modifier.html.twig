@@ -1,0 +1,10 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - modifier evenement
+{% endblock %}
+{% block ovs %}
+    {% include 'WSOvsBundle:formulaire:formulaire.html.twig' %}
+    <br/>
+    <p><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">retour à l'évènement</a></p>
+{% endblock %}
