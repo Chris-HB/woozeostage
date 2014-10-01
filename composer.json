@@ -20,7 +20,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "dev-master",
         "jms/security-extra-bundle": "dev-master",
-        "friendsofsymfony/jsrouting-bundle": "@stable"
+        "friendsofsymfony/jsrouting-bundle": "@stable",
+        "stfalcon/tinymce-bundle": "dev-master"
         
     },
     "require-dev": {

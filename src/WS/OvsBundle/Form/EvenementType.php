@@ -22,7 +22,12 @@ class EvenementType extends AbstractType {
                     'class' => 'WSOvsBundle:Sport',
                     'property' => 'nom'
                 ))
-                ->add('descriptif', 'textarea')
+                ->add('descriptif', 'textarea', array(
+                    'attr' => array(
+                        'class' => 'tinymce',
+                        'data-theme' => 'advanced'
+                    )
+                ))
                 ->add('adresse', 'textarea')
                 ->add('type', 'choice', array('choices' => array('public' => 'public', 'priver' => 'priver'), 'expanded' => true));
         ;

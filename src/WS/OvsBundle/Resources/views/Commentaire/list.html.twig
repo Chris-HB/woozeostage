@@ -1,6 +1,6 @@
 {% for commentaire in commentaires %}
     <p>Le {{ commentaire.dateCreation|date('d-m-Y') }} à {{ commentaire.dateCreation|date('H:i:s') }} par {{ commentaire.user.username }}</p>
-    <p>{{ commentaire.contenue|nl2br }}</p>
+    <p>{{ commentaire.contenue|raw }}</p>
     {% if commentaire.dateEdition %}
         <p>Derniere édition le Le {{ commentaire.dateEdition|date('d-m-Y') }} à {{ commentaire.dateEdition|date('H:i:s') }} par {{ commentaire.userEdition.username }}</p>
     {% endif %}

@@ -9,8 +9,14 @@
     <p>Type de sport : {{ evenement.sport.nom }}<p>
     <p>Description
         <br/>
-       {{ evenement.descriptif|nl2br }}
+       {{ evenement.descriptif|raw }}
     </p>
+    {% if evenement.modification is not null %}
+        <p>Cet évènement a était modifié : 
+            <br/>
+            {{ evenement.modification|nl2br }}
+        </p>
+    {% endif %}
     <p>Nombre de place maximun {{ evenement.inscrit }}</p>
     <p>Adresse
         <br/>

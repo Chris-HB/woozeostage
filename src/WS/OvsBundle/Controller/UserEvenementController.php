@@ -61,12 +61,16 @@ class UserEvenementController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $userEvenement = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement));
+        $statut = $userEvenement->getStatut();
         $form = $this->createForm(new UserEvenementType(), $userEvenement);
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
-                $em->persist($userEvenement);
+                if ($statut == 1) {
+                    $evenement->setNombreValide($evenement->getNombreValide() - 1);
+                }
+                $em->persist($userEvenement, $evenement);
                 $em->flush();
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             }
