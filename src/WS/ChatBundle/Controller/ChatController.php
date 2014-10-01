@@ -76,7 +76,9 @@ class ChatController extends Controller {
             $tab = '';
             $tab = $request->request->get('infosbox');
             $session = $request->getSession();
+            // mise en session des id des box
             $session->set('infosbox', $tab);
+
             return new \Symfony\Component\HttpFoundation\Response($tab);
         }
 
@@ -92,10 +94,33 @@ class ChatController extends Controller {
         if ($request->isXmlHttpRequest()) {
             $session = $request->getSession();
             $tab = $session->get('infosbox');
-            $tabjson = json_encode($tab);
+            //$tabjson = json_encode($tab);
+            //-------------------------------
+            // récupération des messages box
+            //---
+            $messTab = [];
+            $em = $this->getDoctrine()->getManager();
+            foreach ($tab as $val) {
+                $user = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $val));
+                $messboxes = $em->getRepository('WSChatBundle:Messagebox')->findBy(array('emetteur' => $this->getUser(), 'recepteur' => $user));
+                foreach ($messboxes as $messbox) {
+                    $elem = [];
+                    $elem[] = $messbox->getEmetteur()->getUsername();
+                    $elem[] = $messbox->getRecepteur()->getUsername();
+                    $elem[] = $messbox->getMessage();
+                    $messTab[] = $elem;
+                }
+            }
+            // je crée un tableau des 2 tableaux $tab et $messTab
+            $dataTab = [];
+            $dataTab[] = $tab;
+            $dataTab[] = $messTab;
+            // j'encode le tout en JSON
+            $dataTabJson = json_encode($dataTab);
         }
+
         //return $this->redirect($this->generateUrl('ws_chat_index'), array('tabinfo' => $tab));
-        return new \Symfony\Component\HttpFoundation\Response($tabjson);
+        return new \Symfony\Component\HttpFoundation\Response($dataTabJson);
     }
 
 }

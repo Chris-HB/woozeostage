@@ -17,12 +17,11 @@ $(document).ready(function() {
     window.onbeforeunload = enregistreInfosBox;
 
     //--
+    // Après avoir réactualisé ou rechargé la page
     // cette fonction récupère le contenu de la variable session "infosbox"
     // à savoir le tableau boxTab
-    // après avoir réactualisé ou rechargé la page
     //--
     function recupInfosBox() {
-        /////////////alert('function recuptInfosBox');
         $.ajax({
             type: "POST",
             url: Routing.generate('ws_chat_recupSession'),
@@ -32,43 +31,55 @@ $(document).ready(function() {
                 $data = JSON.parse(data);
             }
         });
-        // on affecte à boxTabJSON le tableau JSON $data
-        /////////////alert('data : ' + $data);
-        if ($data != null) {
+
+        // je recupère un tableau d'id des Box
+        var idBox = [];
+        idBox = $data[0];
+        // je recupère un tableau des messages des Box
+        var messBox = [];
+        messBox = $data[1];
+
+        // on affecte à boxTabJSON le tableau JSON $idBox
+        if (idBox != null) {
             var boxTabJSON = [];
             var existe = 0;
-            for (i = 0; i < $data.length; i++) {
+            for (i = 0; i < idBox.length; i++) {
                 // on verifie que la valeur (id de Box) n'existe pas déjà dans le tableau
-                existe = $.inArray($data[i], boxTabJSON);
+                existe = $.inArray(idBox[i], boxTabJSON);
                 if (existe == -1) {
-                    boxTabJSON.push($data[i]);
+                    boxTabJSON.push(idBox[i]);
                 }
             }
         }
-        ////////////alert('json : ' + boxTabJSON);
 
         boxTab.length = 0;
-//
         // si le tableau JSON a un contenu alors boxTab le récupère
         // c'est à dire que l'on ne récupère uniquement les données en session
         if (boxTabJSON.length !== 0) {
             boxTab = boxTabJSON;
         }
-        //////////////alert('box --' + boxTab);
-//        //---
-//        var message = '';
-//        message = '- Tableau boxTab - ' + " \n";
-//        for (j = 0; j < boxTab.length; j++) {
-//            message = message + j + ': ' + boxTab[j] + "  \n";
-//        }
-//        alert(message);
-//
+        //----------------------------------------------------
+        //
         // Affichage des box après réactualisation de la page
-        /////////////////alert('taille du tableau : ' + boxTab.length);
+        //
+        //----------------------------------------------------
         if (boxTab.length > 0) {
+            // on crée les box
             for (i = 0; i < boxTab.length; i++) {
                 afficheBox(boxTab[i]);
+                // -------------------------
+                // on affiche les messages
+                // messBox[][0] -> emetteur
+                // messBox[][1] -> recepteur
+                // messBox[][2] -> message
+                //---
+                for (j = 0; j < messBox.length; j++) {
+                    if (messBox[j][1] == boxTab[i]) {
+                        $('#' + boxTab[i]).chatbox("option", "boxManager").addMsg(messBox[j][1], messBox[j][0], messBox[j][2]);
+                    }
+                }
             }
+
         }
 
     }
@@ -78,7 +89,6 @@ $(document).ready(function() {
     // avant de réactualiser ou recharger la page
     //--
     function enregistreInfosBox() {
-        ////////////alert('function enregistreInfosBox');
         $.ajax({
             type: "POST",
             async: false,
@@ -95,7 +105,7 @@ $(document).ready(function() {
         var pseudo = ($("#pseudo").data("pseudo"));
         var $container = $("#chat_div");
         var $divexiste = false;
-//        //---
+        //---
         var $nbBox = $('div.chatbox').length;
         var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
 
@@ -129,19 +139,7 @@ $(document).ready(function() {
                     $('#' + $username).chatbox("option", "boxManager").addMsg(id, pseudo, msg);
                 }});
         }
-
-        //-------------------
-        // affichage des box
-        //---
-        //$("#chris").chatbox("option", "boxManager").addMsg("chris", "Bob", "Barrr!");
-        //$("#chris").chatbox("option", "boxManager").addMsg("Chris", "Chris", "mais t'es où Bob!");
-
     });
-
-    //
-    // essai de simulation de clic
-    //
-    //$("#userclick li span").trigger("click");
 
 
 
