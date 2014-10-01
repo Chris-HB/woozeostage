@@ -98,18 +98,4 @@ class ChatController extends Controller {
         return new \Symfony\Component\HttpFoundation\Response($tabjson);
     }
 
-    /**
-     * @Route("/Test", name="ws_chat_test")
-     * @Template()
-     */
-    public function TestAction() {
-        $request = $this->get('request');
-        //$tab = 'ça marche pas !';
-        $session = $request->getSession();
-        //$session->set('infosbox', $tab);
-        $testtab = $session->get('infosbox');
-        $testtab_json = json_decode($testtab);
-        return new \Symfony\Component\HttpFoundation\Response($testtab_json);
-    }
-
 }
