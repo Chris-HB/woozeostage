@@ -34,9 +34,11 @@
     {% endfor %}
     <p>
         {% if app.user == evenement.user %}
-            <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">Supprimer cette sortie</a>
-            <a href="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}">Gerer les inscrits</a>
-            <a href="{{ path('ws_ovs_evenement_modifier', {'id': evenement.id}) }}">Modifier l'évènement</a>
+            {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
+                <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">Supprimer cette sortie</a>
+                <a href="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}">Gerer les inscrits</a>
+                <a href="{{ path('ws_ovs_evenement_modifier', {'id': evenement.id}) }}">Modifier l'évènement</a>
+            {% endif %}
         {% else %}
             {% set present = false %}
             {% for us in evenement.userEvenements %}
@@ -45,7 +47,9 @@
                 {% endif %}
             {% endfor %}
             {% if present == true %}
-                <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
+                {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
+                    <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
+                {% endif %}
             {% else %}
                 {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
                     <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévènement</a>
@@ -56,5 +60,5 @@
     {{ render(controller('WSOvsBundle:Commentaire:list', {'id':evenement.id})) }}
     {{ render(controller('WSOvsBundle:Commentaire:add', {'id':evenement.id})) }}
     {#<a href="{{ path('ws_ovs_commentaire_add', {'id':evenement.id}) }}">ajouter com</a>#}
-    <p><a href="{{ path('ws_ovs_evenement_list') }}">Retour à la liste des évènements</a></p>
+    <p><a href="{{ path('ws_ovs_evenement_listdate', {'date': evenement.date|date('Y-m-d')}) }}">Retour à la liste des évènements</a></p>
 {% endblock %}

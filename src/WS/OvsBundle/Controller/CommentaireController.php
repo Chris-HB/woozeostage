@@ -17,6 +17,8 @@ class CommentaireController extends Controller {
     /**
      * @Route("/add/{id}", name="ws_ovs_commentaire_add")
      * @Template()
+     *
+     * Méthode qui ajoute un commentaire en base.
      */
     public function addAction(Evenement $evenement) {
         $commentaire = new Commentaire();
@@ -40,6 +42,8 @@ class CommentaireController extends Controller {
     /**
      * @Route("/modifier/{id}", name="ws_ovs_commentaire_modifier")
      * @Template()
+     *
+     * Méthode qui permet de modifié le commentaire passer en parametre.
      */
     public function modifierAction(Commentaire $commentaire) {
         $user = $this->getUser();
@@ -62,6 +66,9 @@ class CommentaireController extends Controller {
     /**
      * @Route("/supprimer/{id}", name="ws_ovs_commentaire_desactiver")
      * @Template()
+     *
+     * Méthode qui desactive(actif passe a 0) un commentaire.
+     * La route contient supprimer mais en réaliter le commentaire est juste désactiver.
      */
     public function desactiverAction(Commentaire $commentaire) {
         $form = $this->createFormBuilder()->getForm();
@@ -84,6 +91,8 @@ class CommentaireController extends Controller {
     /**
      * @Route("/list/{id}", name="ws_ovs_commentaire_list")
      * @Template()
+     *
+     * Méthode qui renvoie tout les commentaires actif pour un évnement donner.
      */
     public function listAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();

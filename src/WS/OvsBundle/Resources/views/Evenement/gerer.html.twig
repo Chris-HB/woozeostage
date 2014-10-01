@@ -5,32 +5,7 @@
 {% endblock %}
 {% block ovs %}
     <p>Evènement : {{ evenement.nom }} du {{ evenement.date|date('d-m-Y') }}</p>
-    <p>test nombre total = <span id="nombreTotal">{{ evenement.userEvenements|length }}</span></p>
-    <p>Il y a actuelement <span id="nombreValide">{{ evenement.nombreValide }}</span> d'inscrit pour {{ evenement.inscrit }} places.<p>
+    <p>Il y a actuelement <span id="nombreValide">{{ evenement.nombreValide }}</span> d'inscrit pour <span id="inscrit">{{ evenement.inscrit }}</span> places.<p>
     {% include 'WSOvsBundle:formulaire:formulaire.html.twig' %}
-    
-    <script>
-    $(document).ready(function(){
-        var $nombreValide = $('#nombreValide').text();
-       
-       $('#ws_ovsbundle_evenementgerer_userEvenements_0_statut').children().attr('disabled', true);
-       
-       $('#ws_ovsbundle_evenementgerer input').click(function(){
-            var $cal = calcul();
-            //alert($cal);
-        $('#nombreValide').html('<strong>' + calcul() + '</strong>');
-       });
-       
-       function calcul(){
-           var $cal = 0;
-           $('#ws_ovsbundle_evenementgerer input').each(function(){
-               if($(this).is(':checked') && $(this).val() == 1){
-                   $cal++;
-               }
-           });
-            return $cal;
-           }
-    });
-</script>
-
+    <script src="{{ asset('js/gerer.js') }}"></script>
 {% endblock %}

@@ -17,6 +17,10 @@ class UserEvenementController extends Controller {
     /**
      * @Route("/add/{id}", name="ws_ovs_userevenement_add")
      * @Template()
+     *
+     * Méthode pour ajouter sa participation a un évènement.
+     * Le créateur de l'évènement est automatiquement considerer comme validé pour la participation.
+     * L'évènement ne doit pas etre oncore passé.
      */
     public function addAction(Evenement $evenement) {
         $user = $this->getUser();
@@ -56,31 +60,51 @@ class UserEvenementController extends Controller {
     /**
      * @Route("/modifier/{id}", name="ws_ovs_userevenement_modifier")
      * @Template()
+     *
+     * Méthode pour modifié sa participation a l'évènement.
+     * L'évènement ne doit pas être encore passé.
+     * Le créateur de lévènement ne peut pas modifier sa participation.
      */
     public function modifierAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $userEvenement = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement));
-        $statut = $userEvenement->getStatut();
-        $form = $this->createForm(new UserEvenementType(), $userEvenement);
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                if ($statut == 1) {
-                    $evenement->setNombreValide($evenement->getNombreValide() - 1);
-                }
-                $em->persist($userEvenement, $evenement);
-                $em->flush();
+        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
+        $dateEvenement = new \DateTime($dateE);
+        $dateActuelle = new \DateTime();
+        if ($dateActuelle > $dateEvenement) {
+            $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
+            return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+        } else {
+            if ($user == $evenement->getUser()) {
+                $this->get('session')->getFlashBag()->add('info', 'Vous ne pouvez pas modifier votre participation');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            } else {
+                $userEvenement = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement));
+                $statut = $userEvenement->getStatut();
+                $form = $this->createForm(new UserEvenementType(), $userEvenement);
+                $request = $this->get('request');
+                if ($request->getMethod() == 'POST') {
+                    $form->bind($request);
+                    if ($form->isValid()) {
+                        if ($statut == 1) {
+                            $evenement->setNombreValide($evenement->getNombreValide() - 1);
+                        }
+                        $em->persist($userEvenement, $evenement);
+                        $em->flush();
+                        return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+                    }
+                }
+                return array('form' => $form->createView(), 'userEvenement' => $userEvenement);
             }
         }
-        return array('form' => $form->createView(), 'userEvenement' => $userEvenement);
     }
 
     /**
      * @Route("/modifierevenment/{id}", name="ws_ovs_userevenement_modifierevenement")
      * @Template()
+     *
+     * Méthode qui va mettre toutes les inscrit en "en attente" sauf le créateur de lévènement.
+     * Elle est appeller en cas de modification de l'évènement.
      */
     public function modifierEvenementAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();

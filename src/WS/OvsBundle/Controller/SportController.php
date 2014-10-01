@@ -14,16 +14,10 @@ use WS\OvsBundle\Form\SportType;
 class SportController extends Controller {
 
     /**
-     * @Route("/index")
-     * @Template()
-     */
-    public function indexAction() {
-        return array();
-    }
-
-    /**
      * @Route("/add", name="ws_ovs_sport_add")
      * @Template()
+     *
+     * Méthode pour l'ajout de sport en base.
      */
     public function addAction() {
         $sport = new Sport();
@@ -45,6 +39,8 @@ class SportController extends Controller {
     /**
      * @Route("/list", name="ws_ovs_sport_list")
      * @Template()
+     *
+     * Méthode qui retourne la liste des sports.
      */
     public function listAction() {
         $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Sport');
