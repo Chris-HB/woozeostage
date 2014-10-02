@@ -1,14 +1,70 @@
 //--- VARIABLES GLOBALES -----
-
+var box = null;
 var boxTab = [];
 var $margeDroiteDesBox = 10;
 var $espaceEntreBox = 20;
 //---------------------------
 
+//*************************************
+// Affiche la Box dont l'id est "id"
+//----
+function afficheBox(id) {
+    var $username = id;
+    var pseudo = ($("#pseudo").data("pseudo"));
+    var $container = $("#chat_div");
+    var $divexiste = false;
+    //---
+    var $nbBox = $('div.chatbox').length;
+    var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
 
+    // ----------
+    // Affichage
+    // ----------
+    //
+    // on teste si un div ayant un id du même nom que le username_box existe déjà
+    $('div').each(function() {
+        if ($(this).attr('id') == $username + '_box') {
+            $divexiste = true;
+        }
+    });
+
+    // ---
+    // si il n'existe pas, je le créer (id=username)
+    // ---
+    if (!$divexiste) {
+        $container.append('<div id="' + $username + '"></div>');
+
+        // je crée une box
+        box = $('#' + $username).chatbox({id: $username,
+            title: "woozeostage chat : " + $username,
+            offset: $marge,
+            user: {key: "value"},
+            messageSent: function(id, user, msg) {
+                $("#log").append(id + " said: " + msg + "<br/>");
+                $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
+            }});
+    }
+}
+
+//**************************************
+// Affiche les messages de la box
+// dont l'id est "id"
+//
+// messBox[][0] -> emetteur
+// messBox[][1] -> recepteur
+// messBox[][2] -> message
+//
+//---
+function afficheMessagesBox(id, messBox) {
+    for (j = 0; j < messBox.length; j++) {
+        if (messBox[j][1] == id) {
+            $('#' + id).chatbox("option", "boxManager").addMsg(messBox[j][1], messBox[j][0], messBox[j][2]);
+        }
+    }
+}
 
 $(document).ready(function() {
-    var box = null;
+    //var box = null;
 
     // ----------------------------
     // si la page est réactualisée
@@ -69,6 +125,7 @@ $(document).ready(function() {
         }
     }
 
+
     //************************************************
     // Cette fonction envoi le tableau
     // boxTab (contenant les id des boites ouvertes)
@@ -84,6 +141,16 @@ $(document).ready(function() {
             cache: false
         });
     }
+
+
+    //****************************************
+    // Si passe la souris sur un utilisateur
+    // le curseur change de forme
+    //---
+    $("#userclick li").mouseover(function() {
+        $("span").addClass("aspectcurseur");
+    });
+
 
     //*********************************
     // Si on clic sur un utilisateur
@@ -151,70 +218,11 @@ $(document).ready(function() {
 
         //---
         // on affiche les x derniers messages s'il y en a
+        // et surtout si la box n'est pas déjà ouverte
         //---
-        if (length.messBox != 0) {
+        if (length.messBox != 0 && !$divexiste) {
             afficheMessagesBox($username, messBox);
         }
-
     });
-
-
-    //*************************************
-    // Affiche la Box dont l'id est "id"
-    //----
-    function afficheBox(id) {
-        var $username = id;
-        var pseudo = ($("#pseudo").data("pseudo"));
-        var $container = $("#chat_div");
-        var $divexiste = false;
-        //---
-        var $nbBox = $('div.chatbox').length;
-        var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
-
-        // ----------
-        // Affichage
-        // ----------
-        //
-        // on teste si un div ayant un id du même nom que le username_box existe déjà
-        $('div').each(function() {
-            if ($(this).attr('id') == $username + '_box') {
-                $divexiste = true;
-            }
-        });
-
-        // ---
-        // si il n'existe pas, je le créer (id=username)
-        // ---
-        if (!$divexiste) {
-            $container.append('<div id="' + $username + '"></div>');
-
-            // je crée une box
-            box = $('#' + $username).chatbox({id: $username,
-                title: "woozeostage chat : " + $username,
-                offset: $marge,
-                user: {key: "value"},
-                messageSent: function(id, user, msg) {
-                    $("#log").append(id + " said: " + msg + "<br/>");
-                    $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
-                }});
-        }
-    }
-
-    //**************************************
-    // Affiche les messages de la box
-    // dont l'id est "id"
-    //
-    // messBox[][0] -> emetteur
-    // messBox[][1] -> recepteur
-    // messBox[][2] -> message
-    //
-    //---
-    function afficheMessagesBox(id, messBox) {
-        for (j = 0; j < messBox.length; j++) {
-            if (messBox[j][1] == id) {
-                $('#' + id).chatbox("option", "boxManager").addMsg(messBox[j][1], messBox[j][0], messBox[j][2]);
-            }
-        }
-    }
 
 });
