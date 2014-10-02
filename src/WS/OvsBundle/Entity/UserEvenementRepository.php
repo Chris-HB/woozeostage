@@ -12,16 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserEvenementRepository extends EntityRepository {
 
-    public function compte($evenement) {
-        $qb = $this->createQueryBuilder('u');
-        $qb->Select('COUNT(u.user) as nombre')
-                ->where('u.actif = :actif')
-                ->setParameter('actif', 1)
-                ->andWhere('u.statut = :statut')
-                ->setParameter('statut', 1)
-                ->andWhere('u.evenement = :evenement')
-                ->setParameter('evenement', $evenement->getId());
-        return $qb->getQuery()->getResult();
-    }
-
 }

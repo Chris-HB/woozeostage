@@ -26,6 +26,9 @@ class Commentaire {
      * @var string
      *
      * @ORM\Column(name="contenue", type="text")
+     * @Assert\NotBlank()
+     *
+     * Le contenue du commentaire.
      */
     private $contenue;
 
@@ -33,6 +36,8 @@ class Commentaire {
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime")
+     *
+     * La date de création du commentaire.
      */
     private $dateCreation;
 
@@ -40,6 +45,8 @@ class Commentaire {
      * @var \DateTime
      *
      * @ORM\Column(name="dateEdition", type="datetime", nullable=true)
+     *
+     * La date d'édition du commentaire.
      */
     private $dateEdition;
 
@@ -47,6 +54,8 @@ class Commentaire {
      * @var type
      *
      * @ORM\Column(name="actif", type="boolean")
+     *
+     * Le commentaire est actif(1) ou désactivé(0).
      */
     private $actif;
 
@@ -55,6 +64,8 @@ class Commentaire {
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="commentaires")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * L'utilisateur qui a créé le commentaire.
      */
     private $user;
 
@@ -63,6 +74,8 @@ class Commentaire {
      *
      * @ORM\ManyToOne(targetEntity="WS\OvsBundle\Entity\Evenement", inversedBy="commentaires")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * l'évènement associer au commentaire.
      */
     private $evenement;
 
@@ -70,6 +83,8 @@ class Commentaire {
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="commentaireEditions")
+     *
+     * L'utilisateur qui a édité le commentaire.
      */
     private $userEdition;
 

@@ -28,6 +28,14 @@ class Sport {
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, unique=true)
+     * @Assert\Length(
+     *      min="2",
+     *      max="50",
+     *      minMessage="Le nom doit faire au minimun {{ limit }} caractères",
+     *      maxMessage="Le nom doit faire au maximun {{ limit }} caractères "
+     * )
+     *
+     * Le nom du sport.
      */
     private $nom;
 
@@ -35,6 +43,8 @@ class Sport {
      * @var type
      *
      * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Evenement", mappedBy="sport")
+     *
+     * La liste des évènements qui porte sur ce sport.
      */
     private $evenements;
 

@@ -18,6 +18,8 @@ class UserEvenement {
      *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="userEvenements")
+     *
+     * L'utilisateur qui participe à l'évènement.
      */
     private $user;
 
@@ -26,23 +28,26 @@ class UserEvenement {
      *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="WS\OvsBundle\Entity\Evenement", inversedBy="userEvenements")
+     *
+     * L'évènement.
      */
     private $evenement;
 
     /**
-     *
      * @var type
      *
      * @ORM\Column(name="statut", type="integer")
-     * Le staut correspond a 1: validé, 2: en attente, 3 :refusé
+     *
+     * Le staut correspond a 1: validé, 2: en attente, 3 :refusé.
      */
     private $statut;
 
     /**
-     *
      * @var type
      *
      * @ORM\Column(name="actif", type="boolean")
+     *
+     * La partisipation est active(1) ou desactivé(0).
      */
     private $actif;
 

@@ -12,19 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class EvenementRepository extends EntityRepository {
 
-    public function findDateValide($date) {
-        $qb = $this->createQueryBuilder('e');
-        $qb->addSelect('COUNT(ue.user) as nombre')
-                ->innerJoin('e.userEvenements', 'ue')
-                ->where('e.actif = :actif')
-                ->setParameter('actif', 1)
-                ->andWhere('e.date = :date')
-                ->setParameter('date', $date)
-                ->andWhere('ue.statut = :statut')
-                ->setParameter('statut', 'Validé')
-                ->groupBy('e.id')
-                ->orderBy('e.heure', 'ASC');
-        return $qb->getQuery()->getArrayResult();
-    }
-
 }
