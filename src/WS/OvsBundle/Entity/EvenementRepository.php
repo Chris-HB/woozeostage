@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class EvenementRepository extends EntityRepository {
 
+    public function triSport($actif) {
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.actif=:actif')
+                ->setParameter('actif', $actif)
+                ->leftJoin('e.sport', 's')
+                ->orderBy('s.nom');
+        return $qb->getQuery()->getResult();
+    }
+
+    public function triUser($actif) {
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.actif=:actif')
+                ->setParameter('actif', $actif)
+                ->leftJoin('e.user', 'u')
+                ->orderBy('u.username');
+        return $qb->getQuery()->getResult();
+    }
+
 }

@@ -1,0 +1,30 @@
+{% if evenements is not empty %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Sport</th>
+                <th>Sortie</th>
+                <th>Inscrit</th>
+                <th>organisateur</th>
+                <th>Actif</th>
+            </tr>
+            {% for evenement in evenements %}
+                <tr>
+                    <td>{{ evenement.date|date('d/m/Y')}}</td>
+                    <td>{{ evenement.heure|date('H:i') }}</td>
+                    <td>{{ evenement.sport.nom }}</td>
+                    <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
+                    <td>{{ evenement.nombreValide }} / {{ evenement.inscrit }}</td>
+                    <td>{{ evenement.user.username }}</td>
+                    {% if evenement.actif == 1%}
+                        <td>Oui</td>
+                    {% else %}
+                        <td>Non</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Pas d'évènement.</p>
+    {% endif %}

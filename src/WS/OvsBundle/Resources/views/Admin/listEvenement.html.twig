@@ -1,0 +1,24 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - list evenement admin
+{% endblock %}
+{% block ovs %}
+    <lable>Actif</label>
+    <select name="actif" id="actif">
+        <option value="1">Oui</option>
+        <option value="0">Non</option>
+    </select>
+    <lable>Tri par :</label>
+    <select name="tri" id="tri">
+        <option value="date">Date</option>
+        <option value="user">Organisateur</option>
+        <option value="sport">Sport</option>
+    </select>
+    <div id="resultats"> 
+        {% include 'WSOvsBundle:Admin:listEvent.html.twig' with {'evenements' : evenements}%}
+    </div>
+    
+    <p><a href="{{ path('ws_ovs_evenement_add') }}">Ajouter un évènement</a></p>
+    <script src="{{ asset('js/listEvenement.js') }}"></script>
+{% endblock %}
