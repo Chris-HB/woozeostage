@@ -167,7 +167,7 @@ $(document).ready(function() {
         // si le nombre de boites affichées est supérieur à 5
         // on ne peut plus en ouvrir d'autres
         if ($nbBox > 4) {
-            alert('Vous avez trop de fenêtre Tchat ouvertes !');
+            alert('Vous avez trop de fenêtres Tchat ouvertes !');
         }
         else {
             //
