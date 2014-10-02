@@ -94,7 +94,6 @@ class ChatController extends Controller {
         if ($request->isXmlHttpRequest()) {
             $session = $request->getSession();
             $tab = $session->get('infosbox');
-            //$tabjson = json_encode($tab);
             //-------------------------------
             // récupération des messages box
             //---

@@ -38,7 +38,12 @@ $(document).ready(function() {
         // je recupère un tableau des messages des Box
         var messBox = [];
         messBox = $data[1];
-
+        alert(messBox[0]);
+        alert(messBox[1]);
+        alert(messBox[2]);
+        alert(messBox[3]);
+        alert(messBox[4]);
+        alert(messBox[5]);
         // on affecte à boxTabJSON le tableau JSON $idBox
         if (idBox != null) {
             var boxTabJSON = [];
@@ -85,7 +90,7 @@ $(document).ready(function() {
     }
 
     //--
-    // cette fonction envoi le tableau boxTab (contenant les id des boites ouvertes) dans une variable session
+    // Cette fonction envoi le tableau boxTab (contenant les id des boites ouvertes) dans une variable session
     // avant de réactualiser ou recharger la page
     //--
     function enregistreInfosBox() {
@@ -99,7 +104,7 @@ $(document).ready(function() {
     }
     //------------------------------
 
-
+    // Si on clic sur un utilisateur
     $("#userclick li").click(function() {
         var $username = $(this).text();
         var pseudo = ($("#pseudo").data("pseudo"));
@@ -136,13 +141,15 @@ $(document).ready(function() {
                 user: {key: "value"},
                 messageSent: function(id, user, msg) {
                     $("#log").append(id + " said: " + msg + "<br/>");
-                    $('#' + $username).chatbox("option", "boxManager").addMsg(id, pseudo, msg);
+                    $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
                 }});
         }
     });
 
 
-
+    //------------------------------------
+    // Affiche la Box dont l'id est "id"
+    //------------------------------------
     function afficheBox(id) {
         var $username = id;
         var pseudo = ($("#pseudo").data("pseudo"));
@@ -176,7 +183,7 @@ $(document).ready(function() {
                 user: {key: "value"},
                 messageSent: function(id, user, msg) {
                     $("#log").append(id + " said: " + msg + "<br/>");
-                    $('#' + $username).chatbox("option", "boxManager").addMsg(id, pseudo, msg);
+                    $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
                 }});
         }
     }

@@ -21,6 +21,10 @@
             hidden: false,
             offset: 0, // relative to right edge of the browser window
             width: 300, // width of the chatbox
+            messageSentBase: function(id, user, msg) {
+                // override this
+                this.boxManager.addMsgBase(id, user.first_name, msg);
+            },
             messageSent: function(id, user, msg) {
                 // override this
                 this.boxManager.addMsg(id, user.first_name, msg);
@@ -35,17 +39,7 @@
                 boxTab = $.grep(boxTab, function(value) {
                     return value != id;
                 });
-//                //---
-//                // test boxTab
-//                //---
-//                //
-//                var result = '';
-//                for (j = 0; j < boxTab.length; j++) {
-//                    result = result + boxTab[j] + "--";
-//                }
-//                result = result + 'pos = ' + pos;
-//                alert(result);
-//
+
                 // animation vers la droite des div se trouvant à gauche de celui supprimé
                 var mg = 0;
                 for (i = pos; i < boxTab.length; i++) {
@@ -95,6 +89,44 @@
                     //ligne prend pour valeur l'émetteur, le récepteur et le message
                     var ligne = peer + '--' + id + '--' + msg;
 
+                },
+                //--------------------------------------------------
+                // Fonction ajoute message (enregistrement en base)
+                //--------------------------------------------------
+                addMsgBase: function(id, peer, msg) {
+                    var self = this;
+                    var box = self.elem.uiChatboxLog;
+                    var e = document.createElement('div');
+                    box.append(e);
+                    $(e).hide();
+
+                    var systemMessage = false;
+
+                    if (peer) {
+                        var peerName = document.createElement("b");
+                        $(peerName).text(peer + ": ");
+                        e.appendChild(peerName);
+                    } else {
+                        systemMessage = true;
+                    }
+
+                    var msgElement = document.createElement(
+                            systemMessage ? "i" : "span");
+                    $(msgElement).text(msg);
+                    e.appendChild(msgElement);
+                    $(e).addClass("ui-chatbox-msg");
+                    $(e).css("maxWidth", $(box).width());
+                    $(e).fadeIn();
+                    self._scrollToBottom();
+
+                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
+                            && !self.highlightLock) {
+                        self.highlightLock = true;
+                        self.highlightBox();
+                    }
+                    //ligne prend pour valeur l'émetteur, le récepteur et le message
+                    var ligne = peer + '--' + id + '--' + msg;
+
                     // Je passe au Controller addMessageBase de ChatBundle l'émetteur, le récepteur et le message
                     $.ajax({
                         type: "POST",
@@ -104,6 +136,7 @@
                     });
 
                 },
+                //--------------------------
                 highlightBox: function() {
                     var self = this;
                     self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
