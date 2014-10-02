@@ -164,64 +164,72 @@ $(document).ready(function() {
         var $nbBox = $('div.chatbox').length;
         var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
 
-        //---
-        // j'envoie l'id de la box au controleur
-        //---
-        var idTab = [];
-        idTab.push($username);
-        $.ajax({
-            type: "POST",
-            url: Routing.generate('ws_chat_recupSession'),
-            async: false,
-            cache: false,
-            data: {idbox: idTab},
-            success: function(data) {
-                $datamess = JSON.parse(data);
-            }
-
-        });
-        //---
-        // je recupère l'historique des messages
-        //---
-        var messBox = [];
-        messBox = $datamess[1];
-        // ---
-        // Affichage
-        // ---
-        //
-        // on teste si un div ayant un id du même nom que le username_box existe déjà
-        $('div').each(function() {
-            if ($(this).attr('id') == $username + '_box') {
-                $divexiste = true;
-            }
-        });
-
-        // ---
-        // si il n'existe pas, je le créer (id=username)
-        // ---
-        if (!$divexiste) {
-            $container.append('<div id="' + $username + '"></div>');
-            //
-            // on ajoute l'username à la fin du tableau boxTab
-            boxTab.push($username);
-            //
-            // je crée une box
-            box = $('#' + $username).chatbox({id: $username,
-                title: "woozeostage chat : " + $username,
-                offset: $marge,
-                user: {key: "value"},
-                messageSent: function(id, user, msg) {
-                    $("#log").append(id + " said: " + msg + "<br/>");
-                    $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
-                }});
+        // si le nombre de boites affichées est supérieur à 5
+        // on ne peut plus en ouvrir d'autres
+        if ($nbBox > 4) {
+            alert('Vous avez trop de fenêtre Tchat ouvertes !');
         }
+        else {
+            //
+            //---
+            // j'envoie l'id de la box au controleur
+            //---
+            var idTab = [];
+            idTab.push($username);
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('ws_chat_recupSession'),
+                async: false,
+                cache: false,
+                data: {idbox: idTab},
+                success: function(data) {
+                    $datamess = JSON.parse(data);
+                }
 
-        //---
-        // on affiche les x derniers messages s'il y en a
-        // et surtout si la box n'est pas déjà ouverte
-        //---
-        if (length.messBox != 0 && !$divexiste) {
-            afficheMessagesBox($username, messBox);
+            });
+            //---
+            // je recupère l'historique des messages
+            //---
+            var messBox = [];
+            messBox = $datamess[1];
+            // ---
+            // Affichage
+            // ---
+            //
+            // on teste si un div ayant un id du même nom que le username_box existe déjà
+            $('div').each(function() {
+                if ($(this).attr('id') == $username + '_box') {
+                    $divexiste = true;
+                }
+            });
+
+            // ---
+            // si il n'existe pas, je le créer (id=username)
+            // ---
+            if (!$divexiste) {
+                $container.append('<div id="' + $username + '"></div>');
+                //
+                // on ajoute l'username à la fin du tableau boxTab
+                boxTab.push($username);
+                //
+                // je crée une box
+                box = $('#' + $username).chatbox({id: $username,
+                    title: "woozeostage chat : " + $username,
+                    offset: $marge,
+                    user: {key: "value"},
+                    messageSent: function(id, user, msg) {
+                        $("#log").append(id + " said: " + msg + "<br/>");
+                        $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
+                    }});
+            }
+
+            //---
+            // on affiche les x derniers messages s'il y en a
+            // et surtout si la box n'est pas déjà ouverte
+            //---
+            if (length.messBox != 0 && !$divexiste) {
+                afficheMessagesBox($username, messBox);
+            }
         }
     });
 
