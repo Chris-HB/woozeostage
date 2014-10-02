@@ -16,11 +16,11 @@ $(document).ready(function() {
     window.onload = recupInfosBox;
     window.onbeforeunload = enregistreInfosBox;
 
-    //--
+    //***********************************************************************
     // Après avoir réactualisé ou rechargé la page
     // cette fonction récupère le contenu de la variable session "infosbox"
     // à savoir le tableau boxTab
-    //--
+    //---
     function recupInfosBox() {
         $.ajax({
             type: "POST",
@@ -57,36 +57,24 @@ $(document).ready(function() {
         if (boxTabJSON.length !== 0) {
             boxTab = boxTabJSON;
         }
-        //----------------------------------------------------
-        //
+        //----
         // Affichage des box après réactualisation de la page
-        //
-        //----------------------------------------------------
+        //---
         if (boxTab.length > 0) {
             // on crée les box
             for (i = 0; i < boxTab.length; i++) {
                 afficheBox(boxTab[i]);
-                // -------------------------
-                // on affiche les messages
-                // messBox[][0] -> emetteur
-                // messBox[][1] -> recepteur
-                // messBox[][2] -> message
-                //---
-                for (j = 0; j < messBox.length; j++) {
-                    if (messBox[j][1] == boxTab[i]) {
-                        $('#' + boxTab[i]).chatbox("option", "boxManager").addMsg(messBox[j][1], messBox[j][0], messBox[j][2]);
-                    }
-                }
+                afficheMessagesBox(boxTab[i], messBox);
             }
-
         }
-
     }
 
-    //--
-    // Cette fonction envoi le tableau boxTab (contenant les id des boites ouvertes) dans une variable session
-    // avant de réactualiser ou recharger la page
-    //--
+    //************************************************
+    // Cette fonction envoi le tableau
+    // boxTab (contenant les id des boites ouvertes)
+    // dans une variable session avant de
+    // réactualiser ou recharger la page
+    //---
     function enregistreInfosBox() {
         $.ajax({
             type: "POST",
@@ -96,9 +84,10 @@ $(document).ready(function() {
             cache: false
         });
     }
-    //------------------------------
 
+    //*********************************
     // Si on clic sur un utilisateur
+    //---
     $("#userclick li").click(function() {
         var $username = $(this).text();
         var pseudo = ($("#pseudo").data("pseudo"));
@@ -108,9 +97,30 @@ $(document).ready(function() {
         var $nbBox = $('div.chatbox').length;
         var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
 
-        // ----------
+        //---
+        // j'envoie l'id de la box au controleur
+        //---
+        var idTab = [];
+        idTab.push($username);
+        $.ajax({
+            type: "POST",
+            url: Routing.generate('ws_chat_recupSession'),
+            async: false,
+            cache: false,
+            data: {idbox: idTab},
+            success: function(data) {
+                $datamess = JSON.parse(data);
+            }
+
+        });
+        //---
+        // je recupère l'historique des messages
+        //---
+        var messBox = [];
+        messBox = $datamess[1];
+        // ---
         // Affichage
-        // ----------
+        // ---
         //
         // on teste si un div ayant un id du même nom que le username_box existe déjà
         $('div').each(function() {
@@ -138,12 +148,20 @@ $(document).ready(function() {
                     $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
                 }});
         }
+
+        //---
+        // on affiche les x derniers messages s'il y en a
+        //---
+        if (length.messBox != 0) {
+            afficheMessagesBox($username, messBox);
+        }
+
     });
 
 
-    //------------------------------------
+    //*************************************
     // Affiche la Box dont l'id est "id"
-    //------------------------------------
+    //----
     function afficheBox(id) {
         var $username = id;
         var pseudo = ($("#pseudo").data("pseudo"));
@@ -179,6 +197,23 @@ $(document).ready(function() {
                     $("#log").append(id + " said: " + msg + "<br/>");
                     $('#' + $username).chatbox("option", "boxManager").addMsgBase(id, pseudo, msg);
                 }});
+        }
+    }
+
+    //**************************************
+    // Affiche les messages de la box
+    // dont l'id est "id"
+    //
+    // messBox[][0] -> emetteur
+    // messBox[][1] -> recepteur
+    // messBox[][2] -> message
+    //
+    //---
+    function afficheMessagesBox(id, messBox) {
+        for (j = 0; j < messBox.length; j++) {
+            if (messBox[j][1] == id) {
+                $('#' + id).chatbox("option", "boxManager").addMsg(messBox[j][1], messBox[j][0], messBox[j][2]);
+            }
         }
     }
 

@@ -326,7 +326,7 @@
             $.Widget.prototype._setOption.apply(this, arguments);
         },
         _setWidth: function(width) {
-            this.uiChatboxTitlebar.width(width + "px");
+            this.uiChatboxTitlebar.width((width + 2) + "px");
             this.uiChatboxLog.width(width + "px");
             this.uiChatboxInput.css("maxWidth", width + "px");
             // padding:2, boarder:2, margin:5

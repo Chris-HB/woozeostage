@@ -92,8 +92,18 @@ class ChatController extends Controller {
     public function recupSessionAction() {
         $request = $this->get('request');
         if ($request->isXmlHttpRequest()) {
+
+            // je recupère l'id de la box suite au clic sur l'utilisateur
+            $idbox = [];
+            $idbox = $request->request->get('idbox');
             $session = $request->getSession();
-            $tab = $session->get('infosbox');
+
+            // si on a cliqué sur un utilisateur je récupére l'id sinon la variable session correspondant aux box ouvertes
+            if (!empty($idbox)) {
+                $tab = $idbox;
+            } else {
+                $tab = $session->get('infosbox');
+            }
             //-------------------------------
             // récupération des messages box
             //---
@@ -101,7 +111,7 @@ class ChatController extends Controller {
             $em = $this->getDoctrine()->getManager();
             foreach ($tab as $val) {
                 $user = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $val));
-                $messboxes = $em->getRepository('WSChatBundle:Messagebox')->findBy(array('emetteur' => $this->getUser(), 'recepteur' => $user));
+                $messboxes = $em->getRepository('WSChatBundle:Messagebox')->findBy(array('emetteur' => $this->getUser(), 'recepteur' => $user), array('date' => 'DESC'), 5);
                 foreach ($messboxes as $messbox) {
                     $elem = [];
                     $elem[] = $messbox->getEmetteur()->getUsername();
@@ -110,6 +120,8 @@ class ChatController extends Controller {
                     $messTab[] = $elem;
                 }
             }
+            // j'inverse l'ordre du tableau messTab pour remettre les messages dans l'ordre chronologique
+            $messTab = array_reverse($messTab);
             // je crée un tableau des 2 tableaux $tab et $messTab
             $dataTab = [];
             $dataTab[] = $tab;
