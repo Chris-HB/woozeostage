@@ -38,12 +38,6 @@ $(document).ready(function() {
         // je recupère un tableau des messages des Box
         var messBox = [];
         messBox = $data[1];
-        alert(messBox[0]);
-        alert(messBox[1]);
-        alert(messBox[2]);
-        alert(messBox[3]);
-        alert(messBox[4]);
-        alert(messBox[5]);
         // on affecte à boxTabJSON le tableau JSON $idBox
         if (idBox != null) {
             var boxTabJSON = [];
