@@ -133,11 +133,11 @@ class EvenementController extends Controller {
                             $em->persist($commentaire);
                         }
                         $em->flush();
-                        foreach ($evenement->getUserEvenements() as $userEvenement) {
-                            if ($evenement->getUser() != $userEvenement->getUser()) {
-                                messageSupprimer($userEvenement->getUser(), $evenement);
-                            }
-                        }
+//                        foreach ($evenement->getUserEvenements() as $userEvenement) {
+//                            if ($evenement->getUser() != $userEvenement->getUser()) {
+//                                messageSupprimer($userEvenement->getUser(), $evenement);
+//                            }
+//                        }
                         $this->get('session')->getFlashBag()->add('info', 'Evènement bien supprimé');
                         return $this->redirect($this->generateUrl('ws_ovs_evenement_listdate', array('date' => $date)));
                     }
@@ -192,9 +192,9 @@ class EvenementController extends Controller {
                     $evenement->setNombreValide($nombre);
                     $em->persist($evenement);
                     $em->flush();
-                    foreach ($users as $user) {
-                        message($user, $evenement);
-                    }
+//                    foreach ($users as $user) {
+//                        message($user, $evenement);
+//                    }
                     $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
                     return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
                 }
@@ -227,11 +227,11 @@ class EvenementController extends Controller {
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($evenement);
                     $em->flush();
-                    foreach ($evenement->getUserEvenements() as $userEvenement) {
-                        if ($evenement->getUser() != $userEvenement->getUser()) {
-                            messageNon($userEvenement->getUser(), $evenement);
-                        }
-                    }
+//                    foreach ($evenement->getUserEvenements() as $userEvenement) {
+//                        if ($evenement->getUser() != $userEvenement->getUser()) {
+//                            messageNon($userEvenement->getUser(), $evenement);
+//                        }
+//                    }
                     $this->get('session')->getFlashBag()->add('info', 'Evènement bien modifié, merci de gérer les utilisateurs inscrits');
                     return $this->redirect($this->generateUrl('ws_ovs_userevenement_modifierevenement', array('id' => $evenement->getId())));
                 }
