@@ -1,0 +1,31 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}
+{% block ovs %}
+    <p>le {{date|date('d/m/Y')}}</p>
+    {% if evenements is not empty %}
+        <table>
+            <tr>
+                <th>Heure</th>
+                <th>Sport</th>
+                <th>Sortie</th>
+                <th>Inscrit</th>
+                <th>organisateur</th>
+            </tr>
+            {% for evenement in evenements %}
+                <tr>
+                    <td>{{ evenement.heure|date('H:i') }}</td>
+                    <td>{{ evenement.sport.nom }}</td>
+                    <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
+                    <td>{{ evenement.nombreValide }} / {{ evenement.inscrit }}</td>
+                    <td>{{ evenement.user.username }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Pas d'évènement.</p>
+    {% endif %}
+    <p><a href="{{ path('ws_ovs_evenement_add') }}">Ajouter un évènement</a></p>
+{% endblock %}

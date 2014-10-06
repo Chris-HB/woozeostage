@@ -95,6 +95,26 @@ class Evenement {
     private $adresse;
 
     /**
+     * @var type
+     *
+     * @ORM\Column(name="code_postal", type="text")
+     * @Assert\Regex(
+     * pattern="/((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/",
+     * message="code postal non valide"
+     * )
+     *
+     */
+    private $codePostal;
+
+    /**
+     * @var type
+     *
+     * @ORM\Column(name="ville", type="text")
+     * @Assert\NotBlank()
+     */
+    private $ville;
+
+    /**
      * @var type @ORM\Column(name="type", type="string", length=255)
      *
      * Le type d'évènement : public ou privé.
@@ -487,6 +507,48 @@ class Evenement {
      */
     public function getCommentaires() {
         return $this->commentaires;
+    }
+
+    /**
+     * Set codePostal
+     *
+     * @param string $codePostal
+     * @return Evenement
+     */
+    public function setCodePostal($codePostal) {
+        $this->codePostal = $codePostal;
+
+        return $this;
+    }
+
+    /**
+     * Get codePostal
+     *
+     * @return string
+     */
+    public function getCodePostal() {
+        return $this->codePostal;
+    }
+
+    /**
+     * Set ville
+     *
+     * @param string $ville
+     * @return Evenement
+     */
+    public function setVille($ville) {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    /**
+     * Get ville
+     *
+     * @return string
+     */
+    public function getVille() {
+        return $this->ville;
     }
 
 }

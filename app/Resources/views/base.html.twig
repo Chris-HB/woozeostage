@@ -17,7 +17,6 @@
         <script src="{{ asset('js/chat.js') }}"></script>
         <script src="{{ asset('js/calendrier.js') }}"></script>
         <script src="{{ asset('js/jquery.ui.addresspicker.js') }}"></script>
-        <script src="{{ asset('js/addresspicker.js') }}"></script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>    
         
@@ -46,8 +45,8 @@
         </header>
             <div id="menu">
                 <ul>
+                    <li><a href="{{ path('ws_ovs_accueil_index') }}">Accueil</a></li>
                     <li><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></li>
-                    <li><a href="{{ path('ws_ovs_evenement_list') }}">liste évènement</a></li>
                     <li><a href="{{ path('ws_ovs_admin_listevenement') }}">liste évènement admin</a></li>
                     <li><a href="{{ path('ws_ovs_sport_add') }}">ajouter sport</a></li>
                     <li><a href="{{ path('ws_ovs_sport_list') }}">liste sport</a></li>
