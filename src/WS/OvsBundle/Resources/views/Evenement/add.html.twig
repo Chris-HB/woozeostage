@@ -5,4 +5,6 @@
 {% endblock %}
 {% block ovs %}
     {% include 'WSOvsBundle:formulaire:formulaire.html.twig' %}
+    {{ google_map(map) }}
+    <script src="{{ asset('js/addresspicker.js') }}"></script>
 {% endblock %}

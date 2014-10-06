@@ -110,3 +110,8 @@ stfalcon_tinymce:
                 plugins: ["emoticons"]
                 menubar: false
                 toolbar1: "emoticons"
+                
+            evenement:
+                plugins: ["textcolor"]
+                menubar: false
+                toolbar1: "forecolor"

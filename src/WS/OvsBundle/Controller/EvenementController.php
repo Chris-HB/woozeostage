@@ -25,11 +25,15 @@ class EvenementController extends Controller {
      */
     public function addAction() {
         $evenement = new Evenement();
+        $map = $this->get('ivory_google_map.map');
         $form = $this->createForm(new EvenementType(), $evenement);
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
+//            $codePostal = $form->get('codePostal')->getData();
+//            $ville = $form->get('ville')->getData();
+//            return new \Symfony\Component\HttpFoundation\Response('code postal: ' . $codePostal . ' ville: ' . $ville);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $user = $this->getUser();
@@ -39,7 +43,7 @@ class EvenementController extends Controller {
                 return $this->redirect($this->generateUrl('ws_ovs_userevenement_add', array('id' => $evenement->getId())));
             }
         }
-        return array('form' => $form->createView(), 'evenement' => $evenement);
+        return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
     }
 
     /**
@@ -82,6 +86,7 @@ class EvenementController extends Controller {
      * Méthode qui permet de voir un évènement.
      */
     public function voirAction(Evenement $evenement) {
+        $map = $this->get('ivory_google_map.map');
         $em = $this->getDoctrine()->getManager();
 
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
@@ -90,7 +95,7 @@ class EvenementController extends Controller {
         $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 1, 'evenement' => $evenement));
         $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 2, 'evenement' => $evenement));
 
-        return array('evenement' => $evenement, 'dateEvenement' => $dateEvenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes);
+        return array('evenement' => $evenement, 'dateEvenement' => $dateEvenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes, 'map' => $map);
     }
 
     /**
@@ -218,6 +223,7 @@ class EvenementController extends Controller {
             $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
+            $map = $this->get('ivory_google_map.map');
             $form = $this->createForm(new EvenementEditType(), $evenement);
 
             $request = $this->get('request');
@@ -236,7 +242,7 @@ class EvenementController extends Controller {
                     return $this->redirect($this->generateUrl('ws_ovs_userevenement_modifierevenement', array('id' => $evenement->getId())));
                 }
             }
-            return array('form' => $form->createView(), 'evenement' => $evenement);
+            return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
         }
     }
 

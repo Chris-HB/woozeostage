@@ -21,7 +21,8 @@
         "friendsofsymfony/user-bundle": "dev-master",
         "jms/security-extra-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "@stable",
-        "stfalcon/tinymce-bundle": "dev-master"
+        "stfalcon/tinymce-bundle": "dev-master",
+        "egeloen/google-map-bundle": "~2.1"
         
     },
     "require-dev": {

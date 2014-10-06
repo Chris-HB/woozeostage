@@ -1,9 +1,5 @@
 $(document).ready(function () {
-//    var addresspicker = $("#ws_ovsbundle_evenement_adresse").addresspicker({
-//        componentsFilter: 'country:FR'
-//    });
-
-    var addresspickerMap = $("#ws_ovsbundle_evenement_adresse").addresspicker({
+    var addresspickerMap = $("#ws_ovsbundle_evenementedit_adresse").addresspicker({
         regionBias: "fr",
         language: "fr",
         componentsFilter: 'country:FR',
@@ -16,8 +12,8 @@ $(document).ready(function () {
         },
         elements: {
             map: '#map_canvas',
-            locality: '#ws_ovsbundle_evenement_ville',
-            postal_code: '#ws_ovsbundle_evenement_codePostal',
+            locality: '#ws_ovsbundle_evenementedi_ville',
+            postal_code: '#ws_ovsbundle_evenementedit_codePostal',
         }
     });
 
@@ -38,6 +34,31 @@ $(document).ready(function () {
     google.maps.event.addListener(map, 'idle', function () {
         $('#zoom').val(map.getZoom());
     });
+
+    var $adresse = $('#ws_ovsbundle_evenementedit_adresse').text();
+    var geocoder, map;
+    codeAddress($adresse);
+
+    function codeAddress($adresse) {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+            'address': $adresse
+        }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var myOptions = {
+                    zoom: 15,
+                    center: results[0].geometry.location,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            }
+        });
+    }
 
 });
 

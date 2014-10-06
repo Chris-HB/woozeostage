@@ -25,10 +25,15 @@ class EvenementType extends AbstractType {
                 ->add('descriptif', 'textarea', array(
                     'attr' => array(
                         'class' => 'tinymce',
-                        'data-theme' => 'advanced'
+                        'data-theme' => 'evenement'
                     )
                 ))
                 ->add('adresse', 'textarea')
+                ->add('codePostal', 'text', array(
+                    'label' => 'code postal',
+                ))
+                ->add('ville', 'text', array(
+                ))
                 ->add('type', 'choice', array('choices' => array('public' => 'public', 'priver' => 'priver'), 'expanded' => true));
         ;
     }

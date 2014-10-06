@@ -20,9 +20,8 @@
     <p>Nombre de place maximun {{ evenement.inscrit }}</p>
     <p>Adresse
         <br/>
-        {{ evenement.adresse|nl2br }}
-        <div id="map">
-        </div>
+        <span id="adresse">{{ evenement.adresse|nl2br }}</span>
+        {{ google_map(map) }}
     </p>
     <p>Liste des inscrits ({{ userEvenementValides|length }}/{{ evenement.inscrit }} reste {{ evenement.inscrit - userEvenementValides|length }})<p>
     {% for ue in userEvenementValides %}
@@ -61,4 +60,5 @@
     {{ render(controller('WSOvsBundle:Commentaire:add', {'id':evenement.id})) }}
     {#<a href="{{ path('ws_ovs_commentaire_add', {'id':evenement.id}) }}">ajouter com</a>#}
     <p><a href="{{ path('ws_ovs_evenement_listdate', {'date': evenement.date|date('Y-m-d')}) }}">Retour à la liste des évènements</a></p>
+        <script src="{{ asset('js/addresspickervoir.js') }}"></script>
 {% endblock %}

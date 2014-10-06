@@ -10,7 +10,7 @@ use WS\ChatBundle\Entity\Messagebox;
 class ChatController extends Controller {
 
     /**
-     * @Route("/", name="ws_chat_index")
+     * @Route("/chat", name="ws_chat_index")
      * @Template()
      */
     public function indexAction() {
