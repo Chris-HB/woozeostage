@@ -1,4 +1,9 @@
 $(document).ready(function () {
+
+    var $adresse = $('#ws_ovsbundle_evenementedit_adresse').text();
+    var geocoder, map;
+    codeAddress($adresse);
+
     var addresspickerMap = $("#ws_ovsbundle_evenementedit_adresse").addresspicker({
         regionBias: "fr",
         language: "fr",
@@ -12,7 +17,7 @@ $(document).ready(function () {
         },
         elements: {
             map: '#map_canvas',
-            locality: '#ws_ovsbundle_evenementedi_ville',
+            locality: '#ws_ovsbundle_evenementedit_ville',
             postal_code: '#ws_ovsbundle_evenementedit_codePostal',
         }
     });
@@ -27,17 +32,12 @@ $(document).ready(function () {
 
     function showCallback(geocodeResult, parsedGeocodeResult) {
         $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
-        //$('#callback_result').val(JSON.stringify(parsedGeocodeResult, null, 4));
     }
     // Update zoom field
-    var map = $("#addresspicker_map").addresspicker("map");
-    google.maps.event.addListener(map, 'idle', function () {
-        $('#zoom').val(map.getZoom());
+    var mappick = $("#addresspicker_map").addresspicker("map");
+    google.maps.event.addListener(mappick, 'idle', function () {
+        $('#zoom').val(mappick.getZoom());
     });
-
-    var $adresse = $('#ws_ovsbundle_evenementedit_adresse').text();
-    var geocoder, map;
-    codeAddress($adresse);
 
     function codeAddress($adresse) {
         geocoder = new google.maps.Geocoder();

@@ -31,7 +31,6 @@ $(document).ready(function () {
 
     function showCallback(geocodeResult, parsedGeocodeResult) {
         $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
-        //$('#callback_result').val(JSON.stringify(parsedGeocodeResult, null, 4));
     }
     // Update zoom field
     var map = $("#addresspicker_map").addresspicker("map");
