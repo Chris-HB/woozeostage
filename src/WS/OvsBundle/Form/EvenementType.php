@@ -32,8 +32,9 @@ class EvenementType extends AbstractType {
                 ->add('codePostal', 'text', array(
                     'label' => 'code postal',
                 ))
-                ->add('ville', 'text', array(
-                ))
+                ->add('ville', 'text')
+                ->add('latitude', 'hidden')
+                ->add('longitude', 'hidden')
                 ->add('type', 'choice', array('choices' => array('public' => 'public', 'priver' => 'priver'), 'expanded' => true));
         ;
     }

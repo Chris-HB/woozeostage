@@ -115,6 +115,18 @@ class Evenement {
     private $ville;
 
     /**
+     * @var type
+     * @ORM\Column(name="latitude", type="float")
+     */
+    private $latitude;
+
+    /**
+     * @var type
+     * @ORM\Column(name="longitude", type="float")
+     */
+    private $longitude;
+
+    /**
      * @var type @ORM\Column(name="type", type="string", length=255)
      *
      * Le type d'évènement : public ou privé.
@@ -551,4 +563,50 @@ class Evenement {
         return $this->ville;
     }
 
+
+    /**
+     * Set latitude
+     *
+     * @param float $latitude
+     * @return Evenement
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return float 
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     * @return Evenement
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return float 
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
 }

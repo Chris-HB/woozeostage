@@ -16,6 +16,8 @@ $(document).ready(function () {
         },
         elements: {
             map: '#map_canvas',
+            lat: '#ws_ovsbundle_evenement_latitude',
+            lng: '#ws_ovsbundle_evenement_longitude',
             locality: '#ws_ovsbundle_evenement_ville',
             postal_code: '#ws_ovsbundle_evenement_codePostal',
         }
