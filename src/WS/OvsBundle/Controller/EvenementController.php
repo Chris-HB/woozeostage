@@ -10,6 +10,7 @@ use WS\OvsBundle\Form\EvenementType;
 use WS\OvsBundle\Form\EvenementEditType;
 use WS\OvsBundle\Entity\UserEvenement;
 use WS\OvsBundle\Form\EvenementGererType;
+use WS\UserBundle\Entity\User;
 
 /**
  * @Route("/evenement")
@@ -132,6 +133,11 @@ class EvenementController extends Controller {
                             $em->persist($commentaire);
                         }
                         $em->flush();
+//                        foreach ($evenement->getUserEvenements() as $userEvenement) {
+//                            if ($evenement->getUser() != $userEvenement->getUser()) {
+//                                messageSupprimer($userEvenement->getUser(), $evenement);
+//                            }
+//                        }
                         $this->get('session')->getFlashBag()->add('info', 'Evènement bien supprimé');
                         return $this->redirect($this->generateUrl('ws_ovs_evenement_listdate', array('date' => $date)));
                     }
@@ -165,6 +171,7 @@ class EvenementController extends Controller {
                 if ($form->isValid()) {
                     $em = $this->getDoctrine()->getManager();
                     $nombre = 0;
+                    $users = [];
                     foreach ($evenement->getUserEvenements()as $userEvenement) {
                         if ($userEvenement->getUser() == $evenement->getUser()) {
                             $userEvenement->setStatut(1);
@@ -176,11 +183,18 @@ class EvenementController extends Controller {
                             $userEvenement->setStatut(2);
                             $nombre --;
                         }
+                        $userEvenementOld = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('evenement' => $evenement, 'user' => $evenement->getUser()));
+                        if (($userEvenementOld->getStatut() != $userEvenement->getStatut()) && ($userEvenement->getStatut() == 1)) {
+                            $users = $userEvenement->getUser();
+                        }
                         $em->persist($userEvenement);
                     }
                     $evenement->setNombreValide($nombre);
                     $em->persist($evenement);
                     $em->flush();
+//                    foreach ($users as $user) {
+//                        message($user, $evenement);
+//                    }
                     $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
                     return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
                 }
@@ -213,12 +227,47 @@ class EvenementController extends Controller {
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($evenement);
                     $em->flush();
+//                    foreach ($evenement->getUserEvenements() as $userEvenement) {
+//                        if ($evenement->getUser() != $userEvenement->getUser()) {
+//                            messageNon($userEvenement->getUser(), $evenement);
+//                        }
+//                    }
                     $this->get('session')->getFlashBag()->add('info', 'Evènement bien modifié, merci de gérer les utilisateurs inscrits');
                     return $this->redirect($this->generateUrl('ws_ovs_userevenement_modifierevenement', array('id' => $evenement->getId())));
                 }
             }
             return array('form' => $form->createView(), 'evenement' => $evenement);
         }
+    }
+
+    public function messageConfirm(User $user, Evenement $evenement) {
+        $message = \Swift_Message::newInstance()
+                ->setSubject('confirmation sortie')
+                ->setFrom('A REMPLIR')
+                ->setTo($user->getEmail())
+                ->setBody($this->renderView('WSovsBundle:Evenement:emailConfirm.txt.twig', array('user' => $user, 'evenement' => $evenement)))
+        ;
+        $this->get('mailer')->send($message);
+    }
+
+    public function messageNon(User $user, Evenement $evenement) {
+        $message = \Swift_Message::newInstance()
+                ->setSubject('confirmation sortie')
+                ->setFrom('A REMPLIR')
+                ->setTo($user->getEmail())
+                ->setBody($this->renderView('WSovsBundle:Evenement:emailNon.txt.twig', array('user' => $user, 'evenement' => $evenement)))
+        ;
+        $this->get('mailer')->send($message);
+    }
+
+    public function messageSupprimer(User $user, Evenement $evenement) {
+        $message = \Swift_Message::newInstance()
+                ->setSubject('confirmation sortie')
+                ->setFrom('A REMPLIR')
+                ->setTo($user->getEmail())
+                ->setBody($this->renderView('WSovsBundle:Evenement:emailSupprimer.txt.twig', array('user' => $user, 'evenement' => $evenement)))
+        ;
+        $this->get('mailer')->send($message);
     }
 
 }
