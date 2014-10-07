@@ -5,6 +5,20 @@ var $margeDroiteDesBox = 10;
 var $espaceEntreBox = 20;
 //---------------------------
 
+clientApp();
+//*************************************
+// Communication avec le serveur
+// SOCKET
+//----
+function clientApp() {
+    var client = new Faye.Client('http://localhost:3000/');
+
+    client.subscribe('/messages', function(message) {
+        alert('Nouveau message : ' + message.text);
+    });
+}
+
+
 //*************************************
 // Affiche la Box dont l'id est "id"
 //----

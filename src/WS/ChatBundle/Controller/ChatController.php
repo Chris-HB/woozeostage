@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use WS\ChatBundle\Entity\Messagebox;
+use Tembo\Message;
+use Tembo\SocketIOClient;
 
 class ChatController extends Controller {
 
@@ -90,6 +92,19 @@ class ChatController extends Controller {
      * @Template()
      */
     public function recupSessionAction() {
+        // récupération du client
+        $faye = $this->get('WS_ChatBundle.faye.client');
+
+        // construction d'un message
+
+        $channel = '/messages';
+        $data = array('text' => 'Salut c\'est Bob !');
+
+        // envoi du message
+
+        $faye->send($channel, $data);
+
+
         $request = $this->get('request');
         if ($request->isXmlHttpRequest()) {
 
