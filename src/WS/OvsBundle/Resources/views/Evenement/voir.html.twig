@@ -25,11 +25,11 @@
     </p>
     <p>Liste des inscrits ({{ userEvenementValides|length }}/{{ evenement.inscrit }} reste {{ evenement.inscrit - userEvenementValides|length }})<p>
     {% for ue in userEvenementValides %}
-        <p>{{ ue.user.username }}</p>
+       <p><a href="{{ path('ws_user_user_profil', {'id': ue.user.id}) }}">{{ ue.user.username }}</a></p>
     {% endfor %}
     <p>Liste d'attente ({{ userEvenementAttentes|length }})</p>
     {% for ue in userEvenementAttentes %}
-        <p>{{ ue.user.username }}</p>
+        <p><a href="{{ path('ws_user_user_profil', {'id': ue.user.id}) }}">{{ ue.user.username }}</a></p>
     {% endfor %}
     <p>
         {% if app.user == evenement.user %}

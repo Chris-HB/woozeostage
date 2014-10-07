@@ -1,0 +1,23 @@
+<form id="form_recherche" action="{{ path('ws_ovs_recherche_recherche') }}" method="post">
+    {{ form_widget(form) }}
+    <input type="submit" value="Rechercher" />
+</form>
+<div id="resultats_recherche"> 
+    {% include 'WSOvsBundle:Recherche:rechresult.html.twig' with {'recherche': recherche}%}
+</div>
+<script>
+    $(document).ready(function () {
+        $("input").keyup(function(){
+            //alert($('#ws_ovsbundle_recherche_recherche').val());
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('ws_ovs_recherche_recherche'),
+                cache: false,
+                data: {recherche: $('#ws_ovsbundle_recherche_recherche').val()},
+                success: function (data) {
+                    $('#resultats_recherche').html(data);
+                }
+            });
+        });
+    });
+</script>

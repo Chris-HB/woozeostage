@@ -1,0 +1,74 @@
+{% extends 'WSUserBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - profil
+{% endblock %}
+{% block utilisateur %}
+    <p>Nom: {{ user.username }}</p>
+    <p>Les évènements créé par {{ user.username }} :</p>
+    {% if evenements is not empty %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Sport</th>
+                <th>Sortie</th>
+                <th>Inscrit</th>
+                <th>Ville</th>
+            </tr>
+            {% for evenement in evenements %}
+                <tr>
+                    <td>{{ evenement.date|date('d/m/Y')}}</td>
+                    <td>{{ evenement.heure|date('H:i') }}</td>
+                    <td>{{ evenement.sport.nom }}</td>
+                    <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
+                    <td>{{ evenement.nombreValide }} / {{ evenement.inscrit }}</td>
+                    <td>{{ evenement.ville }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>{{ user.username }} n'a créé aucun évènement.</p>
+    {% endif %}
+    <br/>
+    <p>Les évènements au quel {{ user.username }} a participé :</p>
+    {% if userEvenements is not empty %}
+        {% if userEvenements|length < 10 %}
+            <p>Courage plus que {{ 10 - userEvenements|length }} avant la médaille de bronze.</p>
+        {% else %}
+            {% if userEvenements|length >= 10 and userEvenements|length < 30 %}
+                <p>Bravo vous êtes médaille de bronze, plus que {{ 30 - userEvenements|length }} avant la médaille d'argent.</p>
+            {% else %}
+                {% if userEvenements|length >= 30 and userEvenements|length < 50 %}
+                    <p>Bravo vous êtes médaille d'argent, plus que {{ 50 - userEvenements|length }} avant la médaille d'or.</p>
+                {% else %}
+                    <p>Bravo vous êtes médaille d'or.</p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Sport</th>
+                <th>Sortie</th>
+                <th>Inscrit</th>
+                <th>Ville</th>
+                <th>Organisateur</th>
+            </tr>
+            {% for userEvenement in userEvenements %}
+                <tr>
+                    <td>{{ userEvenement.evenement.date|date('d/m/Y')}}</td>
+                    <td>{{ userEvenement.evenement.heure|date('H:i') }}</td>
+                    <td>{{ userEvenement.evenement.sport.nom }}</td>
+                    <td><a href="{{ path('ws_ovs_evenement_voir', {'id': userEvenement.evenement.id}) }}">{{ userEvenement.evenement.nom }}</a></td>
+                    <td>{{ userEvenement.evenement.nombreValide }} / {{ userEvenement.evenement.inscrit }}</td>
+                    <td>{{ userEvenement.evenement.ville }}</td>
+                    <td><a href="{{ path('ws_user_user_profil', {'id': userEvenement.evenement.user.id}) }}">{{ userEvenement.evenement.user.username }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>{{ user.username }} n'a participé à aucun évènement.</p>
+    {% endif %}
+{% endblock %}

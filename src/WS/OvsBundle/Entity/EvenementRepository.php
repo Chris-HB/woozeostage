@@ -30,4 +30,13 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    public function recherche($recherche) {
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere($qb->expr()->like('e.ville', ':recherche'))
+                ->setParameter('recherche', '%' . $recherche . '%');
+        return $qb->getQuery()->getResult();
+    }
+
 }

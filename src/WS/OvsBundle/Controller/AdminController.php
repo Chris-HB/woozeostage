@@ -42,7 +42,10 @@ class AdminController extends Controller {
                     $evenements = $em->findBy(array('actif' => $actif));
             }
             //$evenements = $em->findBy(array('actif' => $actif), array($tri => 'asc'));
-            return $this->container->get('templating')->renderResponse('WSOvsBundle:Admin:listEvent.html.twig', array(
+//            return $this->container->get('templating')->renderResponse('WSOvsBundle:Admin:listEvent.html.twig', array(
+//                        'evenements' => $evenements
+//            ));
+            return $this->render('WSOvsBundle:Admin:listEvent.html.twig', array(
                         'evenements' => $evenements
             ));
         }

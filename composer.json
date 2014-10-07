@@ -23,7 +23,7 @@
         "friendsofsymfony/jsrouting-bundle": "@stable",
         "stfalcon/tinymce-bundle": "dev-master",
         "egeloen/google-map-bundle": "~2.1",
-         "nc/faye-client": "v1.1.0"
+        "nc/faye-client": "v1.1.0"
         
     },
     "require-dev": {
