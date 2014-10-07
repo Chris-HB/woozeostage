@@ -29,5 +29,7 @@
     {% else %}
         <p>Pas d'évènement.</p>
     {% endif %}
-    <p><a href="{{ path('ws_ovs_evenement_add') }}">Ajouter un évènement</a></p>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></p>
+    {% endif %}
 {% endblock %}

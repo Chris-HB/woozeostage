@@ -20,6 +20,8 @@
         {% include 'WSOvsBundle:Admin:listEvent.html.twig' with {'evenements' : evenements}%}
     </div>
     
-    <p><a href="{{ path('ws_ovs_evenement_add') }}">Ajouter un évènement</a></p>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></p>
+    {% endif %}
     <script src="{{ asset('js/listEvenement.js') }}"></script>
 {% endblock %}

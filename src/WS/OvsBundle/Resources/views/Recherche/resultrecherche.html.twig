@@ -1,13 +1,13 @@
 {% extends 'WSOvsBundle::layout.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - list evenement
+    {{ parent() }} - Resultat recherche
 {% endblock %}
 {% block ovs %}
-    <p>le {{date|date('d/m/Y')}}</p>
     {% if evenements is not empty %}
         <table>
             <tr>
+                <th>Date</th>
                 <th>Heure</th>
                 <th>Sport</th>
                 <th>Sortie</th>
@@ -17,6 +17,7 @@
             </tr>
             {% for evenement in evenements %}
                 <tr>
+                    <td>{{ evenement.date|date('d/m/Y')}}</td>
                     <td>{{ evenement.heure|date('H:i') }}</td>
                     <td>{{ evenement.sport.nom }}</td>
                     <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
@@ -28,8 +29,5 @@
         </table>
     {% else %}
         <p>Pas d'évènement.</p>
-    {% endif %}
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></p>
     {% endif %}
 {% endblock %}

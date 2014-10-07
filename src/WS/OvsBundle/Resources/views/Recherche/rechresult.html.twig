@@ -1,4 +1,21 @@
-{#{% for evenement in evenements %}
-    <p>{{ evenement.ville }}<p>
-{% endfor %}#}
-<p> recherche : {{ recherche }}</p>
+<ul id="essaie">
+    {% if type == 'ville' %}
+        {% for evenement in evenements %}
+            <li><span>{{ evenement.ville }}</span></li>
+        {% endfor %}
+    {% else %}
+        {% for evenement in evenements %}
+            <li><span>{{ evenement.sport.nom }}</span></li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+<script>
+    $(document).ready(function () {
+        $("#essaie li").click(function(){
+            //alert($(this).text());
+            $('#ws_ovsbundle_recherche_recherche').val($(this).text());
+            $("#essaie").hide();
+        });
+    });
+</script>

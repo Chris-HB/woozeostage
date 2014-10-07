@@ -55,7 +55,9 @@
             <div id="menu">
                 <ul>
                     <li><a href="{{ path('ws_ovs_accueil_index') }}">Accueil</a></li>
-                    <li><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></li>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></li>
+                    {% endif %}
                     <li><a href="{{ path('ws_ovs_admin_listevenement') }}">liste évènement admin</a></li>
                     <li><a href="{{ path('ws_ovs_sport_add') }}">ajouter sport</a></li>
                     <li><a href="{{ path('ws_ovs_sport_list') }}">liste sport</a></li>

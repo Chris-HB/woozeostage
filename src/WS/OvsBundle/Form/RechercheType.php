@@ -14,6 +14,7 @@ class RechercheType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('type', 'choice', array('choices' => array('ville' => 'ville', 'sport' => 'sport')))
                 ->add('recherche', 'text')
         ;
     }
@@ -21,11 +22,11 @@ class RechercheType extends AbstractType {
     /**
      * @param OptionsResolverInterface $resolver
      */
-//    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-//        $resolver->setDefaults(array(
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+        $resolver->setDefaults(array(
 //            'data_class' => 'WS\OvsBundle\Entity\Sport'
-//        ));
-//    }
+        ));
+    }
 
     /**
      * @return string

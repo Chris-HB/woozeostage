@@ -3,21 +3,37 @@
     <input type="submit" value="Rechercher" />
 </form>
 <div id="resultats_recherche"> 
-    {% include 'WSOvsBundle:Recherche:rechresult.html.twig' with {'recherche': recherche}%}
+    {% include 'WSOvsBundle:Recherche:rechresult.html.twig' with {'evenements': evenements, 'type': type}%}
 </div>
+
 <script>
     $(document).ready(function () {
-        $("input").keyup(function(){
-            //alert($('#ws_ovsbundle_recherche_recherche').val());
+        $("input").keyup(function () {
             $.ajax({
                 type: "POST",
                 url: Routing.generate('ws_ovs_recherche_recherche'),
                 cache: false,
-                data: {recherche: $('#ws_ovsbundle_recherche_recherche').val()},
+                data: {recherche: $('#ws_ovsbundle_recherche_recherche').val(), type: $('#ws_ovsbundle_recherche_type').val()},
                 success: function (data) {
                     $('#resultats_recherche').html(data);
                 }
             });
+        });
+        
+        $("#ws_ovsbundle_recherche_type").change(function () {
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('ws_ovs_recherche_recherche'),
+                cache: false,
+                data: {recherche: $('#ws_ovsbundle_recherche_recherche').val(), type: $('#ws_ovsbundle_recherche_type').val()},
+                success: function (data) {
+                    $('#resultats_recherche').html(data);
+                }
+            });
+        });
+
+        $("#resultats_recherche").mouseover(function () {
+            $("span").addClass("aspectcurseur");
         });
     });
 </script>
