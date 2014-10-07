@@ -12,9 +12,8 @@ clientApp();
 //----
 function clientApp() {
     var client = new Faye.Client('http://localhost:3000/');
-
     client.subscribe('/messages', function(message) {
-        alert('Nouveau message : ' + message.text);
+        alert('message de ' + message.emetteur + ' à ' + message.recepteur + ' : ' + message.message);
     });
 }
 
@@ -30,7 +29,6 @@ function afficheBox(id) {
     //---
     var $nbBox = $('div.chatbox').length;
     var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
-
     // ----------
     // Affichage
     // ----------
@@ -41,13 +39,11 @@ function afficheBox(id) {
             $divexiste = true;
         }
     });
-
     // ---
     // si il n'existe pas, je le créer (id=username)
     // ---
     if (!$divexiste) {
         $container.append('<div id="' + $username + '"></div>');
-
         // je crée une box
         box = $('#' + $username).chatbox({id: $username,
             title: "woozeostage chat : " + $username,
@@ -79,14 +75,13 @@ function afficheMessagesBox(id, messBox) {
 
 //-------------------------------------------------------------------------------------------------------------------------------
 $(document).ready(function() {
-    //var box = null;
-
-    // ----------------------------
-    // si la page est réactualisée
-    // ----------------------------
+//var box = null;
+//clientApp();
+// ----------------------------
+// si la page est réactualisée
+// ----------------------------
     window.onload = recupInfosBox;
     window.onbeforeunload = enregistreInfosBox;
-
     //***********************************************************************
     // Après avoir réactualisé ou rechargé la page
     // cette fonction récupère le contenu de la variable session "infosbox"
@@ -102,7 +97,6 @@ $(document).ready(function() {
                 $data = JSON.parse(data);
             }
         });
-
         // je recupère un tableau d'id des Box
         var idBox = [];
         idBox = $data[0];
@@ -165,8 +159,6 @@ $(document).ready(function() {
     $("#userclick li").mouseover(function() {
         $("span").addClass("aspectcurseur");
     });
-
-
     //*********************************
     // Si on clic sur un utilisateur
     //---
@@ -178,11 +170,10 @@ $(document).ready(function() {
         //---
         var $nbBox = $('div.chatbox').length;
         var $marge = $nbBox * (300 + $espaceEntreBox) + $margeDroiteDesBox;
-
         // si le nombre de boites affichées est supérieur à 5
         // on ne peut plus en ouvrir d'autres
         if ($nbBox > 4) {
-            alert('Vous avez trop de fenêtres Tchat ouvertes !');
+            alert('Vous avez trop de fenêtres Chat ouvertes !');
         }
         else {
             //
@@ -217,7 +208,6 @@ $(document).ready(function() {
                     $divexiste = true;
                 }
             });
-
             // ---
             // si il n'existe pas, je le créer (id=username)
             // ---
@@ -247,5 +237,4 @@ $(document).ready(function() {
             }
         }
     });
-
 });

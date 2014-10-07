@@ -54,16 +54,29 @@ class ChatController extends Controller {
 //            fclose($monfichier);
 
             $em = $this->getDoctrine()->getManager();
-            $emetteur = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $emetteur));
-            $recepteur = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $recepteur));
+            $emetteur_base = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $emetteur));
+            $recepteur_base = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $recepteur));
             // On enregistre le message en base
             $mb = new Messagebox();
-            $mb->setEmetteur($emetteur);
-            $mb->setRecepteur($recepteur);
+            $mb->setEmetteur($emetteur_base);
+            $mb->setRecepteur($recepteur_base);
             $mb->setMessage($message);
 
             $em->persist($mb);
             $em->flush();
+            //------
+            // récupération du client
+            $faye = $this->get('WS_ChatBundle.faye.client');
+
+            // construction d'un message
+            $channel = '/messages';
+            $data = array('emetteur' => $emetteur, 'recepteur' => $recepteur, 'message' => $message);
+
+
+            // envoi du message
+
+            $faye->send($channel, $data);
+            //------
         }
         return $this->redirect($this->generateUrl('ws_chat_index'));
     }
@@ -92,17 +105,17 @@ class ChatController extends Controller {
      * @Template()
      */
     public function recupSessionAction() {
-        // récupération du client
-        $faye = $this->get('WS_ChatBundle.faye.client');
-
-        // construction d'un message
-
-        $channel = '/messages';
-        $data = array('text' => 'Salut c\'est Bob !');
-
-        // envoi du message
-
-        $faye->send($channel, $data);
+//        // récupération du client
+//        $faye = $this->get('WS_ChatBundle.faye.client');
+//
+//        // construction d'un message
+//
+//        $channel = '/messages';
+//        $data = array('text' => 'Salut c\'est Bob !');
+//
+//        // envoi du message
+//
+//        $faye->send($channel, $data);
 
 
         $request = $this->get('request');
