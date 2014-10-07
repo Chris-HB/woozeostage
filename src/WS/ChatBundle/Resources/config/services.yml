@@ -1,0 +1,17 @@
+parameters:
+  
+    WS_ChatBundle.faye.endpoint: 'http://localhost:3000/'
+    WS_ChatBundle.faye.adapter.class: 'Nc\FayeClient\Adapter\CurlAdapter'
+    WS_ChatBundle.faye.client.class: 'Nc\FayeClient\Client'
+
+services:
+  
+    WS_ChatBundle.faye.adapter:
+        class: %WS_ChatBundle.faye.adapter.class%
+    
+    WS_ChatBundle.faye.client:
+        class: %WS_ChatBundle.faye.client.class%
+        arguments:
+            - "@WS_ChatBundle.faye.adapter"
+            - "%WS_ChatBundle.faye.endpoint%"
+            
