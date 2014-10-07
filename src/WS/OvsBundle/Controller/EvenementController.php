@@ -35,12 +35,20 @@ class EvenementController extends Controller {
 //            $ville = $form->get('ville')->getData();
 //            return new \Symfony\Component\HttpFoundation\Response('code postal: ' . $codePostal . ' ville: ' . $ville);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $user = $this->getUser();
-                $evenement->setUser($user);
-                $em->persist($evenement);
-                $em->flush();
-                return $this->redirect($this->generateUrl('ws_ovs_userevenement_add', array('id' => $evenement->getId())));
+                $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
+                $dateEvenement = new \DateTime($dateE);
+                $dateActuelle = new \DateTime();
+                if ($dateActuelle > $dateEvenement) {
+                    $this->get('session')->getFlashBag()->add('info', 'Vous ne pouvez pas créer un évènement qui est déjà passé.');
+                    return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
+                } else {
+                    $em = $this->getDoctrine()->getManager();
+                    $user = $this->getUser();
+                    $evenement->setUser($user);
+                    $em->persist($evenement);
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('ws_ovs_userevenement_add', array('id' => $evenement->getId())));
+                }
             }
         }
         return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
@@ -92,8 +100,8 @@ class EvenementController extends Controller {
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
         $dateEvenement = new \DateTime($dateE);
 
-        $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 1, 'evenement' => $evenement));
-        $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 2, 'evenement' => $evenement));
+        $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 1, 'evenement' => $evenement, 'actif' => 1));
+        $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 2, 'evenement' => $evenement, 'actif' => 1));
 
         return array('evenement' => $evenement, 'dateEvenement' => $dateEvenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes, 'map' => $map);
     }
@@ -231,6 +239,9 @@ class EvenementController extends Controller {
                 $form->bind($request);
                 if ($form->isValid()) {
                     $em = $this->getDoctrine()->getManager();
+                    $user = $this->getUser();
+                    $evenement->setUserEdition($user);
+                    $evenement->setDateEdition(new \DateTime());
                     $em->persist($evenement);
                     $em->flush();
 //                    foreach ($evenement->getUserEvenements() as $userEvenement) {

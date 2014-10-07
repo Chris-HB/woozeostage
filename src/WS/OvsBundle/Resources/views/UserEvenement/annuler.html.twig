@@ -1,0 +1,16 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - annuler participation
+{% endblock %}
+{% block ovs %}
+    <p>Etes-vous certain de vouloir annuler votre participation a {{ userEvenement.evenement.nom }} du {{ userEvenement.evenement.date|date('d-m-Y') }}</p>
+    <form action="{{ path('ws_ovs_userevenement_annuler', {'id': userEvenement.evenement.id}) }}" method="post">
+    <a href="{{ path('ws_ovs_evenement_voir', {'id': userEvenement.evenement.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à l'évènement
+    </a>
+    <input type="submit" value="Supprimer" class="btn btn-danger" />
+    {{ form_rest(form) }}
+  </form>
+{% endblock %}

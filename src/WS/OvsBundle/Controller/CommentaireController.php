@@ -96,7 +96,7 @@ class CommentaireController extends Controller {
      */
     public function listAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
-        $commentaires = $em->getRepository('WSOvsBundle:Commentaire')->findBy(array('evenement' => $evenement, 'actif' => 1), array('dateCreation' => 'ASC'));
+        $commentaires = $em->getRepository('WSOvsBundle:Commentaire')->findBy(array('evenement' => $evenement, 'actif' => 1), array('dateCreation' => 'DESC'));
         return array('commentaires' => $commentaires);
     }
 

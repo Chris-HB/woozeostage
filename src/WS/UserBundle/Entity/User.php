@@ -62,6 +62,13 @@ class User extends BaseUser {
     private $commentaireEditions;
 
     /**
+     * @var type
+     *
+     * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Evenement", mappedBy="userEdition")
+     */
+    private $evenementEditions;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -72,6 +79,7 @@ class User extends BaseUser {
         $this->recepteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
         $this->commentaireEditions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->evenementEditions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -261,6 +269,36 @@ class User extends BaseUser {
      */
     public function getCommentaireEditions() {
         return $this->commentaireEditions;
+    }
+
+    /**
+     * Add evenementEditions
+     *
+     * @param \WS\OvsBundle\Entity\Evenement $evenementEditions
+     * @return User
+     */
+    public function addEvenementEdition(\WS\OvsBundle\Entity\Evenement $evenementEditions) {
+        $this->evenementEditions[] = $evenementEditions;
+
+        return $this;
+    }
+
+    /**
+     * Remove evenementEditions
+     *
+     * @param \WS\OvsBundle\Entity\Evenement $evenementEditions
+     */
+    public function removeEvenementEdition(\WS\OvsBundle\Entity\Evenement $evenementEditions) {
+        $this->evenementEditions->removeElement($evenementEditions);
+    }
+
+    /**
+     * Get evenementEditions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvenementEditions() {
+        return $this->evenementEditions;
     }
 
 }

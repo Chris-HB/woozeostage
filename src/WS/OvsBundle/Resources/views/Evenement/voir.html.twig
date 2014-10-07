@@ -41,13 +41,13 @@
         {% else %}
             {% set present = false %}
             {% for us in evenement.userEvenements %}
-                {% if us.user == app.user %}
+                {% if us.user == app.user and us.actif == 1 %}
                     {% set present = true %}
                 {% endif %}
             {% endfor %}
             {% if present == true %}
                 {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
-                    <a href="{{ path('ws_ovs_userevenement_modifier', {'id': evenement.id}) }}">Modifier ma participation</a>
+                    <a href="{{ path('ws_ovs_userevenement_annuler', {'id': evenement.id}) }}">annuler ma participation</a>
                 {% endif %}
             {% else %}
                 {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}

@@ -83,6 +83,7 @@ class Commentaire {
      * @var type
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="commentaireEditions")
+     * @ORM\JoinColumn(nullable=true)
      *
      * L'utilisateur qui a édité le commentaire.
      */
@@ -90,6 +91,7 @@ class Commentaire {
 
     public function __construct() {
         $this->dateCreation = new \DateTime();
+
         $this->actif = 1;
     }
 

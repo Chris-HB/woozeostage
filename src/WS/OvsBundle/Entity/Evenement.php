@@ -154,6 +154,22 @@ class Evenement {
     /**
      * @var type
      *
+     * @ORM\Column(name="date_creation", type="datetime")
+     * @Assert\Date()
+     */
+    private $dateCreation;
+
+    /**
+     * @var type
+     *
+     * @ORM\Column(name="date_edition", type="datetime", nullable=true)
+     * @Assert\Date()
+     */
+    private $dateEdition;
+
+    /**
+     * @var type
+     *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
      * @ORM\JoinColumn(nullable=false)
      *
@@ -190,12 +206,21 @@ class Evenement {
     private $commentaires;
 
     /**
+     * @var type
+     *
+     * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenementEditions")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userEdition;
+
+    /**
      * Constructor
      */
     public function __construct() {
         $this->date = new \DateTime();
         $this->actif = 1;
         $this->nombreValide = 0;
+        $this->dateCreation = new \DateTime();
         $this->userEvenements = new \Doctrine\Common\Collections\ArrayCollection();
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -563,15 +588,13 @@ class Evenement {
         return $this->ville;
     }
 
-
     /**
      * Set latitude
      *
      * @param float $latitude
      * @return Evenement
      */
-    public function setLatitude($latitude)
-    {
+    public function setLatitude($latitude) {
         $this->latitude = $latitude;
 
         return $this;
@@ -580,10 +603,9 @@ class Evenement {
     /**
      * Get latitude
      *
-     * @return float 
+     * @return float
      */
-    public function getLatitude()
-    {
+    public function getLatitude() {
         return $this->latitude;
     }
 
@@ -593,8 +615,7 @@ class Evenement {
      * @param float $longitude
      * @return Evenement
      */
-    public function setLongitude($longitude)
-    {
+    public function setLongitude($longitude) {
         $this->longitude = $longitude;
 
         return $this;
@@ -603,10 +624,74 @@ class Evenement {
     /**
      * Get longitude
      *
-     * @return float 
+     * @return float
      */
-    public function getLongitude()
-    {
+    public function getLongitude() {
         return $this->longitude;
     }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return Evenement
+     */
+    public function setDateCreation($dateCreation) {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime
+     */
+    public function getDateCreation() {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateEdition
+     *
+     * @param \DateTime $dateEdition
+     * @return Evenement
+     */
+    public function setDateEdition($dateEdition) {
+        $this->dateEdition = $dateEdition;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEdition
+     *
+     * @return \DateTime
+     */
+    public function getDateEdition() {
+        return $this->dateEdition;
+    }
+
+    /**
+     * Set userEdition
+     *
+     * @param \WS\UserBundle\Entity\User $userEdition
+     * @return Evenement
+     */
+    public function setUserEdition(\WS\UserBundle\Entity\User $userEdition = null) {
+        $this->userEdition = $userEdition;
+        $userEdition->addEvenementEdition($this);
+
+        return $this;
+    }
+
+    /**
+     * Get userEdition
+     *
+     * @return \WS\UserBundle\Entity\User
+     */
+    public function getUserEdition() {
+        return $this->userEdition;
+    }
+
 }

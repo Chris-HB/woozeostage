@@ -13,6 +13,7 @@
                 <th>Sortie</th>
                 <th>Inscrit</th>
                 <th>organisateur</th>
+                <th>Ville</th>
             </tr>
             {% for evenement in evenements %}
                 <tr>
@@ -21,6 +22,7 @@
                     <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
                     <td>{{ evenement.nombreValide }} / {{ evenement.inscrit }}</td>
                     <td>{{ evenement.user.username }}</td>
+                    <td>{{ evenement.ville }}</td>
                 </tr>
             {% endfor %}
         </table>

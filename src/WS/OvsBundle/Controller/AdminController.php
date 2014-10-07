@@ -27,13 +27,16 @@ class AdminController extends Controller {
             $tri = $request->request->get('tri');
             switch ($tri) {
                 case "date":
-                    $evenements = $em->findBy(array('actif' => $actif), array('date' => 'asc'));
+                    $evenements = $em->findBy(array('actif' => $actif), array('date' => 'asc', 'heure' => 'asc'));
                     break;
                 case "sport":
                     $evenements = $em->triSport($actif);
                     break;
                 case "user":
                     $evenements = $em->triUser($actif);
+                    break;
+                case "ville":
+                    $evenements = $em->findBy(array('actif' => $actif), array('ville' => 'asc'));
                     break;
                 default:
                     $evenements = $em->findBy(array('actif' => $actif));
