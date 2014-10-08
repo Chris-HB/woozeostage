@@ -72,9 +72,7 @@ class ChatController extends Controller {
             $channel = '/messages';
             $data = array('emetteur' => $emetteur, 'recepteur' => $recepteur, 'message' => $message);
 
-
             // envoi du message
-
             $faye->send($channel, $data);
             //------
         }
@@ -105,19 +103,6 @@ class ChatController extends Controller {
      * @Template()
      */
     public function recupSessionAction() {
-//        // récupération du client
-//        $faye = $this->get('WS_ChatBundle.faye.client');
-//
-//        // construction d'un message
-//
-//        $channel = '/messages';
-//        $data = array('text' => 'Salut c\'est Bob !');
-//
-//        // envoi du message
-//
-//        $faye->send($channel, $data);
-
-
         $request = $this->get('request');
         if ($request->isXmlHttpRequest()) {
 
