@@ -5,7 +5,6 @@ var $margeDroiteDesBox = 10;
 var $espaceEntreBox = 20;
 //---------------------------
 
-//clientApp();
 //*************************************
 // Communication avec le serveur
 // SOCKET
@@ -177,7 +176,7 @@ $(document).ready(function() {
     // le curseur change de forme
     //---
     $("#userclick li").mouseover(function() {
-        $("span").addClass("aspectcurseur");
+        $("span", this).addClass("aspectcurseur");
     });
     //*********************************
     // Si on clic sur un utilisateur
