@@ -23,38 +23,26 @@ class RechercheController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new RechercheType());
         $evenements = null;
-        $recherche = null;
-        $type = null;
+        $ville = null;
+        $sport = null;
         $request = $this->get('request');
-        if ($request->isXmlHttpRequest()) {
-            $recherche = $request->request->get('recherche');
-            $type = $request->request->get('type');
-            switch ($type) {
-                case "ville":
-                    $evenements = $em->getRepository('WSOvsBundle:Evenement')->rechercheVille($recherche);
-                    break;
-                case "sport":
-                    $evenements = $em->getRepository('WSOvsBundle:Evenement')->rechercheSport($recherche);
-                    break;
-            }
-            return $this->render('WSOvsBundle:Recherche:rechresult.html.twig', array('evenements' => $evenements, 'type' => $type));
-        }
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
-            $recherche = $form->get('recherche')->getData();
-            $type = $form->get('type')->getData();
-            switch ($type) {
-                case "ville":
-                    $evenements = $em->getRepository('WSOvsBundle:Evenement')->resultVille($recherche);
-                    break;
-                case "sport":
-                    $evenements = $em->getRepository('WSOvsBundle:Evenement')->resultSport($recherche);
-                    break;
+            $ville = $form->get('evenement')->getData();
+            $sport = $form->get('sport')->getData();
+            if ($ville != null and $sport == null) {
+                $evenements = $em->getRepository('WSOvsBundle:Evenement')->result_Ville($ville->getVille());
+            } else {
+                if ($ville == null and $sport != null) {
+                    $evenements = $em->getRepository('WSOvsBundle:Evenement')->result_Sport($sport->getNom());
+                } else {
+                    $evenements = $em->getRepository('WSOvsBundle:Evenement')->result($ville->getVille(), $sport->getNom());
+                }
             }
-            return $this->render('WSOvsBundle:Recherche:resultrecherche.html.twig', array('evenements' => $evenements));
+            return $this->render('WSOvsBundle:Recherche:resultrecherche.html.twig', array('evenements' => $evenements, 'ville' => $ville, 'sport' => $sport));
         }
 
-        return array('form' => $form->createView(), 'evenements' => $evenements, 'type' => $type);
+        return array('form' => $form->createView(), 'evenements' => $evenements);
     }
 
 }

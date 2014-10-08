@@ -30,43 +30,43 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
-    public function rechercheVille($recherche) {
+    public function rechercheVille() {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif=:actif')
                 ->setParameter('actif', 1)
-                ->andWhere($qb->expr()->like('e.ville', ':recherche'))
-                ->setParameter('recherche', '%' . $recherche . '%')
-                ->groupBy('e.ville');
+                ->groupBy('e.ville')
+                ->orderBy('e.ville', 'ASC');
+        return $qb;
+    }
+
+    public function result_Ville($ville) {
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere('e.ville= :ville')
+                ->setParameter('ville', $ville);
         return $qb->getQuery()->getResult();
     }
 
-    public function rechercheSport($recherche) {
+    public function result_Sport($sport) {
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.actif= :actif')
+                ->setParameter('actif', 1)
+                ->leftJoin('e.sport', 's')
+                ->andWhere('s.nom= :sport')
+                ->setParameter('sport', $sport);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function result($ville, $sport) {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif=:actif')
                 ->setParameter('actif', 1)
                 ->leftJoin('e.sport', 's')
-                ->andWhere($qb->expr()->like('s.nom', ':recherche'))
-                ->setParameter('recherche', '%' . $recherche . '%')
-                ->groupBy('s.nom');
-        return $qb->getQuery()->getResult();
-    }
-
-    public function resultVille($recherche) {
-        $qb = $this->createQueryBuilder('e');
-        $qb->where('e.actif=:actif')
-                ->setParameter('actif', 1)
-                ->andWhere($qb->expr()->like('e.ville', ':recherche'))
-                ->setParameter('recherche', '%' . $recherche . '%');
-        return $qb->getQuery()->getResult();
-    }
-
-    public function resultSport($recherche) {
-        $qb = $this->createQueryBuilder('e');
-        $qb->where('e.actif=:actif')
-                ->setParameter('actif', 1)
-                ->leftJoin('e.sport', 's')
-                ->andWhere($qb->expr()->like('s.nom', ':recherche'))
-                ->setParameter('recherche', '%' . $recherche . '%');
+                ->andWhere('e.ville= :ville')
+                ->setParameter('ville', $ville)
+                ->andWhere('s.nom= :sport')
+                ->setParameter('sport', $sport);
         return $qb->getQuery()->getResult();
     }
 
