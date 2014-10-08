@@ -5,15 +5,35 @@ var $margeDroiteDesBox = 10;
 var $espaceEntreBox = 20;
 //---------------------------
 
-clientApp();
+//clientApp();
 //*************************************
 // Communication avec le serveur
 // SOCKET
+// on récupère le message de l'emetteur et on le transmet au recepteur
 //----
 function clientApp() {
     var client = new Faye.Client('http://localhost:3000/');
+    var pseudo = ($("#pseudo").data("pseudo"));
+    var messB = [];
+    var tab = [];
+
     client.subscribe('/messages', function(message) {
-        alert('message de ' + message.emetteur + ' à ' + message.recepteur + ' : ' + message.message);
+        //alert('message de ' + message.emetteur + ' à ' + message.recepteur + ' : ' + message.message);
+        //
+        // reconstruction du tableau messB au bon format
+        messB.length = 0;
+        tab.length = 0;
+        tab.push(message.emetteur);
+        tab.push(message.recepteur);
+        tab.push(message.message);
+        messB.push(tab);
+        //---
+        // si le recepteur est l'utilisateur connecté
+        if (pseudo == message.recepteur) {
+            //alert('pseudo: ' + pseudo + ' ---- recepteur: ' + message.recepteur);
+            //alert('emetteur: ' + messB[0][0] + ' --- recepteur: ' + messB[0][1] + ' --- message: ' + messB[0][2]);
+            $('#' + message.emetteur).chatbox("option", "boxManager").addMsg(messB[0][1], messB[0][0], messB[0][2]);
+        }
     });
 }
 
@@ -76,10 +96,10 @@ function afficheMessagesBox(id, messBox) {
 //-------------------------------------------------------------------------------------------------------------------------------
 $(document).ready(function() {
 //var box = null;
-//clientApp();
-// ----------------------------
-// si la page est réactualisée
-// ----------------------------
+    clientApp();
+    // ----------------------------
+    // si la page est réactualisée
+    // ----------------------------
     window.onload = recupInfosBox;
     window.onbeforeunload = enregistreInfosBox;
     //***********************************************************************

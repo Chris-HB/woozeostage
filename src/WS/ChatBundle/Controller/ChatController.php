@@ -139,11 +139,14 @@ class ChatController extends Controller {
             $em = $this->getDoctrine()->getManager();
             foreach ($tab as $val) {
                 $user = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $val));
-                $messboxes = $em->getRepository('WSChatBundle:Messagebox')->findBy(array('emetteur' => $this->getUser(), 'recepteur' => $user), array('date' => 'DESC'), 5);
+                // on recupère les messages dont | emetteur=utilisateur connecté ET recepteur=l'utilisateur recepteur
+                //                               | OU emetteur=utilisateur recepteur connecté ET recepteur=utilisateur connecté
+                $messboxes = $em->getRepository('WSChatBundle:Messagebox')->findBy(array('emetteur' => array($this->getUser(), $user), 'recepteur' => array($user, $this->getUser())), array('date' => 'DESC'), 5);
                 foreach ($messboxes as $messbox) {
                     $elem = [];
                     $elem[] = $messbox->getEmetteur()->getUsername();
-                    $elem[] = $messbox->getRecepteur()->getUsername();
+                    //$elem[] = $messbox->getRecepteur()->getUsername();
+                    $elem[] = $user->getUsername();
                     $elem[] = $messbox->getMessage();
                     $messTab[] = $elem;
                 }
