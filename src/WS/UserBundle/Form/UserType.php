@@ -1,12 +1,12 @@
 <?php
 
-namespace WS\OvsBundle\Form;
+namespace WS\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class EvenementGererType extends AbstractType {
+class UserType extends AbstractType {
 
     /**
      * @param FormBuilderInterface $builder
@@ -14,11 +14,7 @@ class EvenementGererType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('userEvenements', 'collection', array(
-                    'type' => new UserEvenementGererType(),
-                    'label' => 'liste des personnes inscrites à l\'évènement',
-                    'options' => array('label' => false)
-                ))
+                ->add('username', 'hidden')
         ;
     }
 
@@ -27,7 +23,7 @@ class EvenementGererType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'WS\OvsBundle\Entity\Evenement',
+            'data_class' => 'WS\UserBundle\Entity\User'
         ));
     }
 
@@ -35,7 +31,7 @@ class EvenementGererType extends AbstractType {
      * @return string
      */
     public function getName() {
-        return 'ws_ovsbundle_evenementgerer';
+        return 'ws_userbundle_user';
     }
 
 }

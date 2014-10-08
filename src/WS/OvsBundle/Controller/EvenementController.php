@@ -177,12 +177,13 @@ class EvenementController extends Controller {
             $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
+            $em = $this->getDoctrine()->getManager();
+            $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('evenement' => $evenement, 'actif' => 1));
             $form = $this->createForm(new EvenementGererType(), $evenement);
             $request = $this->get('request');
             if ($request->getMethod() == 'POST') {
                 $form->bind($request);
                 if ($form->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
                     $nombre = 0;
                     $users = [];
                     foreach ($evenement->getUserEvenements()as $userEvenement) {

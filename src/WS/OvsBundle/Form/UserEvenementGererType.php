@@ -5,6 +5,7 @@ namespace WS\OvsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use WS\UserBundle\Form\UserType;
 
 class UserEvenementGererType extends AbstractType {
 
@@ -14,16 +15,15 @@ class UserEvenementGererType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('user', 'entity', array(
-                    'class' => 'WSUserBundle:User',
-                    'property' => 'username',
-                    'label' => 'utilisateur',
-                    'disabled' => true
+                ->add('user', new UserType(), array(
+                    'label' => false
                 ))
                 ->add('statut', 'choice', array(
                     'choices' => array(1 => 'Validé', 2 => 'En attente', 3 => 'Refusé'),
                     'expanded' => true,
+                    'label' => false
                 ))
+                ->add('actif', 'hidden')
         ;
     }
 

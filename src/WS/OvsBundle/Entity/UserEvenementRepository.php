@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserEvenementRepository extends EntityRepository {
 
+    public function findActif() {
+        return $this
+                        ->createQueryBuilder('ue')
+                        ->where('ue.actif = :actif')
+                        ->setParameter('actif', 1)
+        ;
+    }
+
 }
