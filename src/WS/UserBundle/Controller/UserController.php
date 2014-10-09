@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use WS\UserBundle\Entity\User;
 use WS\OvsBundle\Entity\Evenement;
 use WS\OvsBundle\Entity\UserEvenement;
+use WS\UserBundle\Entity\Ami;
 
 /**
  * @Route("/user")
@@ -30,10 +31,13 @@ class UserController extends Controller {
             $this->get('session')->getFlashBag()->add('info', 'Personne innexistante');
             return $this->redirect($this->generateUrl('ws_ovs_accueil_index'));
         }
+        $user_actuel = $this->getUser();
+        $ami = null;
+        $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user, 'statut' => 1, 'actif' => 1));
         $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1));
         $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('user' => $user, 'actif' => 1, 'statut' => 1));
 
-        return array('user' => $user, 'evenements' => $evenements, 'userEvenements' => $userEvenements);
+        return array('user' => $user, 'evenements' => $evenements, 'userEvenements' => $userEvenements, 'ami' => $ami);
     }
 
 }

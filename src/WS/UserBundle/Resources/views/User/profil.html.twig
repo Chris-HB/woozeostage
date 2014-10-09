@@ -4,7 +4,11 @@
     {{ parent() }} - profil de {{ user.username }}
 {% endblock %}
 {% block utilisateur %}
-    <p>Nom: {{ user.username }} <a href="{{ path('ws_user_ami_add', {'id': user.id}) }}">Ajouter en ami</a></p>
+    <p>Nom: {{ user.username }} 
+        {% if ami is null %}
+            <a href="{{ path('ws_user_ami_add', {'id': user.id}) }}">Ajouter en ami</a>
+        {% endif %}
+    </p>
     <p>Les évènements créé par {{ user.username }} :</p>
     {% if evenements is not empty %}
         <table>

@@ -18,14 +18,27 @@ class AmiController extends Controller {
      * @Template()
      */
     public function addAction(User $user) {
-        $user_actuel = $this->getUser();
-        $ami = new Ami();
-        $ami->setUser($user_actuel);
-        $ami->setUserBis($user);
         $em = $this->getDoctrine()->getManager();
+        $user_actuel = $this->getUser();
+        $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
+        if ($ami != null) {
+            if ($ami->getActif() == 0) {
+                $ami->setStatut(2);
+                $ami->setActif(1);
+            } else {
+                if ($ami->getStatut() == 1) {
+                    $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà ami');
+                    return $this->redirect($this->generateUrl('ws_user_user_profil', array('id' => $user->getId())));
+                }
+            }
+        } else {
+            $ami = new Ami();
+            $ami->setUser($user_actuel);
+            $ami->setUserBis($user);
+        }
         $em->persist($ami);
         $em->flush();
-        $this->get('session')->getFlashBag()->add('info', 'Demande d\'ami envoyer');
+        $this->get('session')->getFlashBag()->add('info', 'Demande d\'ami envoyée');
         return $this->redirect($this->generateUrl('ws_user_user_profil', array('id' => $user->getId())));
     }
 
@@ -33,8 +46,25 @@ class AmiController extends Controller {
      * @Route("/supprimer/{id}", name="ws_user_ami_desactiver")
      * @Template()
      */
-    public function desactiverAction(Ami $ami) {
-
+    public function desactiverAction(User $user) {
+        $form = $this->createFormBuilder()->getForm();
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $user_actuel = $this->getUser();
+                $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
+                $ami->setActif(0);
+                $ami_reverse = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user, 'userbis' => $user_actuel));
+                $ami_reverse->setActif(0);
+                $em->persist($ami, $ami_reverse);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('info', 'Ami bien supprimé');
+                return $this->redirect($this->generateUrl('fos_user_profile_show'));
+            }
+        }
+        return array('form' => $form->createView(), 'user' => $user);
     }
 
     /**
@@ -55,17 +85,32 @@ class AmiController extends Controller {
             $user_actuel = $this->getUser();
             $ami_reverse = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user, 'userbis' => $user_actuel));
             if ($accepter == 1) {
-                $ami = new Ami();
-                $ami->setUser($user_actuel);
-                $ami->setUserbis($user);
-                $ami->setStatut(1);
+                $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
+                if ($ami != null) {
+                    if ($ami->getActif() == 0) {
+                        $ami->setActif(1);
+                        $ami->setStatut(1);
+                    } else {
+                        if ($ami->getStatut() == 2) {
+                            $ami->setStatut(1);
+                        } else {
+                            $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà ami');
+                            return $this->redirect($this->generateUrl('fos_user_profile_show'));
+                        }
+                    }
+                } else {
+                    $ami = new Ami();
+                    $ami->setUser($user_actuel);
+                    $ami->setUserbis($user);
+                    $ami->setStatut(1);
+                }
                 $ami_reverse->setStatut(1);
                 $em->persist($ami, $ami_reverse);
-                $this->get('session')->getFlashBag()->add('info', 'Ami accepter');
+                $this->get('session')->getFlashBag()->add('info', 'Ami accepté');
             } else {
                 $ami_reverse->setActif(0);
                 $em->persist($ami_reverse);
-                $this->get('session')->getFlashBag()->add('info', 'Ami refuser');
+                $this->get('session')->getFlashBag()->add('info', 'Ami refusé');
             }
             $em->flush();
             return $this->redirect($this->generateUrl('fos_user_profile_show'));

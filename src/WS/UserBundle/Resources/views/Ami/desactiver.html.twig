@@ -1,0 +1,16 @@
+{% extends 'WSOvsBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - supprimer ami
+{% endblock %}
+{% block ovs %}
+    <p>Etes-vous certain de vouloir supprimer votre ami {{ user.username }} </p>
+    <form action="{{ path('ws_user_ami_desactiver', {'id': user.id}) }}" method="post">
+    <a href="{{ path('fos_user_profile_show') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à mon profil
+    </a>
+    <input type="submit" value="Supprimer" class="btn btn-danger" />
+    {{ form_rest(form) }}
+  </form>
+{% endblock %}
