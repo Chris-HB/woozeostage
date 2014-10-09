@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use WS\ChatBundle\Entity\Messagebox;
+use WS\UserBundle\Entity\User;
 use Tembo\Message;
 use Tembo\SocketIOClient;
 
@@ -28,6 +29,28 @@ class ChatController extends Controller {
         $em = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:User');
         $users = $em->findAll();
         return array('users' => $users);
+    }
+
+    /**
+     * @Route("/historiqueListeChats", name="ws_chat_historiqueListeChats")
+     * @Template()
+     */
+    public function historiqueListeChatsAction() {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $listChats = $em->getRepository('WSChatBundle:Messagebox')->listChats($user);
+        return array('listChats' => $listChats);
+    }
+
+    /**
+     * @Route("/historiqueChat/{id}", name="ws_chat_historiqueChat")
+     * @Template()
+     */
+    public function historiqueChatAction(User $recepteur) {
+        $em = $this->getDoctrine()->getManager();
+        $emetteur = $this->getUser();
+        $lignesChat = $em->getRepository('WSChatBundle:Messagebox')->findBy(array('emetteur' => array($emetteur, $recepteur), 'recepteur' => array($recepteur, $emetteur)), array('date' => 'ASC'));
+        return array('lignesChat' => $lignesChat, 'recepteur' => $recepteur);
     }
 
     /**

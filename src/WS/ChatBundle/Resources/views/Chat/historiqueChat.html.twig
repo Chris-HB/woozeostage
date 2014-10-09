@@ -1,0 +1,9 @@
+<table>
+{% for ligneChat in lignesChat %}
+            <tr>
+                <td>{{ ligneChat.emetteur.username }}</td>
+                <td>{{ ligneChat.message }}</td>
+                <td>le {{ ligneChat.date|date('d-m-Y à H:i:s') }}</td>
+           </tr>
+{% endfor %}
+</table>

@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class MessageboxRepository extends EntityRepository {
 
+    public function ListChats($user) {
+        $qb = $this->createQueryBuilder('m');
+        $qb->where('m.emetteur=:emetteur')
+                ->setParameter('emetteur', $user)
+                ->groupBy('m.recepteur');
+        return $qb->getQuery()->getResult();
+    }
+
 }

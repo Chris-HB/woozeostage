@@ -23,4 +23,7 @@
         <p>Aucune demande en attente</p>
     {% endfor %}
     
+    <div>
+       {{ render(controller("WSChatBundle:Chat:historiqueListeChats")) }}
+    </div>
 {% endblock %}
