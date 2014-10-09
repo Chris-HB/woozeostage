@@ -1,0 +1,26 @@
+{% extends "WSUserBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - mon profil
+{% endblock %}
+
+{% block fos_user_content %}
+    {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    <a href="{{ path('fos_user_change_password') }}">Modifier le mot de passe</a>
+{% endblock %}
+{% block utilisateur %}
+    <p>Mes amis :</p> 
+    {% for ami in amis %}
+        <p><a href="{{ path('ws_user_user_profil', {'id':ami.userbis.id}) }}">{{ ami.userbis.username }}</a> <a href="{{ path('ws_user_ami_desactiver', {'id':ami.userbis.id})}}">Supprimer</a></p>
+    {% else %}
+        <p>Pas encore d'ami</p>
+    {% endfor %}
+    
+    <p>Amis potentiel :</p>
+    {% for ami_att in amis_att %}
+        <p><a href="{{ path('ws_user_user_profil', {'id':ami_att.user.id}) }}">{{ ami_att.user.username }}</a> <a href="{{ path('ws_user_ami_gerer',{'id':ami_att.user.id, 'accepter':1})}}">Accepter</a> <a href="{{ path('ws_user_ami_gerer',{'id':ami_att.user.id, 'accepter':0})}}">Refuser</a></p>
+    {% else %}
+        <p>Aucune demande en attente</p>
+    {% endfor %}
+    
+{% endblock %}

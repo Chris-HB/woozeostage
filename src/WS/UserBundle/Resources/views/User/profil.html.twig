@@ -1,10 +1,10 @@
 {% extends 'WSUserBundle::layout.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - profil
+    {{ parent() }} - profil de {{ user.username }}
 {% endblock %}
 {% block utilisateur %}
-    <p>Nom: {{ user.username }}</p>
+    <p>Nom: {{ user.username }} <a href="{{ path('ws_user_ami_add', {'id': user.id}) }}">Ajouter en ami</a></p>
     <p>Les évènements créé par {{ user.username }} :</p>
     {% if evenements is not empty %}
         <table>

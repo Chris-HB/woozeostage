@@ -69,6 +69,20 @@ class User extends BaseUser {
     private $evenementEditions;
 
     /**
+     * @var type
+     *
+     * @ORM\OneToMany(targetEntity="WS\UserBundle\Entity\Ami", mappedBy="user")
+     */
+    private $amis;
+
+    /**
+     * @var type
+     *
+     * @ORM\OneToMany(targetEntity="WS\UserBundle\Entity\Ami", mappedBy="userbis")
+     */
+    private $amisbis;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -80,6 +94,8 @@ class User extends BaseUser {
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
         $this->commentaireEditions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->evenementEditions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->amis = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->amisbis = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -299,6 +315,66 @@ class User extends BaseUser {
      */
     public function getEvenementEditions() {
         return $this->evenementEditions;
+    }
+
+    /**
+     * Add amis
+     *
+     * @param \WS\UserBundle\Entity\Ami $amis
+     * @return User
+     */
+    public function addAmi(\WS\UserBundle\Entity\Ami $amis) {
+        $this->amis[] = $amis;
+
+        return $this;
+    }
+
+    /**
+     * Remove amis
+     *
+     * @param \WS\UserBundle\Entity\Ami $amis
+     */
+    public function removeAmi(\WS\UserBundle\Entity\Ami $amis) {
+        $this->amis->removeElement($amis);
+    }
+
+    /**
+     * Get amis
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAmis() {
+        return $this->amis;
+    }
+
+    /**
+     * Add amisbis
+     *
+     * @param \WS\UserBundle\Entity\Ami $amisbis
+     * @return User
+     */
+    public function addAmisbi(\WS\UserBundle\Entity\Ami $amisbis) {
+        $this->amisbis[] = $amisbis;
+
+        return $this;
+    }
+
+    /**
+     * Remove amisbis
+     *
+     * @param \WS\UserBundle\Entity\Ami $amisbis
+     */
+    public function removeAmisbi(\WS\UserBundle\Entity\Ami $amisbis) {
+        $this->amisbis->removeElement($amisbis);
+    }
+
+    /**
+     * Get amisbis
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAmisbis() {
+        return $this->amisbis;
     }
 
 }
