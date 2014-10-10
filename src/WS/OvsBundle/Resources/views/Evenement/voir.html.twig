@@ -54,6 +54,8 @@
                     {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
                         <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à l'événement</a>
                     {% endif %}
+                {% else %}
+                    <p>Vous devez être connecté pour pouvoir vous inscrire à l'événement</p>
                 {% endif %}
             {% endif %}
         {% endif %}
@@ -61,6 +63,8 @@
     {{ render(controller('WSOvsBundle:Commentaire:list', {'id':evenement.id})) }}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         {{ render(controller('WSOvsBundle:Commentaire:add', {'id':evenement.id})) }}
+    {% else %}
+        <p>Vous devez être connecté pour pouvoir poster un commentaire</p>
     {% endif %}
     <p><a href="{{ path('ws_ovs_evenement_listdate', {'date': evenement.date|date('Y-m-d')}) }}">Retour à la liste des événements</a></p>
         <script src="{{ asset('js/addresspickervoir.js') }}"></script>
