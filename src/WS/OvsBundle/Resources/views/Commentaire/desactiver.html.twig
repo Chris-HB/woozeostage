@@ -8,7 +8,7 @@
     <form action="{{ path('ws_ovs_commentaire_desactiver', {'id': commentaire.id}) }}" method="post">
     <a href="{{ path('ws_ovs_evenement_voir', {'id': commentaire.evenement.id}) }}" class="btn btn-default">
       <i class="glyphicon glyphicon-chevron-left"></i>
-      Retour à l'évènement
+      Retour à l'événement
     </a>
     <input type="submit" value="Supprimer" class="btn btn-danger" />
     {{ form_rest(form) }}

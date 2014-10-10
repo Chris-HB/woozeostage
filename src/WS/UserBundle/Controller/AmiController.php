@@ -5,6 +5,7 @@ namespace WS\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use WS\UserBundle\Entity\User;
 use WS\UserBundle\Entity\Ami;
 
@@ -16,6 +17,8 @@ class AmiController extends Controller {
     /**
      * @Route("/add/{id}", name="ws_user_ami_add")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      */
     public function addAction(User $user) {
         $em = $this->getDoctrine()->getManager();
@@ -45,6 +48,8 @@ class AmiController extends Controller {
     /**
      * @Route("/supprimer/{id}", name="ws_user_ami_desactiver")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      */
     public function desactiverAction(User $user) {
         $form = $this->createFormBuilder()->getForm();
@@ -70,6 +75,8 @@ class AmiController extends Controller {
     /**
      * @Route("/gerer/{id}-{accepter}", name="ws_user_ami_gerer")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      */
     public function gererAction(User $user, $accepter) {
         if (($accepter == 1) or ( $accepter == 0)) {
@@ -115,6 +122,8 @@ class AmiController extends Controller {
     /**
      * @Route("/annonce", name="ws_user_ami_annonce")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      */
     public function annonceAction() {
         $user = $this->getUser();

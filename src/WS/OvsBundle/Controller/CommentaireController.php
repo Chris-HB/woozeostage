@@ -5,6 +5,7 @@ namespace WS\OvsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use WS\OvsBundle\Entity\Commentaire;
 use WS\OvsBundle\Form\CommentaireType;
 use WS\OvsBundle\Entity\Evenement;
@@ -17,6 +18,8 @@ class CommentaireController extends Controller {
     /**
      * @Route("/add/{id}", name="ws_ovs_commentaire_add")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
      * Méthode qui ajoute un commentaire en base.
      */
@@ -43,11 +46,16 @@ class CommentaireController extends Controller {
      * @Route("/modifier/{id}", name="ws_ovs_commentaire_modifier")
      * @Template()
      *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
      * Méthode qui permet de modifié le commentaire passer en parametre.
      */
     public function modifierAction(Commentaire $commentaire) {
         $user = $this->getUser();
         $form = $this->createForm(new CommentaireType(), $commentaire);
+        if ($user != $commentaire->getUser()) {
+            return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $commentaire->getEvenement()->getId())));
+        }
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
@@ -67,11 +75,17 @@ class CommentaireController extends Controller {
      * @Route("/supprimer/{id}", name="ws_ovs_commentaire_desactiver")
      * @Template()
      *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
      * Méthode qui desactive(actif passe a 0) un commentaire.
      * La route contient supprimer mais en réaliter le commentaire est juste désactiver.
      */
     public function desactiverAction(Commentaire $commentaire) {
+        $user = $this->getUser();
         $form = $this->createFormBuilder()->getForm();
+        if ($user != $commentaire->getUser()) {
+            return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $commentaire->getEvenement()->getId())));
+        }
         $evenement = $commentaire->getEvenement();
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {

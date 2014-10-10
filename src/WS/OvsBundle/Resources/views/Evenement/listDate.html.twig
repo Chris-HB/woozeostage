@@ -6,7 +6,7 @@
 {% block ovs %}
     <p>le {{date|date('d/m/Y')}}</p>
     {% if evenements is not empty %}
-        <p>Evènement public</p>
+        <p>Evénement public</p>
         <table>
             <tr>
                 <th>Heure</th>
@@ -32,7 +32,7 @@
     {% endif %}
     <br/>
     {% if evenement_privs is not empty %}
-        <p>Evènement privé</p>
+        <p>Evénement privé</p>
         <table>
             <tr>
                 <th>Heure</th>
@@ -54,9 +54,9 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>Pas d'évènement privé.</p>
+        <p>Pas d'événement privé.</p>
     {% endif %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></p>
+        <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter événement</a></p>
     {% endif %}
 {% endblock %}

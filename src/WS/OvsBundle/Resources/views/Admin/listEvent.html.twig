@@ -16,11 +16,11 @@
                     <td>{{ evenement.sport.nom }}</td>
                     <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
                     <td>{{ evenement.nombreValide }} / {{ evenement.inscrit }}</td>
-                    <td>{{ evenement.user.username }}</td>
+                    <td><a href="{{ path('ws_user_user_profil', {'id': evenement.user.id}) }}">{{ evenement.user.username }}</a></td>
                     <td>{{ evenement.ville }}</td>
                 </tr>
             {% endfor %}
         </table>
     {% else %}
-        <p>Pas d'évènement.</p>
+        <p>Pas d'événement.</p>
     {% endif %}

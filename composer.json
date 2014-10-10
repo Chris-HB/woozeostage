@@ -20,6 +20,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "dev-master",
         "jms/security-extra-bundle": "dev-master",
+        "jms/di-extra-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "@stable",
         "stfalcon/tinymce-bundle": "dev-master",
         "egeloen/google-map-bundle": "~2.1",

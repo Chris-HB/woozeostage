@@ -56,8 +56,8 @@
                     <li><a href="{{ path('ws_ovs_accueil_index') }}">Accueil</a></li>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <li><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></li>
+                        <li><a href="{{ path('ws_ovs_admin_listevenement') }}">liste évènement admin</a></li>
                     {% endif %}
-                    <li><a href="{{ path('ws_ovs_admin_listevenement') }}">liste évènement admin</a></li>
                     <li><a href="{{ path('ws_ovs_sport_add') }}">ajouter sport</a></li>
                     <li><a href="{{ path('ws_ovs_sport_list') }}">liste sport</a></li>
                 </ul>
@@ -65,7 +65,9 @@
             <div id="datepicker"></div>
             <hr />
             <div>
-                {{ render(controller("WSChatBundle:Chat:listUser")) }}
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {{ render(controller("WSChatBundle:Chat:listUser")) }}
+                {% endif %}
             </div>
             <div id="chat_div" ng-app="demoApp"> 
             </div>

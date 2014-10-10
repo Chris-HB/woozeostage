@@ -5,6 +5,7 @@ namespace WS\OvsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use WS\OvsBundle\Entity\Commentaire;
 use WS\OvsBundle\Form\CommentaireType;
 use WS\OvsBundle\Entity\Evenement;
@@ -17,6 +18,8 @@ class AdminController extends Controller {
     /**
      * @Route("/listevenement", name="ws_ovs_admin_listevenement", options={"expose"=true})
      * @Template()
+     * 
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      */
     public function listEvenementAction() {
         $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');

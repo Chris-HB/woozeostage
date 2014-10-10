@@ -22,8 +22,10 @@ class ProfileController extends BaseController {
         $em = $this->getDoctrine()->getManager();
         $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
         $amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'statut' => 2, 'actif' => 1));
+        $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1));
+        $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('user' => $user, 'actif' => 1, 'statut' => 1));
 
-        return $this->render('FOSUserBundle:Profile:show.html.twig', array('user' => $user, 'amis' => $amis, 'amis_att' => $amis_att));
+        return $this->render('FOSUserBundle:Profile:show.html.twig', array('user' => $user, 'amis' => $amis, 'amis_att' => $amis_att, 'evenements' => $evenements, 'userEvenements' => $userEvenements));
     }
 
 }

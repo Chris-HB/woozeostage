@@ -28,7 +28,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>Pas d'évènement.</p>
+        <p>Pas d'événement.</p>
     {% endif %}
     <br/>
     {% if evenement_privs is not empty %}
@@ -55,6 +55,6 @@
         </table>
     {% endif %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter évènement</a></p>
+        <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter événement</a></p>
     {% endif %}
 {% endblock %}

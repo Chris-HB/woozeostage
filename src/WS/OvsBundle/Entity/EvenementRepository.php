@@ -30,6 +30,10 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * Methode utiliser dans RechercheType
+     * @return type
+     */
     public function rechercheVille() {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif=:actif')
@@ -44,7 +48,28 @@ class EvenementRepository extends EntityRepository {
         $qb->where('e.actif=:actif')
                 ->setParameter('actif', 1)
                 ->andWhere('e.ville= :ville')
-                ->setParameter('ville', $ville);
+                ->setParameter('ville', $ville)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'public');
+        return $qb->getQuery()->getResult();
+    }
+
+    public function result_ville_Priver($ville, $user, $amis) {
+        $ami_tab = array();
+        foreach ($amis as $ami) {
+            $ami_tab[] = $ami->getUserBis();
+        }
+        $ami_tab[] = $user;
+
+        $qb = $this->createQueryBuilder('e');
+        $qb->Where('e.user in (:user)')
+                ->setParameter('user', $ami_tab)
+                ->andWhere('e.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere('e.ville=:ville')
+                ->setParameter('ville', $ville)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'priver');
         return $qb->getQuery()->getResult();
     }
 
@@ -52,6 +77,28 @@ class EvenementRepository extends EntityRepository {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif= :actif')
                 ->setParameter('actif', 1)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'public')
+                ->leftJoin('e.sport', 's')
+                ->andWhere('s.nom= :sport')
+                ->setParameter('sport', $sport);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function result_sport_Priver($sport, $user, $amis) {
+        $ami_tab = array();
+        foreach ($amis as $ami) {
+            $ami_tab[] = $ami->getUserBis();
+        }
+        $ami_tab[] = $user;
+
+        $qb = $this->createQueryBuilder('e');
+        $qb->Where('e.user in (:user)')
+                ->setParameter('user', $ami_tab)
+                ->andWhere('e.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'priver')
                 ->leftJoin('e.sport', 's')
                 ->andWhere('s.nom= :sport')
                 ->setParameter('sport', $sport);
@@ -65,6 +112,30 @@ class EvenementRepository extends EntityRepository {
                 ->leftJoin('e.sport', 's')
                 ->andWhere('e.ville= :ville')
                 ->setParameter('ville', $ville)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'public')
+                ->andWhere('s.nom= :sport')
+                ->setParameter('sport', $sport);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function result_Priver($ville, $sport, $user, $amis) {
+        $ami_tab = array();
+        foreach ($amis as $ami) {
+            $ami_tab[] = $ami->getUserBis();
+        }
+        $ami_tab[] = $user;
+
+        $qb = $this->createQueryBuilder('e');
+        $qb->Where('e.user in (:user)')
+                ->setParameter('user', $ami_tab)
+                ->leftJoin('e.sport', 's')
+                ->andWhere('e.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere('e.ville=:ville')
+                ->setParameter('ville', $ville)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'priver')
                 ->andWhere('s.nom= :sport')
                 ->setParameter('sport', $sport);
         return $qb->getQuery()->getResult();

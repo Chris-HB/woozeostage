@@ -15,10 +15,6 @@ class RechercheType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-//                ->add('ville', 'text', array(
-//                    'required' => false,
-//                    'constraints' => array(new NotBlank())
-//                ))
                 ->add('evenement', 'entity', array(
                     'class' => 'WSOvsBundle:Evenement',
                     'property' => 'ville',

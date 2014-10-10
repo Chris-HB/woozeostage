@@ -12,7 +12,7 @@
        {{ evenement.descriptif|raw }}
     </p>
     {% if evenement.modification is not null %}
-        <p>Cet évènement a était modifié : 
+        <p>Cet événement a été modifié : 
             <br/>
             {{ evenement.modification|nl2br }}
         </p>
@@ -34,9 +34,9 @@
     <p>
         {% if app.user == evenement.user %}
             {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
-                <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">Supprimer cette sortie</a>
+                <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">Supprimer cet événement</a>
                 <a href="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}">Gerer les inscrits</a>
-                <a href="{{ path('ws_ovs_evenement_modifier', {'id': evenement.id}) }}">Modifier l'évènement</a>
+                <a href="{{ path('ws_ovs_evenement_modifier', {'id': evenement.id}) }}">Modifier l'événement</a>
             {% endif %}
         {% else %}
             {% set present = false %}
@@ -51,7 +51,7 @@
                 {% endif %}
             {% else %}
                 {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
-                    <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévènement</a>
+                    <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévénement</a>
                 {% endif %}
             {% endif %}
         {% endif %}
@@ -59,6 +59,6 @@
     {{ render(controller('WSOvsBundle:Commentaire:list', {'id':evenement.id})) }}
     {{ render(controller('WSOvsBundle:Commentaire:add', {'id':evenement.id})) }}
     {#<a href="{{ path('ws_ovs_commentaire_add', {'id':evenement.id}) }}">ajouter com</a>#}
-    <p><a href="{{ path('ws_ovs_evenement_listdate', {'date': evenement.date|date('Y-m-d')}) }}">Retour à la liste des évènements</a></p>
+    <p><a href="{{ path('ws_ovs_evenement_listdate', {'date': evenement.date|date('Y-m-d')}) }}">Retour à la liste des événements</a></p>
         <script src="{{ asset('js/addresspickervoir.js') }}"></script>
 {% endblock %}

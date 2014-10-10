@@ -5,6 +5,7 @@ namespace WS\OvsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use WS\OvsBundle\Entity\Evenement;
 use WS\OvsBundle\Form\EvenementType;
 use WS\OvsBundle\Form\EvenementEditType;
@@ -21,6 +22,8 @@ class EvenementController extends Controller {
     /**
      * @Route("/add", name="ws_ovs_evenement_add")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
      * Méthode qui ajoute un évènement en base.
      */
@@ -50,19 +53,6 @@ class EvenementController extends Controller {
             }
         }
         return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
-    }
-
-    /**
-     * @Route("/list", name="ws_ovs_evenement_list")
-     * @Template()
-     *
-     * Méthode qui liste tout les évènement quque soit leur date.
-     * Trié par heure croissante.
-     */
-    public function listAction() {
-        $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');
-        $evenements = $em->findBy(array('actif' => 1), array('heure' => 'ASC'));
-        return array('evenements' => $evenements);
     }
 
     /**
@@ -116,6 +106,8 @@ class EvenementController extends Controller {
     /**
      * @Route("/supprimer/{id}", name="ws_ovs_evenement_desactiver")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
      * Méthode qui permet de désactivé (actif passe a 0) un évènement.
      * L'utilisateur verra supprimer, mais elle ne fait que désactiver l'évènement.
@@ -173,6 +165,8 @@ class EvenementController extends Controller {
      * @Route("/gerer/{id}", name="ws_ovs_evenement_gerer")
      * @Template()
      *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
      * Méthode pour géré les inscrit a un évènement.
      * L'évènement ne doit pas être encore passé.
      */
@@ -180,53 +174,62 @@ class EvenementController extends Controller {
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
         $dateEvenement = new \DateTime($dateE);
         $dateActuelle = new \DateTime();
+        $user = $this->getUser();
         if ($dateActuelle > $dateEvenement) {
-            $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
+            $this->get('session')->getFlashBag()->add('info', 'Cette événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
-            $em = $this->getDoctrine()->getManager();
-            $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('evenement' => $evenement, 'actif' => 1));
-            $form = $this->createForm(new EvenementGererType(), $evenement);
-            $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                if ($form->isValid()) {
-                    $nombre = 0;
-                    $users = [];
-                    foreach ($evenement->getUserEvenements()as $userEvenement) {
-                        if ($userEvenement->getUser() == $evenement->getUser()) {
-                            $userEvenement->setStatut(1);
+            if ($user != $evenement->getUser()) {
+                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour gérer cette sortie');
+                return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            } else {
+                $em = $this->getDoctrine()->getManager();
+                $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('evenement' => $evenement, 'actif' => 1));
+                $form = $this->createForm(new EvenementGererType(), $evenement);
+                $request = $this->get('request');
+                if ($request->getMethod() == 'POST') {
+                    $form->bind($request);
+                    if ($form->isValid()) {
+                        $nombre = 0;
+                        $users = [];
+                        foreach ($evenement->getUserEvenements()as $userEvenement) {
+                            if ($userEvenement->getUser() == $evenement->getUser()) {
+                                $userEvenement->setStatut(1);
+                            }
+                            if ($userEvenement->getStatut() == 1) {
+                                $nombre ++;
+                            }
+                            if ($nombre > $evenement->getInscrit()) {
+                                $userEvenement->setStatut(2);
+                                $nombre --;
+                            }
+                            $userEvenementOld = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('evenement' => $evenement, 'user' => $evenement->getUser()));
+                            if (($userEvenementOld->getStatut() != $userEvenement->getStatut()) && ($userEvenement->getStatut() == 1)) {
+                                $users = $userEvenement->getUser();
+                            }
+                            $em->persist($userEvenement);
                         }
-                        if ($userEvenement->getStatut() == 1) {
-                            $nombre ++;
-                        }
-                        if ($nombre > $evenement->getInscrit()) {
-                            $userEvenement->setStatut(2);
-                            $nombre --;
-                        }
-                        $userEvenementOld = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('evenement' => $evenement, 'user' => $evenement->getUser()));
-                        if (($userEvenementOld->getStatut() != $userEvenement->getStatut()) && ($userEvenement->getStatut() == 1)) {
-                            $users = $userEvenement->getUser();
-                        }
-                        $em->persist($userEvenement);
-                    }
-                    $evenement->setNombreValide($nombre);
-                    $em->persist($evenement);
-                    $em->flush();
+                        $evenement->setNombreValide($nombre);
+                        $em->persist($evenement);
+                        $em->flush();
 //                    foreach ($users as $user) {
 //                        message($user, $evenement);
 //                    }
-                    $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
-                    return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+                        $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
+                        return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+                    }
                 }
+                return array('form' => $form->createView(), 'evenement' => $evenement);
             }
-            return array('form' => $form->createView(), 'evenement' => $evenement);
         }
     }
 
     /**
      * @Route("/modifier/{id}", name="ws_ovs_evenement_modifier")
      * @Template()
+     *
+     * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
      * Méthode pour modifié un évènement.
      * Elle bascule sur la méthode modifierEvenement du UserEvenementController.
      * Lévènement ne doit pas être encore passé.
@@ -235,33 +238,39 @@ class EvenementController extends Controller {
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
         $dateEvenement = new \DateTime($dateE);
         $dateActuelle = new \DateTime();
+        $user = $this->getUser();
         if ($dateActuelle > $dateEvenement) {
-            $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
+            $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
-            $map = $this->get('ivory_google_map.map');
-            $form = $this->createForm(new EvenementEditType(), $evenement);
+            if ($user != $evenement->getUser()) {
+                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour modifier cette sortie');
+                return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
+            } else {
+                $map = $this->get('ivory_google_map.map');
+                $form = $this->createForm(new EvenementEditType(), $evenement);
 
-            $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                if ($form->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
-                    $user = $this->getUser();
-                    $evenement->setUserEdition($user);
-                    $evenement->setDateEdition(new \DateTime());
-                    $em->persist($evenement);
-                    $em->flush();
+                $request = $this->get('request');
+                if ($request->getMethod() == 'POST') {
+                    $form->bind($request);
+                    if ($form->isValid()) {
+                        $em = $this->getDoctrine()->getManager();
+                        $user = $this->getUser();
+                        $evenement->setUserEdition($user);
+                        $evenement->setDateEdition(new \DateTime());
+                        $em->persist($evenement);
+                        $em->flush();
 //                    foreach ($evenement->getUserEvenements() as $userEvenement) {
-//                        if ($evenement->getUser() != $userEvenement->getUser()) {
+                        //                        if ($evenement->getUser() != $userEvenement->getUser()) {
 //                            messageNon($userEvenement->getUser(), $evenement);
 //                        }
 //                    }
-                    $this->get('session')->getFlashBag()->add('info', 'Evènement bien modifié, merci de gérer les utilisateurs inscrits');
-                    return $this->redirect($this->generateUrl('ws_ovs_userevenement_modifierevenement', array('id' => $evenement->getId())));
+                        $this->get('session')->getFlashBag()->add('info', 'Evènement bien modifié, merci de gérer les utilisateurs inscrits');
+                        return $this->redirect($this->generateUrl('ws_ovs_userevenement_modifierevenement', array('id' => $evenement->getId())));
+                    }
                 }
+                return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
             }
-            return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
         }
     }
 
@@ -270,7 +279,8 @@ class EvenementController extends Controller {
                 ->setSubject('confirmation sortie')
                 ->setFrom('A REMPLIR')
                 ->setTo($user->getEmail())
-                ->setBody($this->renderView('WSovsBundle:Evenement:emailConfirm.txt.twig', array('user' => $user, 'evenement' => $evenement)))
+                ->setBody($this->renderView('WSovsBundle:Evenement:emailConfirm.txt.twig', array(
+                    'user' => $user, 'evenement' => $evenement)))
         ;
         $this->get('mailer')->send($message);
     }
@@ -280,7 +290,8 @@ class EvenementController extends Controller {
                 ->setSubject('confirmation sortie')
                 ->setFrom('A REMPLIR')
                 ->setTo($user->getEmail())
-                ->setBody($this->renderView('WSovsBundle:Evenement:emailNon.txt.twig', array('user' => $user, 'evenement' => $evenement)))
+                ->setBody($this->renderView('WSovsBundle:Evenement:emailNon.txt.twig', array(
+                    'user' => $user, 'evenement' => $evenement)))
         ;
         $this->get('mailer')->send($message);
     }

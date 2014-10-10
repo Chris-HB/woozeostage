@@ -9,7 +9,7 @@
             <a href="{{ path('ws_user_ami_add', {'id': user.id}) }}">Ajouter en ami</a>
         {% endif %}
     </p>
-    <p>Les évènements créé par {{ user.username }} :</p>
+    <p>Les événements créé par {{ user.username }} :</p>
     {% if evenements is not empty %}
         <table>
             <tr>
@@ -32,7 +32,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>{{ user.username }} n'a créé aucun évènement.</p>
+        <p>{{ user.username }} n'a créé aucun événement.</p>
     {% endif %}
     <br/>
     <p>Les évènements au quel {{ user.username }} a participé :</p>
@@ -73,6 +73,6 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>{{ user.username }} n'a participé à aucun évènement.</p>
+        <p>{{ user.username }} n'a participé à aucun événement.</p>
     {% endif %}
 {% endblock %}

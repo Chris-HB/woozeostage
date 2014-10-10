@@ -4,7 +4,9 @@
     {% if commentaire.dateEdition %}
         <p>Derniere édition le Le {{ commentaire.dateEdition|date('d-m-Y') }} à {{ commentaire.dateEdition|date('H:i:s') }} par {{ commentaire.userEdition.username }}</p>
     {% endif %}
-    <p><a href="{{ path('ws_ovs_commentaire_modifier', {'id': commentaire.id}) }}">Modifier</a> <a href="{{ path('ws_ovs_commentaire_desactiver', {'id': commentaire.id}) }}">Supprimer</a></p>
+    {% if app.user == commentaire.user %}
+        <p><a href="{{ path('ws_ovs_commentaire_modifier', {'id': commentaire.id}) }}">Modifier</a> <a href="{{ path('ws_ovs_commentaire_desactiver', {'id': commentaire.id}) }}">Supprimer</a></p>
+    {% endif %}
 {% else %}
-    <p>Pas encore de commentaire pour cette évènement</p>
+    <p>Pas encore de commentaire pour cette événement</p>
 {% endfor %}
