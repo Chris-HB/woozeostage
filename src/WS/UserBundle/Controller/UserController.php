@@ -28,7 +28,7 @@ class UserController extends Controller {
             $user = $em->getRepository('WSUserBundle:User')->findOneBy(array('username' => $id));
         }
         if ($user == null) {
-            $this->get('session')->getFlashBag()->add('info', 'Personne innexistante');
+            $this->get('session')->getFlashBag()->add('info', 'Personne inexistante');
             return $this->redirect($this->generateUrl('ws_ovs_accueil_index'));
         }
         $user_actuel = $this->getUser();

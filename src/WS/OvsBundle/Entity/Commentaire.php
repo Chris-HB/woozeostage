@@ -28,7 +28,7 @@ class Commentaire {
      * @ORM\Column(name="contenue", type="text")
      * @Assert\NotBlank()
      *
-     * Le contenue du commentaire.
+     * Le contenu du commentaire.
      */
     private $contenue;
 
@@ -75,7 +75,7 @@ class Commentaire {
      * @ORM\ManyToOne(targetEntity="WS\OvsBundle\Entity\Evenement", inversedBy="commentaires")
      * @ORM\JoinColumn(nullable=false)
      *
-     * l'évènement associer au commentaire.
+     * l'événement associé au commentaire.
      */
     private $evenement;
 

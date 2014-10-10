@@ -2,11 +2,11 @@
     <p>Le {{ commentaire.dateCreation|date('d-m-Y') }} à {{ commentaire.dateCreation|date('H:i:s') }} par {{ commentaire.user.username }}</p>
     <p>{{ commentaire.contenue|raw }}</p>
     {% if commentaire.dateEdition %}
-        <p>Derniere édition le Le {{ commentaire.dateEdition|date('d-m-Y') }} à {{ commentaire.dateEdition|date('H:i:s') }} par {{ commentaire.userEdition.username }}</p>
+        <p>Dernière édition le {{ commentaire.dateEdition|date('d-m-Y') }} à {{ commentaire.dateEdition|date('H:i:s') }} par {{ commentaire.userEdition.username }}</p>
     {% endif %}
     {% if app.user == commentaire.user %}
         <p><a href="{{ path('ws_ovs_commentaire_modifier', {'id': commentaire.id}) }}">Modifier</a> <a href="{{ path('ws_ovs_commentaire_desactiver', {'id': commentaire.id}) }}">Supprimer</a></p>
     {% endif %}
 {% else %}
-    <p>Pas encore de commentaire pour cette événement</p>
+    <p>Pas encore de commentaire pour cet événement</p>
 {% endfor %}

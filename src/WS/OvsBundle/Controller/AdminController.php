@@ -18,7 +18,7 @@ class AdminController extends Controller {
     /**
      * @Route("/listevenement", name="ws_ovs_admin_listevenement", options={"expose"=true})
      * @Template()
-     * 
+     *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      */
     public function listEvenementAction() {
@@ -44,10 +44,6 @@ class AdminController extends Controller {
                 default:
                     $evenements = $em->findBy(array('actif' => $actif));
             }
-            //$evenements = $em->findBy(array('actif' => $actif), array($tri => 'asc'));
-//            return $this->container->get('templating')->renderResponse('WSOvsBundle:Admin:listEvent.html.twig', array(
-//                        'evenements' => $evenements
-//            ));
             return $this->render('WSOvsBundle:Admin:listEvent.html.twig', array(
                         'evenements' => $evenements
             ));

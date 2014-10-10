@@ -35,7 +35,7 @@
         {% if app.user == evenement.user %}
             {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
                 <a href="{{ path('ws_ovs_evenement_desactiver', {'id': evenement.id}) }}">Supprimer cet événement</a>
-                <a href="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}">Gerer les inscrits</a>
+                <a href="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}">Gérer les inscrits</a>
                 <a href="{{ path('ws_ovs_evenement_modifier', {'id': evenement.id}) }}">Modifier l'événement</a>
             {% endif %}
         {% else %}
@@ -51,7 +51,7 @@
                 {% endif %}
             {% else %}
                 {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
-                    <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à lévénement</a>
+                    <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à l'événement</a>
                 {% endif %}
             {% endif %}
         {% endif %}

@@ -28,7 +28,7 @@ class Evenement {
      * @ORM\Column(name="date", type="date")
      * @Assert\Date()
      *
-     * La date de l'évènement.
+     * La date de l'événement.
      */
     private $date;
 
@@ -43,7 +43,7 @@ class Evenement {
      *      maxMessage="Le nom doit faire au maximun {{ limit }} caractères "
      * )
      *
-     * Le nom de l'évènement.
+     * Le nom de l'événement.
      */
     private $nom;
 
@@ -53,7 +53,7 @@ class Evenement {
      * @ORM\Column(name="heure", type="time")
      * @Assert\Time()
      *
-     * L'heure de l'évènement.
+     * L'heure de l'événement.
      */
     private $heure;
 
@@ -63,7 +63,7 @@ class Evenement {
      * @ORM\Column(name="inscrit", type="integer")
      * @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      *
-     * Le nombre d'utilisateur maximal que l'évènement peut avoir.
+     * Le nombre d'utilisateur maximal que l'événement peut avoir.
      */
     private $inscrit;
 
@@ -72,7 +72,7 @@ class Evenement {
      *
      * @ORM\Column(name="actif", type="boolean")
      *
-     * L'évènement est actif(1) ou désactivé(0).
+     * L'événement est actif(1) ou désactivé(0).
      */
     private $actif;
 
@@ -80,7 +80,7 @@ class Evenement {
      * @ORM\Column(name="descriptif", type="text")
      * @Assert\NotBlank()
      *
-     * Le déscriptif de l'évènement.
+     * Le descriptif de l'événement.
      */
     private $descriptif;
 
@@ -90,7 +90,7 @@ class Evenement {
      * @ORM\Column(name="adresse", type="text")
      * @Assert\NotBlank()
      *
-     * L'adresse de l'évènement.
+     * L'adresse de l'événement.
      */
     private $adresse;
 
@@ -129,7 +129,7 @@ class Evenement {
     /**
      * @var type @ORM\Column(name="type", type="string", length=255)
      *
-     * Le type d'évènement : public ou privé.
+     * Le type d'événement : public ou privé.
      */
     private $type;
 
@@ -138,7 +138,7 @@ class Evenement {
      *
      * @ORM\Column(name="nombrevalide", type="integer")
      *
-     * Le nombre de personne avec le statut 1 (validé) pour l'évènement.
+     * Le nombre de personne avec le statut 1 (validé) pour l'événement.
      */
     private $nombreValide;
 
@@ -147,7 +147,7 @@ class Evenement {
      *
      * @ORM\Column(name="modification", type="text", nullable=true)
      *
-     * La/les raison del a modification de l'évènement.
+     * La/les raison de la modification de l'événement.
      */
     private $modification;
 
@@ -173,7 +173,7 @@ class Evenement {
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenements")
      * @ORM\JoinColumn(nullable=false)
      *
-     * L'utilisateur qui a créé l'évènement.
+     * L'utilisateur qui a créé l'événement.
      */
     private $user;
 
@@ -183,7 +183,7 @@ class Evenement {
      * @ORM\ManyToOne(targetEntity="WS\OvsBundle\Entity\Sport", inversedBy="evenements")
      * @ORM\JoinColumn(nullable=false)
      *
-     * Le sport associé a l'évènement.
+     * Le sport associé à l'événement.
      */
     private $sport;
 
@@ -192,7 +192,7 @@ class Evenement {
      *
      * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\UserEvenement", mappedBy="evenement")
      *
-     * La liste des personnes inscriptent à l'évènement.
+     * La liste des personnes inscriptes à l'événement.
      */
     private $userEvenements;
 
@@ -201,7 +201,7 @@ class Evenement {
      *
      * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Commentaire", mappedBy="evenement")
      *
-     * La liste des commentaires associé à l'évènement.
+     * La liste des commentaires associés à l'événement.
      */
     private $commentaires;
 

@@ -44,7 +44,7 @@ class Sport {
      *
      * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Evenement", mappedBy="sport")
      *
-     * La liste des évènements qui porte sur ce sport.
+     * La liste des événements associés à ce sport.
      */
     private $evenements;
 

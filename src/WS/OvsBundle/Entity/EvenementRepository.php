@@ -31,7 +31,7 @@ class EvenementRepository extends EntityRepository {
     }
 
     /**
-     * Methode utiliser dans RechercheType
+     * Methode utilisée dans RechercheType
      * @return type
      */
     public function rechercheVille() {

@@ -35,7 +35,7 @@
         <p>{{ user.username }} n'a créé aucun événement.</p>
     {% endif %}
     <br/>
-    <p>Les évènements au quel {{ user.username }} a participé :</p>
+    <p>Les évènements auxquels {{ user.username }} a participé :</p>
     {% if userEvenements is not empty %}
         {% if userEvenements|length < 10 %}
             <p>Courage plus que {{ 10 - userEvenements|length }} avant la médaille de bronze.</p>

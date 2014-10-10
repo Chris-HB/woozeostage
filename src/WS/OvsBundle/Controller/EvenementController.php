@@ -25,7 +25,7 @@ class EvenementController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode qui ajoute un évènement en base.
+     * Méthode qui ajoute un événement en base.
      */
     public function addAction() {
         $evenement = new Evenement();
@@ -40,7 +40,7 @@ class EvenementController extends Controller {
                 $dateEvenement = new \DateTime($dateE);
                 $dateActuelle = new \DateTime();
                 if ($dateActuelle > $dateEvenement) {
-                    $this->get('session')->getFlashBag()->add('info', 'Vous ne pouvez pas créer un évènement qui est déjà passé.');
+                    $this->get('session')->getFlashBag()->add('info', 'Vous ne pouvez pas créer un événement qui est déjà passé.');
                     return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
                 } else {
                     $em = $this->getDoctrine()->getManager();
@@ -62,7 +62,7 @@ class EvenementController extends Controller {
      * @Route("/listDate/{date}", name="ws_ovs_evenement_listdate", options={"expose"=true})
      * @Template()
      *
-     * Méthode qui renvoie la liste des évènements pour une date donner en paramètre.
+     * Méthode qui renvoie la liste des événements pour une date donnée en paramètre.
      * Trié par heure croissante.
      */
     public function listDateAction($date) {
@@ -88,7 +88,7 @@ class EvenementController extends Controller {
      * @Route("/voir/{id}", name="ws_ovs_evenement_voir")
      * @Template()
      *
-     * Méthode qui permet de voir un évènement.
+     * Méthode qui permet de voir un événement.
      */
     public function voirAction(Evenement $evenement) {
         $map = $this->get('ivory_google_map.map');
@@ -109,10 +109,10 @@ class EvenementController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode qui permet de désactivé (actif passe a 0) un évènement.
-     * L'utilisateur verra supprimer, mais elle ne fait que désactiver l'évènement.
-     * L'évènement ne doit pas être encore passé.
-     * La méthode désactive également les donnée de la table "userevenement" et les commentaires.
+     * Méthode qui permet de désactiver (actif passe a 0) un événement.
+     * L'utilisateur verra supprimer, mais elle ne fait que désactiver l'événement.
+     * L'événement ne doit pas être encore passé.
+     * La méthode désactive également les données de la table "userevenement" et les commentaires.
      */
     public function desactiverAction(Evenement $evenement) {
         $user = $this->getUser();
@@ -120,11 +120,11 @@ class EvenementController extends Controller {
         $dateEvenement = new \DateTime($dateE);
         $dateActuelle = new \DateTime();
         if ($dateActuelle > $dateEvenement) {
-            $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
+            $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
             if ($user != $evenement->getUser()) {
-                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour supprimer cette sortie');
+                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour supprimer cet événement');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
                 $date = $evenement->getDate()->format('Y-m-d');
@@ -150,7 +150,7 @@ class EvenementController extends Controller {
 //                                messageSupprimer($userEvenement->getUser(), $evenement);
 //                            }
 //                        }
-                        $this->get('session')->getFlashBag()->add('info', 'Evènement bien supprimé');
+                        $this->get('session')->getFlashBag()->add('info', 'Evénement bien supprimé');
                         return $this->redirect($this->generateUrl('ws_ovs_evenement_listdate', array('date' => $date)));
                     }
                 }
@@ -167,8 +167,8 @@ class EvenementController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode pour géré les inscrit a un évènement.
-     * L'évènement ne doit pas être encore passé.
+     * Méthode pour gérer les inscrits à un événement.
+     * L'événement ne doit pas être encore passé.
      */
     public function gererAction(Evenement $evenement) {
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
@@ -176,11 +176,11 @@ class EvenementController extends Controller {
         $dateActuelle = new \DateTime();
         $user = $this->getUser();
         if ($dateActuelle > $dateEvenement) {
-            $this->get('session')->getFlashBag()->add('info', 'Cette événement est déjà passé');
+            $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
             if ($user != $evenement->getUser()) {
-                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour gérer cette sortie');
+                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour gérer cet événement');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
                 $em = $this->getDoctrine()->getManager();
@@ -197,11 +197,11 @@ class EvenementController extends Controller {
                                 $userEvenement->setStatut(1);
                             }
                             if ($userEvenement->getStatut() == 1) {
-                                $nombre ++;
+                                $nombre++;
                             }
                             if ($nombre > $evenement->getInscrit()) {
                                 $userEvenement->setStatut(2);
-                                $nombre --;
+                                $nombre--;
                             }
                             $userEvenementOld = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('evenement' => $evenement, 'user' => $evenement->getUser()));
                             if (($userEvenementOld->getStatut() != $userEvenement->getStatut()) && ($userEvenement->getStatut() == 1)) {
@@ -230,9 +230,9 @@ class EvenementController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode pour modifié un évènement.
+     * Méthode pour modifier un événement.
      * Elle bascule sur la méthode modifierEvenement du UserEvenementController.
-     * Lévènement ne doit pas être encore passé.
+     * L'événement ne doit pas être encore passé.
      */
     public function modifierAction(Evenement $evenement) {
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
@@ -244,7 +244,7 @@ class EvenementController extends Controller {
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
             if ($user != $evenement->getUser()) {
-                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour modifier cette sortie');
+                $this->get('session')->getFlashBag()->add('info', 'Vous n\'avez pas les droits pour modifier cet événement');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
                 $map = $this->get('ivory_google_map.map');
@@ -265,7 +265,7 @@ class EvenementController extends Controller {
 //                            messageNon($userEvenement->getUser(), $evenement);
 //                        }
 //                    }
-                        $this->get('session')->getFlashBag()->add('info', 'Evènement bien modifié, merci de gérer les utilisateurs inscrits');
+                        $this->get('session')->getFlashBag()->add('info', 'Evénement bien modifié, merci de gérer les utilisateurs inscrits');
                         return $this->redirect($this->generateUrl('ws_ovs_userevenement_modifierevenement', array('id' => $evenement->getId())));
                     }
                 }

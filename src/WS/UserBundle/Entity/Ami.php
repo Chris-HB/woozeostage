@@ -44,7 +44,7 @@ class Ami {
      *
      * @ORM\Column(name="actif", type="boolean")
      *
-     * L'ami est soit active(1) quand validé ou en attente ou desactivé(0) si refuser ou supprimer.
+     * L'ami est soit active(1) quand validé ou en attente ou desactivé(0) si refusé ou supprimé.
      */
     private $actif;
 

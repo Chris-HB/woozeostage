@@ -21,9 +21,9 @@ class UserEvenementController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode pour ajouter sa participation a un évènement.
-     * Le créateur de l'évènement est automatiquement considerer comme validé pour la participation.
-     * L'évènement ne doit pas etre oncore passé.
+     * Méthode pour ajouter sa participation à un événement.
+     * Le créateur de l'événement est automatiquement considéré comme validé pour la participation.
+     * L'événement ne doit pas etre encore passé.
      */
     public function addAction(Evenement $evenement) {
         $user = $this->getUser();
@@ -38,7 +38,7 @@ class UserEvenementController extends Controller {
         } else {
             $userEvenementVerif = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement, 'actif' => 1));
             if ($userEvenementVerif != null) {
-                $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà inscrit à cette sortie');
+                $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà inscrit à cet événement');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
                 $userEvenementVerifActif = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement, 'actif' => 0));
@@ -78,9 +78,9 @@ class UserEvenementController extends Controller {
      *
      * NE SERT PLUS
      *
-     * Méthode pour modifié sa participation a l'évènement.
-     * L'évènement ne doit pas être encore passé.
-     * Le créateur de lévènement ne peut pas modifier sa participation.
+     * Méthode pour modifier sa participation à l'événement.
+     * L'événement ne doit pas être encore passé.
+     * Le créateur de l'événement ne peut pas modifier sa participation.
      */
     public function modifierAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
@@ -89,7 +89,7 @@ class UserEvenementController extends Controller {
         $dateEvenement = new \DateTime($dateE);
         $dateActuelle = new \DateTime();
         if ($dateActuelle > $dateEvenement) {
-            $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
+            $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
             if ($user == $evenement->getUser()) {
@@ -122,8 +122,8 @@ class UserEvenementController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode qui va mettre toutes les inscrit en "en attente" sauf le créateur de lévènement.
-     * Elle est appeller en cas de modification de l'évènement.
+     * Méthode qui va mettre tous les inscrits en "en attente" sauf le créateur de l'événement.
+     * Elle est appellée en cas de modification de l'événement.
      */
     public function modifierEvenementAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
@@ -145,9 +145,9 @@ class UserEvenementController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode pour annuler sa participation a l'évènement.
-     * L'évènement ne doit pas être encore passé.
-     * Le créateur de lévènement ne peut pas annuler sa participation.
+     * Méthode pour annuler sa participation à l'événement.
+     * L'événement ne doit pas être encore passé.
+     * Le créateur de l'événement ne peut pas annuler sa participation.
      */
     public function annulerAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
@@ -156,11 +156,11 @@ class UserEvenementController extends Controller {
         $dateEvenement = new \DateTime($dateE);
         $dateActuelle = new \DateTime();
         if ($dateActuelle > $dateEvenement) {
-            $this->get('session')->getFlashBag()->add('info', 'Cette evenement est déjà passé');
+            $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
             if ($user == $evenement->getUser()) {
-                $this->get('session')->getFlashBag()->add('info', 'Vous ne pouvez pas modifier votre participation');
+                $this->get('session')->getFlashBag()->add('info', 'Vous ne pouvez pas annuler votre participation');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
                 $userEvenement = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement));

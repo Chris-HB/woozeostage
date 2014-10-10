@@ -48,7 +48,7 @@ class CommentaireController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode qui permet de modifié le commentaire passer en parametre.
+     * Méthode qui permet de modifier le commentaire passé en paramètre.
      */
     public function modifierAction(Commentaire $commentaire) {
         $user = $this->getUser();
@@ -77,8 +77,8 @@ class CommentaireController extends Controller {
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
      *
-     * Méthode qui desactive(actif passe a 0) un commentaire.
-     * La route contient supprimer mais en réaliter le commentaire est juste désactiver.
+     * Méthode qui désactive(actif passe a 0) un commentaire.
+     * La route contient supprimer mais en réalité le commentaire est juste désactivé.
      */
     public function desactiverAction(Commentaire $commentaire) {
         $user = $this->getUser();
@@ -106,7 +106,7 @@ class CommentaireController extends Controller {
      * @Route("/list/{id}", name="ws_ovs_commentaire_list")
      * @Template()
      *
-     * Méthode qui renvoie tout les commentaires actif pour un évnement donner.
+     * Méthode qui renvoie tout les commentaires actif pour un événement donné.
      */
     public function listAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
