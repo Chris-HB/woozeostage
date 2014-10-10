@@ -37,8 +37,8 @@ class ChatController extends Controller {
      */
     public function historiqueListeChatsAction() {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-        $listChats = $em->getRepository('WSChatBundle:Messagebox')->listChats($user);
+        $emetteur = $this->getUser();
+        $listChats = $em->getRepository('WSChatBundle:Messagebox')->listChats($emetteur);
         return array('listChats' => $listChats);
     }
 

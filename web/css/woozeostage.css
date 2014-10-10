@@ -5,3 +5,28 @@
 #steack{
     visibility: hidden;
 }
+
+#tableHistoriqueChat {
+border-collapse:collapse;
+}
+
+#tableHistoriqueChat td{
+   border: 1px solid lightslategrey;
+   padding-left: 4px;
+   padding-right: 4px; 
+}
+
+#listchats li {
+   font-weight: bold; 
+}
+
+.historiqueChat {
+    display: none;
+}
+
+.enteteTableChat {
+    color: #d34d17;
+    font-size: 0.8em;
+    padding-top: 10px;
+    
+}

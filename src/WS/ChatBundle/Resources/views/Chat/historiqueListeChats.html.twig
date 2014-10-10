@@ -2,8 +2,9 @@
 <ul id="listchats">
 {% for listchat in listChats %}
             <li>{{ listchat.recepteur.username }}</li>
-            <div id="historiqueChat">
+            <div class="historiqueChat" id="{{ listchat.recepteur.username ~ '_chat'}}">
             {{ render(controller("WSChatBundle:Chat:historiqueChat", {'id':listchat.recepteur.id})) }}
+            <br/>
             </div>
 {% endfor %}
 </ul>

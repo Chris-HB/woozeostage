@@ -171,6 +171,17 @@ $(document).ready(function() {
     }
 
 
+    //************************************
+    // Dans l'historique des chats
+    // si on clic sur un utilisateur
+    // le div s'affiche ou disparait
+    //---
+    $("#listchats li").click(function() {
+        var idDiv = $(this).text() + '_chat'
+        $("#" + idDiv).toggle();
+    });
+
+
     //****************************************
     // Si passe la souris sur un utilisateur
     // le curseur change de forme
@@ -178,6 +189,8 @@ $(document).ready(function() {
     $("#userclick li").mouseover(function() {
         $("span", this).addClass("aspectcurseur");
     });
+
+
     //*********************************
     // Si on clic sur un utilisateur
     //---
