@@ -50,15 +50,18 @@
                     <a href="{{ path('ws_ovs_userevenement_annuler', {'id': evenement.id}) }}">annuler ma participation</a>
                 {% endif %}
             {% else %}
-                {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
-                    <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à l'événement</a>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {% if "now"|date('Y-m-d H:i:s') < dateEvenement|date('Y-m-d H:i:s') %}
+                        <a href="{{ path('ws_ovs_userevenement_add', {id: evenement.id}) }}">S'inscrire à l'événement</a>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endif %}
     </p>
     {{ render(controller('WSOvsBundle:Commentaire:list', {'id':evenement.id})) }}
-    {{ render(controller('WSOvsBundle:Commentaire:add', {'id':evenement.id})) }}
-    {#<a href="{{ path('ws_ovs_commentaire_add', {'id':evenement.id}) }}">ajouter com</a>#}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{ render(controller('WSOvsBundle:Commentaire:add', {'id':evenement.id})) }}
+    {% endif %}
     <p><a href="{{ path('ws_ovs_evenement_listdate', {'date': evenement.date|date('Y-m-d')}) }}">Retour à la liste des événements</a></p>
         <script src="{{ asset('js/addresspickervoir.js') }}"></script>
 {% endblock %}
