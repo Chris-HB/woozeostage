@@ -68,14 +68,6 @@ class AmiController extends Controller {
     }
 
     /**
-     * @Route("/list/{id}", name="ws_user_ami_list")
-     * @Template()
-     */
-    public function listAction(User $user) {
-
-    }
-
-    /**
      * @Route("/gerer/{id}-{accepter}", name="ws_user_ami_gerer")
      * @Template()
      */
@@ -118,6 +110,18 @@ class AmiController extends Controller {
             $this->get('session')->getFlashBag()->add('info', 'tentative de hack');
             return $this->redirect($this->generateUrl('ws_ovs_accueil_index'));
         }
+    }
+
+    /**
+     * @Route("/annonce", name="ws_user_ami_annonce")
+     * @Template()
+     */
+    public function annonceAction() {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'statut' => 2, 'actif' => 1));
+
+        return array('amis_att' => $amis_att);
     }
 
 }

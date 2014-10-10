@@ -11,6 +11,7 @@ use WS\OvsBundle\Form\EvenementEditType;
 use WS\OvsBundle\Entity\UserEvenement;
 use WS\OvsBundle\Form\EvenementGererType;
 use WS\UserBundle\Entity\User;
+use WS\UserBundle\Entity\Ami;
 
 /**
  * @Route("/evenement")
@@ -31,9 +32,6 @@ class EvenementController extends Controller {
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
-//            $codePostal = $form->get('codePostal')->getData();
-//            $ville = $form->get('ville')->getData();
-//            return new \Symfony\Component\HttpFoundation\Response('code postal: ' . $codePostal . ' ville: ' . $ville);
             if ($form->isValid()) {
                 $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
                 $dateEvenement = new \DateTime($dateE);
@@ -80,9 +78,18 @@ class EvenementController extends Controller {
     public function listDateAction($date) {
         $date = new \DateTime($date);
         $em = $this->getDoctrine()->getManager();
-        $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('actif' => 1, 'date' => $date), array('heure' => 'ASC'));
+        $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('actif' => 1, 'date' => $date, 'type' => 'public'), array('heure' => 'ASC'));
+        $user = $this->getUser();
+        $evenement_privs = null;
+        if ($user != null) {
+            $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
+            $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->sortiePriver($date, $user, $amis);
+        } else {
+            $evenement_privs = null;
+        }
 
-        return array('date' => $date, 'evenements' => $evenements);
+
+        return array('date' => $date, 'evenements' => $evenements, 'evenement_privs' => $evenement_privs);
     }
 
     /**

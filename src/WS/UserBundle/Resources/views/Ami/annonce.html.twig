@@ -1,0 +1,9 @@
+<a href="{{path('fos_user_profile_show') }}">Votre Profil</a>
+{% if amis_att is not empty %}
+    {% if amis_att|length == 1%}
+        ({{ amis_att|length }} demande d'ami)
+    {% else %}
+        ({{ amis_att|length }} demandes d'amis)
+    {% endif %}  
+{% endif %}
+

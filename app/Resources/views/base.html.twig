@@ -33,7 +33,8 @@
                     Bonjour {{ app.user.username }}
                 </div> 
                 - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
-                <a href="{{path('fos_user_profile_show') }}">Votre Profil</a>
+                {{ render(controller("WSUserBundle:Ami:annonce")) }}
+                {#<a href="{{path('fos_user_profile_show') }}">Votre Profil</a>#}
              {% else %}
                     <div id="connexion">
                         <a href="{{ path('fos_user_security_login') }}">Connexion</a>&nbsp

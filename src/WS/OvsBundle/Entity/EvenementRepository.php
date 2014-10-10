@@ -70,4 +70,24 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    public function sortiePriver($date, $user, $amis) {
+        $ami_tab = array();
+        foreach ($amis as $ami) {
+            $ami_tab[] = $ami->getUserBis();
+        }
+        $ami_tab[] = $user;
+
+        $qb = $this->createQueryBuilder('e');
+        $qb->Where('e.user in (:user)')
+                ->setParameter('user', $ami_tab)
+                ->andWhere('e.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere('e.date=:date')
+                ->setParameter('date', $date)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'priver')
+                ->orderBy('e.heure', 'ASC');
+        return $qb->getQuery()->getResult();
+    }
+
 }

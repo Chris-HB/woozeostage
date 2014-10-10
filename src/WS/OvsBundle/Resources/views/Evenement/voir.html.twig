@@ -4,7 +4,7 @@
     {{ parent() }} - evenement
 {% endblock %}
 {% block ovs %}
-    <p>{{ evenement. nom }} par {{ evenement.user.username }}</p>
+    <p>{{ evenement. nom }} par <a href="{{ path('ws_user_user_profil', {'id': evenement.user.id}) }}">{{ evenement.user.username }}</a></p>
     <p>le {{ evenement.date|date('d/m/Y') }} à {{ evenement.heure|date('H:i')}}</p>
     <p>Type de sport : {{ evenement.sport.nom }}<p>
     <p>Description
