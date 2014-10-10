@@ -1,7 +1,7 @@
 <h3>Historique des CHATS</h3>
 <ul id="listchats">
 {% for listchat in listChats %}
-            <li>{{ listchat.recepteur.username }}</li>
+            <li><span>{{ listchat.recepteur.username }}</span></li>
             <div class="historiqueChat" id="{{ listchat.recepteur.username ~ '_chat'}}">
             {{ render(controller("WSChatBundle:Chat:historiqueChat", {'id':listchat.recepteur.id})) }}
             <br/>

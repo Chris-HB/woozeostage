@@ -186,10 +186,15 @@ $(document).ready(function() {
     // Si passe la souris sur un utilisateur
     // le curseur change de forme
     //---
+
+    //-- Liste des utilisateur connectés
     $("#userclick li").mouseover(function() {
         $("span", this).addClass("aspectcurseur");
     });
-
+    //-- Liste des utilisateurs (Historique des chats)
+    $("#listchats li").mouseover(function() {
+        $("span", this).addClass("aspectcurseur");
+    });
 
     //*********************************
     // Si on clic sur un utilisateur
