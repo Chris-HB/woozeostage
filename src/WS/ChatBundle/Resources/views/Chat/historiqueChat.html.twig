@@ -1,11 +1,11 @@
 <table id="tableHistoriqueChat">
-{% set dateRef=""%}   
+{% set dateRef=""%}        
 {% for ligneChat in lignesChat %}
             {% if dateRef!=ligneChat.date|date('d-m-Y')%}   
             <th colspan="3" class="enteteTableChat">Chat du {{ligneChat.date|date('d-m-Y')}}</th>
                 {%set dateRef=ligneChat.date|date('d-m-Y')%}
             {%endif%}
-            <tr>
+            <tr class="{% if loop.index is divisibleby(2) %}odd{% else %}even{% endif %}">
                 <td>{{ ligneChat.emetteur.username }} : </td>
                 <td>{{ ligneChat.message }}</td>
                 <td>{{ ligneChat.date|date(' à H:i:s') }}</td>

@@ -7,21 +7,24 @@
 }
 
 #tableHistoriqueChat {
-border-collapse:collapse;
+    border-collapse:collapse;
 }
 
 #tableHistoriqueChat td{
-   border: 1px solid lightslategrey;
-   padding-left: 4px;
-   padding-right: 4px; 
+    border: 1px solid lightslategrey;
+    padding-left: 4px;
+    padding-right: 4px; 
 }
 
 #listchats li {
-   font-weight: bold; 
+    font-weight: bold; 
 }
 
 .historiqueChat {
     display: none;
+    overflow: scroll;
+    width: 100%;
+    height: 200px;
 }
 
 .enteteTableChat {
@@ -29,4 +32,14 @@ border-collapse:collapse;
     font-size: 0.8em;
     padding-top: 10px;
     
+}
+
+/* pair */
+.odd {
+    background-color: peachpuff;  
+}
+
+/* impair */
+.even {
+    background-color: lightyellow;
 }
