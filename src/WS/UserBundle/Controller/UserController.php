@@ -50,6 +50,15 @@ class UserController extends Controller {
         return array('user' => $user, 'evenement_publics' => $evenement_publics, 'userEvenement_publics' => $userEvenement_publics, 'ami' => $ami, 'evenement_privs' => $evenement_privs, 'userEvenement_privs' => $userEvenement_privs);
     }
 
+    /**
+     * @Template()
+     */
+    public function whoIsOnlineAction() {
+        $users = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:User')->getActive();
+
+        return array('users' => $users);
+    }
+
     public function amiCommun(User $user) {
         $user_actuel = $this->getUser();
         $amis_actuel = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user_actuel, 'statut' => 1, 'actif' => 1));
