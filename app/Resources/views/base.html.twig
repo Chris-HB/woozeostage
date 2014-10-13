@@ -66,8 +66,8 @@
             <hr />
             <div>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    {#{{ render(controller("WSChatBundle:Chat:listUser")) }}#}
-                    {{ render(controller('WSUserBundle:User:whoIsOnline')) }}
+                    {{ render(controller("WSChatBundle:Chat:listUser")) }}
+                    {#{{ render(controller('WSUserBundle:User:whoIsOnline')) }}#}
                 {% endif %}
             </div>
             <div id="chat_div" ng-app="demoApp"> 
