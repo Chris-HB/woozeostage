@@ -37,6 +37,7 @@ function clientApp() {
             $('#' + message.emetteur).chatbox("option", "boxManager").addMsg(messB[0][1], messB[0][0], messB[0][2]);
 
             // on verifie que la valeur (id de Box) n'existe pas déjà dans le tableau boxTab
+            // si ce n'est pas le cas on la rajoute
             existe = $.inArray(message.emetteur, boxTab);
             if (existe == -1) {
                 boxTab.push(message.emetteur);
