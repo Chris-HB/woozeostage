@@ -18,6 +18,9 @@ class UserController extends Controller {
     /**
      * @Route("/profil/{id}", name="ws_user_user_profil")
      * @Template()
+     *
+     * Méthode pour voir le profil d'un utilisateur
+     * Pour les événement privé seul les amis peuvent les voir.
      */
     public function profilAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -32,6 +35,7 @@ class UserController extends Controller {
             return $this->redirect($this->generateUrl('ws_ovs_accueil_index'));
         }
         $user_actuel = $this->getUser();
+        // On verifie si l'utilisateur qui regarde le profil n'ai pas déjà ami avec l'utilisateur du profil.
         $ami = null;
         $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user, 'statut' => 1, 'actif' => 1));
         $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('user' => $user, 'actif' => 1, 'statut' => 1));
@@ -39,7 +43,9 @@ class UserController extends Controller {
         $evenement_publics = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1, 'type' => 'public'));
         $userEvenement_publics = $this->participationPublic($userEvenements);
 
-        if ($ami != null) {
+        // S'il sont ami alors on renvoye la liste des événements privé crée par l'utilisateur
+        // et la liste des événements auquel il a participé a condition que celui ci soit ami avec les créateur de lévénement.
+        if (($ami != null) or $user == $user_actuel) {
             $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1, 'type' => 'priver'));
             $userEvenement_privs = $this->participationPriver($userEvenements, $user);
         } else {
@@ -50,6 +56,13 @@ class UserController extends Controller {
         return array('user' => $user, 'evenement_publics' => $evenement_publics, 'userEvenement_publics' => $userEvenement_publics, 'ami' => $ami, 'evenement_privs' => $evenement_privs, 'userEvenement_privs' => $userEvenement_privs);
     }
 
+    /**
+     *
+     * @param User $user
+     * @return type
+     *
+     * Méthode pour retourné la liste des amis communs.
+     */
     public function amiCommun(User $user) {
         $user_actuel = $this->getUser();
         $amis_actuel = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user_actuel, 'statut' => 1, 'actif' => 1));
@@ -65,6 +78,13 @@ class UserController extends Controller {
         return $amis_commun;
     }
 
+    /**
+     *
+     * @param type $userEvenements
+     * @return type
+     *
+     * Méthode qui retourne la liste des participation a des événements publics.
+     */
     public function participationPublic($userEvenements) {
         $userEvenement_publics = array();
         foreach ($userEvenements as $userEvenement) {
@@ -75,6 +95,15 @@ class UserController extends Controller {
         return $userEvenement_publics;
     }
 
+    /**
+     *
+     * @param type $userEvenements
+     * @param type $user
+     * @return type
+     *
+     * Méthode qui retourne la liste des participation a des événements privés.
+     * Celle ci tiens compte des amis.
+     */
     public function participationPriver($userEvenements, $user) {
         $userEvenement_privers = array();
         foreach ($userEvenements as $userEvenement) {

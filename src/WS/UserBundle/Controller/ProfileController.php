@@ -13,6 +13,8 @@ class ProfileController extends BaseController {
 
     /**
      * Show the user
+     *
+     * Overide de la méthode de voir le profil de FOS
      */
     public function showAction() {
         $user = $this->getUser();

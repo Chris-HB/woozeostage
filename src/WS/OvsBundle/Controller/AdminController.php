@@ -20,6 +20,8 @@ class AdminController extends Controller {
      * @Template()
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
+     * Méthode pour afficher la liste de tout les évnement et les trier en fonction de critière.
      */
     public function listEvenementAction() {
         $em = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement');

@@ -19,14 +19,18 @@ class AccueilController extends Controller {
     /**
      * @Route("/", name="ws_ovs_accueil_index", options={"expose"=true})
      * @Template()
+     *
+     * Méthode qui donne la liste des événement du jour.
      */
     public function indexAction() {
+        // on recupère la date du jour qu'on formate pour avoir année-mois-jour.
         $date_new = new \DateTime();
         $date_format = $date_new->format('Y-m-d');
         $date = new \DateTime($date_format);
         $em = $this->getDoctrine()->getManager();
         $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('actif' => 1, 'date' => $date, 'type' => 'public'), array('heure' => 'ASC'));
         $user = $this->getUser();
+        // Si un utilisateur est connecté on récupère la liste de ces événements privé et celle de ses amis.
         if ($user != null) {
             $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
             $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->sortiePriverDate($date, $user, $amis);

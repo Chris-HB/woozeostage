@@ -53,6 +53,7 @@ class CommentaireController extends Controller {
     public function modifierAction(Commentaire $commentaire) {
         $user = $this->getUser();
         $form = $this->createForm(new CommentaireType(), $commentaire);
+        // Si l'utilisateur courant n'ai pas celui qui a écrit le commentaire alors on le redirige sur l'événement
         if ($user != $commentaire->getUser()) {
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $commentaire->getEvenement()->getId())));
         }
@@ -83,6 +84,7 @@ class CommentaireController extends Controller {
     public function desactiverAction(Commentaire $commentaire) {
         $user = $this->getUser();
         $form = $this->createFormBuilder()->getForm();
+        // Si l'utilisateur courant n'ai pas celui qui a écrit le commentaire alors on le redirige sur l'événement
         if ($user != $commentaire->getUser()) {
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $commentaire->getEvenement()->getId())));
         }

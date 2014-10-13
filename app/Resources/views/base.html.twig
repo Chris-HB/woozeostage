@@ -82,6 +82,7 @@
             </div>
             {% block body %}{% endblock %}
             {% block javascripts %}{% endblock %}
+            {# appel du bloc pour utiliser tinymce bundle #}
             {{ tinymce_init() }}
     </body>
 </html>

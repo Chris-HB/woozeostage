@@ -29,10 +29,7 @@ class UserEvenementController extends Controller {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
-        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
-        $dateEvenement = new \DateTime($dateE);
-        $dateActuelle = new \DateTime();
-        if ($dateActuelle > $dateEvenement) {
+        if ($this->verifDate($evenement)) {
             $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
@@ -41,22 +38,28 @@ class UserEvenementController extends Controller {
                 $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà inscrit à cet événement');
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
+                // On verifie si l'utilisateur n'a pas déjà annuler sa participaton a cet événement.
                 $userEvenementVerifActif = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('user' => $user, 'evenement' => $evenement, 'actif' => 0));
                 if ($userEvenementVerifActif != null) {
+                    // Si c'est le cas on le remet actif et "en attente": statut(2).
                     $userEvenementVerifActif->setActif(1);
                     $userEvenementVerifActif->setStatut(2);
                     $em->persist($userEvenementVerifActif);
                     $em->flush();
                     return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
                 } else {
+                    // Sinon c'est un nouvel utilisateur.
                     $userEvenement = new UserEvenement();
                     $userEvenement->setUser($user);
                     $userEvenement->setEvenement($evenement);
+                    // Si c'est le créateur de l'événement on lui met le statut(1) "validé".
                     if ($user == $evenement->getUser()) {
                         $userEvenement->setStatut(1);
                     } else {
+                        // Sinon il a le statut(2) "en attente".
                         $userEvenement->setStatut(2);
                     }
+                    // Dans le cas du créateur de l'événement on incrémente le nombre d'inscrit validé de l'événement.
                     if ($userEvenement->getStatut() == 1) {
                         $evenement->setNombreValide($evenement->getNombreValide() + 1);
                         $em->persist($evenement);
@@ -85,10 +88,7 @@ class UserEvenementController extends Controller {
     public function modifierAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
-        $dateEvenement = new \DateTime($dateE);
-        $dateActuelle = new \DateTime();
-        if ($dateActuelle > $dateEvenement) {
+        if ($this->verifDate($evenement)) {
             $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
@@ -152,10 +152,7 @@ class UserEvenementController extends Controller {
     public function annulerAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
-        $dateEvenement = new \DateTime($dateE);
-        $dateActuelle = new \DateTime();
-        if ($dateActuelle > $dateEvenement) {
+        if ($this->verifDate($evenement)) {
             $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
@@ -170,9 +167,11 @@ class UserEvenementController extends Controller {
                 if ($request->getMethod() == 'POST') {
                     $form->bind($request);
                     if ($form->isValid()) {
+                        // Si le statut était validé (1) alors on diminue le nombre d'inscrit validé de 1
                         if ($statut == 1) {
                             $evenement->setNombreValide($evenement->getNombreValide() - 1);
                         }
+                        // on passe l'utilisateur en inactif
                         $userEvenement->setActif(0);
                         $em->persist($userEvenement, $evenement);
                         $em->flush();
@@ -182,6 +181,20 @@ class UserEvenementController extends Controller {
                 return array('form' => $form->createView(), 'userEvenement' => $userEvenement);
             }
         }
+    }
+
+    /**
+     *
+     * @param Evenement $evenement
+     * @return type
+     *
+     * Méthode pour verifier que la date actuel n'ai pas suppérieure a la date de l'événement
+     */
+    public function verifDate(Evenement $evenement) {
+        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
+        $dateEvenement = new \DateTime($dateE);
+        $dateActuelle = new \DateTime();
+        return $dateActuelle > $dateEvenement;
     }
 
 }

@@ -8,8 +8,10 @@
     <p>Il y a actuelement <span id="nombreValide">{{ evenement.nombreValide }}</span> d'inscrit pour <span id="inscrit">{{ evenement.inscrit }}</span> places.<p>
     <div id='ws_ovsbundle_evenementgerer'>
         <form action="{{ path('ws_ovs_evenement_gerer', {'id': evenement.id}) }}" method="POST" {{ form_enctype(form) }}>
+            {# Ici on récupère la partie du formulaire qui nous interaisse #}
             {{ form_label(form.userEvenements) }}
             {% for userEvenement in form.userEvenements %}
+                {# si la personne a le statut d'actif alors on affiche son nom puis son statut #}
                 {% if userEvenement.actif.vars.value == 1 %}
                     <p><a href="{{ path('ws_user_user_profil',{'id':userEvenement.user.username.vars.value}) }}">{{ userEvenement.user.username.vars.value }}</a></p>
                     {{ form_row(userEvenement.statut) }}

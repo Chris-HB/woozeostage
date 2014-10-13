@@ -36,10 +36,7 @@ class EvenementController extends Controller {
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
-                $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
-                $dateEvenement = new \DateTime($dateE);
-                $dateActuelle = new \DateTime();
-                if ($dateActuelle > $dateEvenement) {
+                if ($this->verifDate($evenement)) {
                     $this->get('session')->getFlashBag()->add('info', 'Vous ne pouvez pas créer un événement qui est déjà passé.');
                     return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
                 } else {
@@ -71,6 +68,7 @@ class EvenementController extends Controller {
         $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('actif' => 1, 'date' => $date, 'type' => 'public'), array('heure' => 'ASC'));
         $user = $this->getUser();
         $evenement_privs = null;
+        // Si un utilisateur est connecté on récupère tous les événements privé créés par lui et ses amis.
         if ($user != null) {
             $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
             $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->sortiePriverDate($date, $user, $amis);
@@ -94,6 +92,7 @@ class EvenementController extends Controller {
         $map = $this->get('ivory_google_map.map');
         $em = $this->getDoctrine()->getManager();
 
+        // On récupère la date de l'événement: concaténation de la date du jour et de l'heure
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
         $dateEvenement = new \DateTime($dateE);
 
@@ -116,10 +115,7 @@ class EvenementController extends Controller {
      */
     public function desactiverAction(Evenement $evenement) {
         $user = $this->getUser();
-        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
-        $dateEvenement = new \DateTime($dateE);
-        $dateActuelle = new \DateTime();
-        if ($dateActuelle > $dateEvenement) {
+        if ($this->verifDate($evenement)) {
             $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
@@ -136,10 +132,12 @@ class EvenementController extends Controller {
                         $em = $this->getDoctrine()->getManager();
                         $evenement->setActif(0);
                         $em->persist($evenement);
+                        // On passe tout les inscrit a l'évènement en inactif (actif = 0)
                         foreach ($evenement->getUserEvenements() as $userEvenement) {
                             $userEvenement->setActif(0);
                             $em->persist($userEvenement);
                         }
+                        // On passe tout les commentaires de cet événement en inactif
                         foreach ($evenement->getCommentaires() as $commentaire) {
                             $commentaire->setActif(0);
                             $em->persist($commentaire);
@@ -147,7 +145,7 @@ class EvenementController extends Controller {
                         $em->flush();
 //                        foreach ($evenement->getUserEvenements() as $userEvenement) {
 //                            if ($evenement->getUser() != $userEvenement->getUser()) {
-//                                messageSupprimer($userEvenement->getUser(), $evenement);
+//                                $this->messageSupprimer($userEvenement->getUser(), $evenement);
 //                            }
 //                        }
                         $this->get('session')->getFlashBag()->add('info', 'Evénement bien supprimé');
@@ -171,11 +169,8 @@ class EvenementController extends Controller {
      * L'événement ne doit pas être encore passé.
      */
     public function gererAction(Evenement $evenement) {
-        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
-        $dateEvenement = new \DateTime($dateE);
-        $dateActuelle = new \DateTime();
         $user = $this->getUser();
-        if ($dateActuelle > $dateEvenement) {
+        if ($this->verifDate($evenement)) {
             $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
@@ -190,8 +185,10 @@ class EvenementController extends Controller {
                 if ($request->getMethod() == 'POST') {
                     $form->bind($request);
                     if ($form->isValid()) {
+                        // on initialise un nombre a 0 qui servira a calculer le nombre d'inscrit validé a l'événement.
                         $nombre = 0;
-                        $users = [];
+                        // on initialise un tableau vide ou on stockera la liste des utilisateur dont le statut a était modifié et passer en validé
+//                        $users = array();
                         foreach ($evenement->getUserEvenements()as $userEvenement) {
                             if ($userEvenement->getUser() == $evenement->getUser()) {
                                 $userEvenement->setStatut(1);
@@ -203,17 +200,19 @@ class EvenementController extends Controller {
                                 $userEvenement->setStatut(2);
                                 $nombre--;
                             }
-                            $userEvenementOld = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('evenement' => $evenement, 'user' => $evenement->getUser()));
-                            if (($userEvenementOld->getStatut() != $userEvenement->getStatut()) && ($userEvenement->getStatut() == 1)) {
-                                $users = $userEvenement->getUser();
-                            }
+                            // On récupère la liste des utilisateur inscrit a l'événement avant modif et on compare leur statut.
+                            // Si celui-ci est différent et qu'il est passé a validé alors on l'ajoute au tableau users
+//                            $userEvenementOld = $em->getRepository('WSOvsBundle:UserEvenement')->findOneBy(array('evenement' => $evenement, 'user' => $evenement->getUser()));
+//                            if (($userEvenementOld->getStatut() != $userEvenement->getStatut()) && ($userEvenement->getStatut() == 1)) {
+//                                $users[] = $userEvenement->getUser();
+//                            }
                             $em->persist($userEvenement);
                         }
                         $evenement->setNombreValide($nombre);
                         $em->persist($evenement);
                         $em->flush();
 //                    foreach ($users as $user) {
-//                        message($user, $evenement);
+//                        $this->messageConfirm($user, $evenement);
 //                    }
                         $this->get('session')->getFlashBag()->add('info', 'liste des personnes inscrites bien modifié');
                         return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
@@ -235,11 +234,8 @@ class EvenementController extends Controller {
      * L'événement ne doit pas être encore passé.
      */
     public function modifierAction(Evenement $evenement) {
-        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
-        $dateEvenement = new \DateTime($dateE);
-        $dateActuelle = new \DateTime();
         $user = $this->getUser();
-        if ($dateActuelle > $dateEvenement) {
+        if ($this->verifDate($evenement)) {
             $this->get('session')->getFlashBag()->add('info', 'Cet événement est déjà passé');
             return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
         } else {
@@ -272,6 +268,20 @@ class EvenementController extends Controller {
                 return array('form' => $form->createView(), 'evenement' => $evenement, 'map' => $map);
             }
         }
+    }
+
+    /**
+     *
+     * @param Evenement $evenement
+     * @return type
+     *
+     * Méthode pour verifier que la date actuel n'ai pas suppérieure a la date de l'événement
+     */
+    public function verifDate(Evenement $evenement) {
+        $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
+        $dateEvenement = new \DateTime($dateE);
+        $dateActuelle = new \DateTime();
+        return $dateActuelle > $dateEvenement;
     }
 
     public function messageConfirm(User $user, Evenement $evenement) {

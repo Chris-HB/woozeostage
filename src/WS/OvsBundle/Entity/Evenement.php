@@ -103,6 +103,7 @@ class Evenement {
      * message="code postal non valide"
      * )
      *
+     * Le code postal de la ville de l'événement
      */
     private $codePostal;
 
@@ -111,18 +112,24 @@ class Evenement {
      *
      * @ORM\Column(name="ville", type="text")
      * @Assert\NotBlank()
+     *
+     * La ville de l'événement
      */
     private $ville;
 
     /**
      * @var type
      * @ORM\Column(name="latitude", type="float")
+     *
+     * La latitude de l'événement
      */
     private $latitude;
 
     /**
      * @var type
      * @ORM\Column(name="longitude", type="float")
+     *
+     * La longitude de l'événement
      */
     private $longitude;
 
@@ -156,6 +163,8 @@ class Evenement {
      *
      * @ORM\Column(name="date_creation", type="datetime")
      * @Assert\Date()
+     *
+     * La date de création de l'événement
      */
     private $dateCreation;
 
@@ -164,6 +173,8 @@ class Evenement {
      *
      * @ORM\Column(name="date_edition", type="datetime", nullable=true)
      * @Assert\Date()
+     *
+     * La date d'édition de l'événement
      */
     private $dateEdition;
 
@@ -210,6 +221,8 @@ class Evenement {
      *
      * @ORM\ManyToOne(targetEntity="WS\UserBundle\Entity\User", inversedBy="evenementEditions")
      * @ORM\JoinColumn(nullable=true)
+     *
+     * L'utilisateur qui a modifié l'événement
      */
     private $userEdition;
 

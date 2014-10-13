@@ -19,6 +19,8 @@ class RechercheController extends Controller {
     /**
      * @Route("/recherche", name="ws_ovs_recherche_recherche", options={"expose"=true})
      * @Template()
+     *
+     * Méthode de recherche dévénement en focntion de la ville et/ou du sport
      */
     public function rechercheAction() {
         $em = $this->getDoctrine()->getManager();
@@ -34,23 +36,25 @@ class RechercheController extends Controller {
             $ville = $form->get('evenement')->getData();
             $sport = $form->get('sport')->getData();
             $evenement_privs = null;
+            // si un utilisateur est connecté alors on récupère la liste de ses amis.
             if ($user != null) {
                 $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
             }
             if ($ville != null and $sport == null) {
                 $evenements = $em->getRepository('WSOvsBundle:Evenement')->result_Ville($ville->getVille());
-                if (!is_null($amis)) {
+                // Si un utilisateur est connecté on récupère la liste des événements privé que lui ou ces amis(il peut ne pas avoir d'amis) on crée.
+                if ($user != null) {
                     $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->result_ville_Priver($ville->getVille(), $user, $amis);
                 }
             } else {
                 if ($ville == null and $sport != null) {
                     $evenements = $em->getRepository('WSOvsBundle:Evenement')->result_Sport($sport->getNom());
-                    if (!is_null($amis)) {
+                    if ($user != null) {
                         $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->result_sport_Priver($sport->getNom(), $user, $amis);
                     }
                 } else {
                     $evenements = $em->getRepository('WSOvsBundle:Evenement')->result($ville->getVille(), $sport->getNom());
-                    if (!is_null($amis)) {
+                    if ($user != null) {
                         $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->result_ville_Priver($ville->getVille(), $sport->getNom(), $user, $amis);
                     }
                 }

@@ -12,6 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class EvenementRepository extends EntityRepository {
 
+    /**
+     *
+     * @param type $actif
+     * @return type
+     *
+     * Méthode qui sert a trié les évenement en fonction du sport.
+     * Elle est appeler dans l'adminController
+     */
     public function triSport($actif) {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif=:actif')
@@ -21,6 +29,14 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $actif
+     * @return type
+     *
+     * Méthode qui sert a trié les évenement en fonction des utilisateurs.
+     * Elle est appeler dans l'adminController
+     */
     public function triUser($actif) {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif=:actif')
@@ -43,6 +59,13 @@ class EvenementRepository extends EntityRepository {
         return $qb;
     }
 
+    /**
+     *
+     * @param type $ville
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tout les événements qui on pour ville la ville passé en paramètre.
+     */
     public function result_Ville($ville) {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif=:actif')
@@ -54,6 +77,16 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $ville
+     * @param type $user
+     * @param type $amis
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tout les événements privé de l'utilisateur et de ses amis
+     * qui on pour ville la ville passé en paramètre.
+     */
     public function result_ville_Priver($ville, $user, $amis) {
         $ami_tab = array();
         foreach ($amis as $ami) {
@@ -73,6 +106,13 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $sport
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tout les événements qui on pour sport le nom de sport passé en paramètre.
+     */
     public function result_Sport($sport) {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif= :actif')
@@ -85,6 +125,16 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $sport
+     * @param type $user
+     * @param type $amis
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tout les événements privé de l'utilisateur et ses amis
+     * qui on pour sport le nom de sport passé en paramètre
+     */
     public function result_sport_Priver($sport, $user, $amis) {
         $ami_tab = array();
         foreach ($amis as $ami) {
@@ -105,6 +155,15 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $ville
+     * @param type $sport
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tout les événements qui on pour ville la ville passé en paramètre
+     * et pour sport le nom de sport passé en paramètre.
+     */
     public function result($ville, $sport) {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.actif=:actif')
@@ -119,6 +178,17 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $ville
+     * @param type $sport
+     * @param type $user
+     * @param type $amis
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tout les événements privé de l'utilisateur et ses amis
+     * qui on pour ville la ville passé en paramètre et pour sport le nom du sport passé en paramètre.
+     */
     public function result_Priver($ville, $sport, $user, $amis) {
         $ami_tab = array();
         foreach ($amis as $ami) {
@@ -141,6 +211,15 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $date
+     * @param type $user
+     * @param type $amis
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tous les événement privé de l'utilisateur et ses amis pour une date donnée.
+     */
     public function sortiePriverDate($date, $user, $amis) {
         $ami_tab = array();
         foreach ($amis as $ami) {
@@ -161,6 +240,15 @@ class EvenementRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * @param type $user
+     * @param type $ami
+     * @param type $amis
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tous les événements privé de l'utilisateur, son ami et la liste de leur amis commun.
+     */
     public function sortiePriverAmi($user, $ami, $amis) {
         $ami_tab = array();
         foreach ($amis as $ami) {

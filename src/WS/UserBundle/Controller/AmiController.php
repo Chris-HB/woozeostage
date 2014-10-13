@@ -19,12 +19,16 @@ class AmiController extends Controller {
      * @Template()
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
+     * Méthode qui va envoyer une demande d'ami a un utilisateur
      */
     public function addAction(User $user) {
         $em = $this->getDoctrine()->getManager();
         $user_actuel = $this->getUser();
         $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
+        // Si ils étaient déja ami ou sont toujours ami
         if ($ami != null) {
+            // Si il ne sont plus ami on met a jour le statut et on le repasse en actif pour envoyer une nouvelel demande
             if ($ami->getActif() == 0) {
                 $ami->setStatut(2);
                 $ami->setActif(1);
@@ -50,6 +54,9 @@ class AmiController extends Controller {
      * @Template()
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
+     * Méthode pour supprimer un ami.
+     * Cette méthode désactive la relation dans les 2 sens.
      */
     public function desactiverAction(User $user) {
         $form = $this->createFormBuilder()->getForm();
@@ -77,6 +84,8 @@ class AmiController extends Controller {
      * @Template()
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     *
+     * Méthode pour accepté ou refusé un ami.
      */
     public function gererAction(User $user, $accepter) {
         if (($accepter == 1) or ( $accepter == 0)) {
@@ -85,11 +94,13 @@ class AmiController extends Controller {
             $ami_reverse = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user, 'userbis' => $user_actuel));
             if ($accepter == 1) {
                 $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
+                // Si on accepte et qu'on était déja ami alors on réactive la liaison si elel n'exister plus.
                 if ($ami != null) {
                     if ($ami->getActif() == 0) {
                         $ami->setActif(1);
                         $ami->setStatut(1);
                     } else {
+                        // On valide la liaison dans le cas d'envoie simultaner.
                         if ($ami->getStatut() == 2) {
                             $ami->setStatut(1);
                         } else {
@@ -107,6 +118,7 @@ class AmiController extends Controller {
                 $em->persist($ami, $ami_reverse);
                 $this->get('session')->getFlashBag()->add('info', 'Ami accepté');
             } else {
+                // Si on refuse on déscative la demande d'ami.
                 $ami_reverse->setActif(0);
                 $em->persist($ami_reverse);
                 $this->get('session')->getFlashBag()->add('info', 'Ami refusé');
@@ -124,6 +136,7 @@ class AmiController extends Controller {
      * @Template()
      *
      * @Secure(roles="IS_AUTHENTICATED_REMEMBERED")
+     * Méthode qui renvoie le nombre de demande d'ami en attente.
      */
     public function annonceAction() {
         $user = $this->getUser();
