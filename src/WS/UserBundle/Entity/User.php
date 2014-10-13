@@ -26,7 +26,7 @@ class User extends BaseUser {
     /**
      * @var datetime
      *
-     * @ORM\Column(name="last_activity", type="datetime")
+     * @ORM\Column(name="last_activity", type="datetime", nullable=true)
      *
      *
      */
@@ -387,27 +387,6 @@ class User extends BaseUser {
     }
 
     /**
-     * Set lastActivity
-     *
-     * @param \DateTime $lastActivity
-     * @return User
-     */
-    public function setLastActivity($lastActivity) {
-        $this->lastActivity = $lastActivity;
-
-        return $this;
-    }
-
-    /**
-     * Get lastActivity
-     *
-     * @return \DateTime
-     */
-    public function getLastActivity() {
-        return $this->lastActivity;
-    }
-
-    /**
      * IsActiveNow
      *
      * @return User
@@ -417,4 +396,27 @@ class User extends BaseUser {
         return $this;
     }
 
+
+    /**
+     * Set lastActivity
+     *
+     * @param \DateTime $lastActivity
+     * @return User
+     */
+    public function setLastActivity($lastActivity)
+    {
+        $this->lastActivity = $lastActivity;
+
+        return $this;
+    }
+
+    /**
+     * Get lastActivity
+     *
+     * @return \DateTime 
+     */
+    public function getLastActivity()
+    {
+        return $this->lastActivity;
+    }
 }
