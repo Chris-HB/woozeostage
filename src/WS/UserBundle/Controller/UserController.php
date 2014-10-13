@@ -65,7 +65,7 @@ class UserController extends Controller {
         return array('users' => $users);
     }
 
-     *
+    /**
      * @param User $user
      * @return type
      *
