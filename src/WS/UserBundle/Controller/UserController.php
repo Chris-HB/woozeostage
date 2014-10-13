@@ -57,6 +57,14 @@ class UserController extends Controller {
     }
 
     /**
+     * @Template()
+     */
+    public function whoIsOnlineAction() {
+        $users = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:User')->getActive();
+
+        return array('users' => $users);
+    }
+
      *
      * @param User $user
      * @return type

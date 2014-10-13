@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: "@WSChatBundle/Resources/config/services.yml" }
+    - { resource: "@WSUserBundle/Resources/config/services.yml" }
 
 framework:
     #esi:             ~

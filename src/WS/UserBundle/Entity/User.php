@@ -24,6 +24,15 @@ class User extends BaseUser {
     protected $id;
 
     /**
+     * @var datetime
+     *
+     * @ORM\Column(name="last_activity", type="datetime")
+     *
+     *
+     */
+    protected $lastActivity;
+
+    /**
      * @var type
      *
      * @ORM\OneToMany(targetEntity="WS\OvsBundle\Entity\Evenement", mappedBy="user")
@@ -375,6 +384,37 @@ class User extends BaseUser {
      */
     public function getAmisbis() {
         return $this->amisbis;
+    }
+
+    /**
+     * Set lastActivity
+     *
+     * @param \DateTime $lastActivity
+     * @return User
+     */
+    public function setLastActivity($lastActivity) {
+        $this->lastActivity = $lastActivity;
+
+        return $this;
+    }
+
+    /**
+     * Get lastActivity
+     *
+     * @return \DateTime
+     */
+    public function getLastActivity() {
+        return $this->lastActivity;
+    }
+
+    /**
+     * IsActiveNow
+     *
+     * @return User
+     */
+    public function isActiveNow() {
+        $this->setLastActivity(new \DateTime());
+        return $this;
     }
 
 }
