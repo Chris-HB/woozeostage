@@ -129,7 +129,7 @@ class Evenement {
     /**
      * @var type @ORM\Column(name="type", type="string", length=255)
      *
-     * Le type d'événement : public ou privé.
+     * Le type d'événement : public ou priver.
      */
     private $type;
 

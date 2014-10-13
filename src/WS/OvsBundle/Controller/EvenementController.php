@@ -73,7 +73,7 @@ class EvenementController extends Controller {
         $evenement_privs = null;
         if ($user != null) {
             $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
-            $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->sortiePriver($date, $user, $amis);
+            $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->sortiePriverDate($date, $user, $amis);
         } else {
             $evenement_privs = null;
         }

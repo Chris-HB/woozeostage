@@ -34,10 +34,68 @@ class UserController extends Controller {
         $user_actuel = $this->getUser();
         $ami = null;
         $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user, 'statut' => 1, 'actif' => 1));
-        $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1));
         $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('user' => $user, 'actif' => 1, 'statut' => 1));
 
-        return array('user' => $user, 'evenements' => $evenements, 'userEvenements' => $userEvenements, 'ami' => $ami);
+        $evenement_publics = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1, 'type' => 'public'));
+        $userEvenement_publics = $this->participationPublic($userEvenements);
+
+        if ($ami != null) {
+            $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1, 'type' => 'priver'));
+            $userEvenement_privs = $this->participationPriver($userEvenements, $user);
+        } else {
+            $evenement_privs = null;
+            $userEvenement_privs = null;
+        }
+
+        return array('user' => $user, 'evenement_publics' => $evenement_publics, 'userEvenement_publics' => $userEvenement_publics, 'ami' => $ami, 'evenement_privs' => $evenement_privs, 'userEvenement_privs' => $userEvenement_privs);
+    }
+
+    public function amiCommun(User $user) {
+        $user_actuel = $this->getUser();
+        $amis_actuel = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user_actuel, 'statut' => 1, 'actif' => 1));
+        $amis = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
+        $amis_commun = array();
+        foreach ($amis as $ami) {
+            foreach ($amis_actuel as $ami_actuel) {
+                if ($ami->getUserbis() == $ami_actuel->getUserbis()) {
+                    $amis_commun[] = $ami_actuel;
+                }
+            }
+        }
+        return $amis_commun;
+    }
+
+    public function participationPublic($userEvenements) {
+        $userEvenement_publics = array();
+        foreach ($userEvenements as $userEvenement) {
+            if ($userEvenement->getEvenement()->getType() == 'public') {
+                $userEvenement_publics[] = $userEvenement;
+            }
+        }
+        return $userEvenement_publics;
+    }
+
+    public function participationPriver($userEvenements, $user) {
+        $userEvenement_privers = array();
+        foreach ($userEvenements as $userEvenement) {
+            if ($userEvenement->getEvenement()->getType() == 'priver') {
+                $userEvenement_privers[] = $userEvenement;
+            }
+        }
+        $amis_commun = $this->amiCommun($user);
+        $user_actuel = $this->getUser();
+        $evenement_privs = $this->getDoctrine()->getManager()->getRepository('WSOvsBundle:Evenement')->sortiePriverAmi($user_actuel, $user, $amis_commun);
+
+        $userEvenement_privs = array();
+        foreach ($userEvenement_privers as $userEvenement_priver) {
+            foreach ($evenement_privs as $evenement_priv) {
+                if ($userEvenement_priver->getEvenement() == $evenement_priv) {
+                    $userEvenement_privs[] = $userEvenement_priver;
+                }
+            }
+        }
+
+        return $userEvenement_privs;
     }
 
 }

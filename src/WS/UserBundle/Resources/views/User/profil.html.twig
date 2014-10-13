@@ -9,8 +9,9 @@
             <a href="{{ path('ws_user_ami_add', {'id': user.id}) }}">Ajouter en ami</a>
         {% endif %}
     </p>
-    <p>Les événements créé par {{ user.username }} :</p>
-    {% if evenements is not empty %}
+    <p>Les événements publics créé par {{ user.username }} :</p>
+    {% if evenement_publics is not empty %}
+        <p>Evénement public</p>
         <table>
             <tr>
                 <th>Date</th>
@@ -20,7 +21,7 @@
                 <th>Inscrit</th>
                 <th>Ville</th>
             </tr>
-            {% for evenement in evenements %}
+            {% for evenement in evenement_publics %}
                 <tr>
                     <td>{{ evenement.date|date('d/m/Y')}}</td>
                     <td>{{ evenement.heure|date('H:i') }}</td>
@@ -35,16 +36,45 @@
         <p>{{ user.username }} n'a créé aucun événement.</p>
     {% endif %}
     <br/>
-    <p>Les évènements auxquels {{ user.username }} a participé :</p>
-    {% if userEvenements is not empty %}
-        {% if userEvenements|length < 10 %}
-            <p>Courage plus que {{ 10 - userEvenements|length }} avant la médaille de bronze.</p>
+    {% if ami is not null %}
+        <p>Les événements privés créé par {{ user.username }} :</p>
+        {% if evenement_privs is not empty %}
+            <p>Evénement priver</p>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Sport</th>
+                    <th>Sortie</th>
+                    <th>Inscrit</th>
+                    <th>Ville</th>
+                </tr>
+                {% for evenement in evenement_privs %}
+                    <tr>
+                        <td>{{ evenement.date|date('d/m/Y')}}</td>
+                        <td>{{ evenement.heure|date('H:i') }}</td>
+                        <td>{{ evenement.sport.nom }}</td>
+                        <td><a href="{{ path('ws_ovs_evenement_voir', {'id': evenement.id}) }}">{{ evenement.nom }}</a></td>
+                        <td>{{ evenement.nombreValide }} / {{ evenement.inscrit }}</td>
+                        <td>{{ evenement.ville }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         {% else %}
-            {% if userEvenements|length >= 10 and userEvenements|length < 30 %}
-                <p>Bravo vous êtes médaille de bronze, plus que {{ 30 - userEvenements|length }} avant la médaille d'argent.</p>
+            <p>{{ user.username }} n'a créé aucun événement privé.</p>
+        {% endif %}
+    {% endif %}
+    <br/>
+    <p>Les évènements publics auxquels {{ user.username }} a participé :</p>
+    {% if userEvenement_publics is not empty %}
+        {% if userEvenement_publics|length < 10 %}
+            <p>Courage plus que {{ 10 - userEvenement_publics|length }} avant la médaille de bronze.</p>
+        {% else %}
+            {% if userEvenement_publics|length >= 10 and userEvenement_publics|length < 30 %}
+                <p>Bravo vous êtes médaille de bronze, plus que {{ 30 - userEvenement_publics|length }} avant la médaille d'argent.</p>
             {% else %}
-                {% if userEvenements|length >= 30 and userEvenements|length < 50 %}
-                    <p>Bravo vous êtes médaille d'argent, plus que {{ 50 - userEvenements|length }} avant la médaille d'or.</p>
+                {% if userEvenement_publics|length >= 30 and userEvenement_publics|length < 50 %}
+                    <p>Bravo vous êtes médaille d'argent, plus que {{ 50 - userEvenement_publics|length }} avant la médaille d'or.</p>
                 {% else %}
                     <p>Bravo vous êtes médaille d'or.</p>
                 {% endif %}
@@ -60,7 +90,7 @@
                 <th>Ville</th>
                 <th>Organisateur</th>
             </tr>
-            {% for userEvenement in userEvenements %}
+            {% for userEvenement in userEvenement_publics %}
                 <tr>
                     <td>{{ userEvenement.evenement.date|date('d/m/Y')}}</td>
                     <td>{{ userEvenement.evenement.heure|date('H:i') }}</td>
@@ -73,6 +103,49 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>{{ user.username }} n'a participé à aucun événement.</p>
+        <p>{{ user.username }} n'a participé à aucun événement public.</p>
+    {% endif %}
+    <br/>
+    {% if ami is not null %}
+        <p>Les évènements privé auxquels {{ user.username }} a participé :</p>
+        {% if userEvenement_privs is not empty %}
+            {% if userEvenement_privs|length < 10 %}
+                <p>Courage plus que {{ 10 - userEvenement_privs|length }} avant la médaille de bronze.</p>
+            {% else %}
+                {% if userEvenement_privs|length >= 10 and userEvenement_privs|length < 30 %}
+                    <p>Bravo vous êtes médaille de bronze, plus que {{ 30 - userEvenement_privs|length }} avant la médaille d'argent.</p>
+                {% else %}
+                    {% if userEvenement_privs|length >= 30 and userEvenement_privs|length < 50 %}
+                        <p>Bravo vous êtes médaille d'argent, plus que {{ 50 - userEvenement_privs|length }} avant la médaille d'or.</p>
+                    {% else %}
+                        <p>Bravo vous êtes médaille d'or.</p>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Sport</th>
+                    <th>Sortie</th>
+                    <th>Inscrit</th>
+                    <th>Ville</th>
+                    <th>Organisateur</th>
+                </tr>
+                {% for userEvenement in userEvenement_privs %}
+                    <tr>
+                        <td>{{ userEvenement.evenement.date|date('d/m/Y')}}</td>
+                        <td>{{ userEvenement.evenement.heure|date('H:i') }}</td>
+                        <td>{{ userEvenement.evenement.sport.nom }}</td>
+                        <td><a href="{{ path('ws_ovs_evenement_voir', {'id': userEvenement.evenement.id}) }}">{{ userEvenement.evenement.nom }}</a></td>
+                        <td>{{ userEvenement.evenement.nombreValide }} / {{ userEvenement.evenement.inscrit }}</td>
+                        <td>{{ userEvenement.evenement.ville }}</td>
+                        <td><a href="{{ path('ws_user_user_profil', {'id': userEvenement.evenement.user.id}) }}">{{ userEvenement.evenement.user.username }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>{{ user.username }} n'a participé à aucun événement privé.</p>
+        {% endif %}
     {% endif %}
 {% endblock %}
