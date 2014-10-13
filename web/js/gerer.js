@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('#ws_ovsbundle_evenementgerer_userEvenements_0_statut').children().attr('disabled', true);
+    $('#createur input').attr('disabled', true);
 
     $('#ws_ovsbundle_evenementgerer input').click(function () {
         var $cal = calcul();

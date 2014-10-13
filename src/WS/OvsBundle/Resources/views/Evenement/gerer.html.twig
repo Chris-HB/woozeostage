@@ -13,8 +13,15 @@
             {% for userEvenement in form.userEvenements %}
                 {# si la personne a le statut d'actif alors on affiche son nom puis son statut #}
                 {% if userEvenement.actif.vars.value == 1 %}
-                    <p><a href="{{ path('ws_user_user_profil',{'id':userEvenement.user.username.vars.value}) }}">{{ userEvenement.user.username.vars.value }}</a></p>
-                    {{ form_row(userEvenement.statut) }}
+                    {% if userEvenement.user.username.vars.value == evenement.user.username %}
+                        <p><a href="{{ path('ws_user_user_profil',{'id':userEvenement.user.username.vars.value}) }}">{{ userEvenement.user.username.vars.value }}</a></p>
+                        <div id="createur">
+                            {{ form_row(userEvenement.statut) }}
+                        </div>
+                    {% else %}
+                        <p><a href="{{ path('ws_user_user_profil',{'id':userEvenement.user.username.vars.value}) }}">{{ userEvenement.user.username.vars.value }}</a></p>
+                        {{ form_row(userEvenement.statut) }}
+                    {% endif %}
                 {% endif %}
             {% endfor %}
             <div id="steack">

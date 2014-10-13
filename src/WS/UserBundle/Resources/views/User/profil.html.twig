@@ -5,7 +5,7 @@
 {% endblock %}
 {% block utilisateur %}
     <p>Nom: {{ user.username }} 
-        {% if ami is null %}
+        {% if (ami is null)  and (app.user != user) and is_granted("IS_AUTHENTICATED_REMEMBERED")%}
             <a href="{{ path('ws_user_ami_add', {'id': user.id}) }}">Ajouter en ami</a>
         {% endif %}
     </p>
@@ -36,7 +36,7 @@
         <p>{{ user.username }} n'a créé aucun événement.</p>
     {% endif %}
     <br/>
-    {% if ami is not null %}
+    {% if (ami is not null)  or (app.user == user) %}
         <p>Les événements privés créé par {{ user.username }} :</p>
         {% if evenement_privs is not empty %}
             <p>Evénement priver</p>
@@ -106,7 +106,7 @@
         <p>{{ user.username }} n'a participé à aucun événement public.</p>
     {% endif %}
     <br/>
-    {% if ami is not null %}
+    {% if (ami is not null) or (app.user == user) %}
         <p>Les évènements privé auxquels {{ user.username }} a participé :</p>
         {% if userEvenement_privs is not empty %}
             {% if userEvenement_privs|length < 10 %}

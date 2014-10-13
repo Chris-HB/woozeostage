@@ -45,12 +45,17 @@ class UserController extends Controller {
 
         // S'il sont ami alors on renvoye la liste des événements privé crée par l'utilisateur
         // et la liste des événements auquel il a participé a condition que celui ci soit ami avec les créateur de lévénement.
-        if (($ami != null) or $user == $user_actuel) {
+        if ($user == $user_actuel) {
             $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1, 'type' => 'priver'));
-            $userEvenement_privs = $this->participationPriver($userEvenements, $user);
+            $userEvenement_privs = $this->participationPriverBis($userEvenements);
         } else {
-            $evenement_privs = null;
-            $userEvenement_privs = null;
+            if ($ami != null) {
+                $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1, 'type' => 'priver'));
+                $userEvenement_privs = $this->participationPriver($userEvenements, $user);
+            } else {
+                $evenement_privs = null;
+                $userEvenement_privs = null;
+            }
         }
 
         return array('user' => $user, 'evenement_publics' => $evenement_publics, 'userEvenement_publics' => $userEvenement_publics, 'ami' => $ami, 'evenement_privs' => $evenement_privs, 'userEvenement_privs' => $userEvenement_privs);
@@ -129,6 +134,24 @@ class UserController extends Controller {
                 if ($userEvenement_priver->getEvenement() == $evenement_priv) {
                     $userEvenement_privs[] = $userEvenement_priver;
                 }
+            }
+        }
+
+        return $userEvenement_privs;
+    }
+
+    /**
+     *
+     * @param type $userEvenements
+     * @return type
+     *
+     * Méthode qui retourne la liste des participations a des événements privés dans le cas ou on regarde son propre profil.
+     */
+    public function participationPriverBis($userEvenements) {
+        $userEvenement_privs = array();
+        foreach ($userEvenements as $userEvenement) {
+            if ($userEvenement->getEvenement()->getType() == 'priver') {
+                $userEvenement_privs[] = $userEvenement;
             }
         }
 
