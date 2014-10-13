@@ -31,7 +31,17 @@ function clientApp() {
         if (pseudo == message.recepteur) {
             //alert('pseudo: ' + pseudo + ' ---- recepteur: ' + message.recepteur);
             //alert('emetteur: ' + messB[0][0] + ' --- recepteur: ' + messB[0][1] + ' --- message: ' + messB[0][2]);
+
+            // on affiche la box et le message qu'elle vient de recevoir
+            afficheBox(message.emetteur);
             $('#' + message.emetteur).chatbox("option", "boxManager").addMsg(messB[0][1], messB[0][0], messB[0][2]);
+
+            // on verifie que la valeur (id de Box) n'existe pas déjà dans le tableau boxTab
+            existe = $.inArray(message.emetteur, boxTab);
+            if (existe == -1) {
+                boxTab.push(message.emetteur);
+            }
+
         }
     });
 }
