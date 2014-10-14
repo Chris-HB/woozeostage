@@ -20,6 +20,14 @@ class UserEvenementRepository extends EntityRepository {
         ;
     }
 
+    /**
+     *
+     * @param type $statut
+     * @param type $evenement
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste des participant trier par nom.
+     */
     public function listeTrierUsername($statut, $evenement) {
         $qb = $this->createQueryBuilder('ue');
         $qb->where('ue.actif=:actif')
