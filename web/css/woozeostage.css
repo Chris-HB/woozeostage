@@ -43,3 +43,29 @@
 .even {
     background-color: lightyellow;
 }
+
+#alert_ami {
+    width: 40px;
+    height: 35px;
+    display: inline-block;
+}
+
+#ami img {
+       width: 30px; 
+}
+#ami {
+    float: left;
+    margin-top: 14px;
+}
+
+#ami_nombre {
+    float: left;
+    background-color: red;
+    color: white;
+    font-size: 0.8em;
+    margin-top: 10px;
+}
+
+.clear {
+    clear: both;
+}

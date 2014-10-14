@@ -32,7 +32,7 @@
                 <div id="pseudo" data-pseudo={{ app.user.username }}>
                     Bonjour {{ app.user.username }}
                 </div> 
-                - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
                 {{ render(controller("WSUserBundle:Ami:annonce")) }}
                 {#<a href="{{path('fos_user_profile_show') }}">Votre Profil</a>#}
              {% else %}
