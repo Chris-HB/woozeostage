@@ -94,6 +94,7 @@ class CommentaireController extends Controller {
             $form->bind($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                // on desactive le commentaire actif passe a 0
                 $commentaire->setActif(0);
                 $em->persist($commentaire);
                 $em->flush();
@@ -112,6 +113,7 @@ class CommentaireController extends Controller {
      */
     public function listAction(Evenement $evenement) {
         $em = $this->getDoctrine()->getManager();
+        // les commentaires actif(1)
         $commentaires = $em->getRepository('WSOvsBundle:Commentaire')->findBy(array('evenement' => $evenement, 'actif' => 1), array('dateCreation' => 'DESC'));
         return array('commentaires' => $commentaires);
     }

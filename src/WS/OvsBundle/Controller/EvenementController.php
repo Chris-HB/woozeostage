@@ -65,11 +65,13 @@ class EvenementController extends Controller {
     public function listDateAction($date) {
         $date = new \DateTime($date);
         $em = $this->getDoctrine()->getManager();
+        // les événements actif(1)
         $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('actif' => 1, 'date' => $date, 'type' => 'public'), array('heure' => 'ASC'));
         $user = $this->getUser();
         $evenement_privs = null;
         // Si un utilisateur est connecté on récupère tous les événements privé créés par lui et ses amis.
         if ($user != null) {
+            // les amis validés : statut = 1 et activé : actif = 1
             $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
             $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->sortiePriverDate($date, $user, $amis);
         } else {
@@ -96,7 +98,9 @@ class EvenementController extends Controller {
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
         $dateEvenement = new \DateTime($dateE);
 
+        // les participants validés (1)
         $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->listeTrierUsername(1, $evenement);
+        // les participants en attentes (2)
         $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->listeTrierUsername(2, $evenement);
 
         return array('evenement' => $evenement, 'dateEvenement' => $dateEvenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes, 'map' => $map);
@@ -190,12 +194,14 @@ class EvenementController extends Controller {
 //                        $users = array();
                         foreach ($evenement->getUserEvenements()as $userEvenement) {
                             if ($userEvenement->getUser() == $evenement->getUser()) {
+                                // statut validé(1)
                                 $userEvenement->setStatut(1);
                             }
                             if ($userEvenement->getStatut() == 1) {
                                 $nombre++;
                             }
                             if ($nombre > $evenement->getInscrit()) {
+                                // statut en attente(2)
                                 $userEvenement->setStatut(2);
                                 $nombre--;
                             }

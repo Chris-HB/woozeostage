@@ -38,6 +38,7 @@ class RechercheController extends Controller {
             $evenement_privs = null;
             // si un utilisateur est connecté alors on récupère la liste de ses amis.
             if ($user != null) {
+                // statut 1: validé, actif:1 la relation est active
                 $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
             }
             if ($ville != null and $sport == null) {

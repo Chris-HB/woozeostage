@@ -32,6 +32,7 @@ class AccueilController extends Controller {
         $user = $this->getUser();
         // Si un utilisateur est connecté on récupère la liste de ces événements privé et celle de ses amis.
         if ($user != null) {
+            // statut 1 : validé ils sont amis, actif 1 : le lien n'ai pas desactivé
             $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
             $evenement_privs = $em->getRepository('WSOvsBundle:Evenement')->sortiePriverDate($date, $user, $amis);
         } else {

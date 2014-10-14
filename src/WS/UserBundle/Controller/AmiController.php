@@ -28,10 +28,13 @@ class AmiController extends Controller {
         $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
         // Si ils étaient déja ami ou sont toujours ami
         if ($ami != null) {
-            // Si il ne sont plus ami on met a jour le statut et on le repasse en actif pour envoyer une nouvelel demande
+            // Si il ne sont plus ami on met a jour le statut et on le repasse en actif pour envoyer une nouvelle demande
             if ($ami->getActif() == 0) {
+                // en attente
                 $ami->setStatut(2);
+                // actif
                 $ami->setActif(1);
+                // nouvelle demande
                 $ami->setNouveau(1);
             } else {
                 if ($ami->getStatut() == 1) {
@@ -68,6 +71,7 @@ class AmiController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $user_actuel = $this->getUser();
                 $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
+                // desactiver (actif = 0)
                 $ami->setActif(0);
                 $ami_reverse = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user, 'userbis' => $user_actuel));
                 $ami_reverse->setActif(0);
@@ -98,8 +102,11 @@ class AmiController extends Controller {
                 // Si on accepte et qu'on était déja ami alors on réactive la liaison si elle n'exister plus.
                 if ($ami != null) {
                     if ($ami->getActif() == 0) {
+                        // actif
                         $ami->setActif(1);
+                        // valider
                         $ami->setStatut(1);
+                        // nouveau
                         $ami->setNouveau(1);
                     } else {
                         // On valide la liaison dans le cas d'envoie simultaner.
@@ -115,8 +122,10 @@ class AmiController extends Controller {
                     $ami = new Ami();
                     $ami->setUser($user_actuel);
                     $ami->setUserbis($user);
+                    // validé
                     $ami->setStatut(1);
                 }
+                // demande traiter donc nouveau 0
                 $ami_reverse->setNouveau(0);
                 $ami_reverse->setStatut(1);
                 $em->persist($ami, $ami_reverse);
@@ -145,7 +154,7 @@ class AmiController extends Controller {
     public function annonceAction() {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        //$amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'statut' => 2, 'actif' => 1));
+        // les demande nouvelle (nouveau=1) et active (actif=1)
         $amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'nouveau' => 1, 'actif' => 1));
 
         return array('amis_att' => $amis_att);

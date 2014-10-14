@@ -35,9 +35,10 @@ class UserController extends Controller {
             return $this->redirect($this->generateUrl('ws_ovs_accueil_index'));
         }
         $user_actuel = $this->getUser();
-        // On verifie si l'utilisateur qui regarde le profil n'ai pas déjà ami avec l'utilisateur du profil.
+        // On verifie si l'utilisateur qui regarde le profil n'ai pas déjà ami avec l'utilisateur du profil(statut 1, actif 1).
         $ami = null;
         $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user, 'statut' => 1, 'actif' => 1));
+        // on récupère la liste de ces participation validé(statut = 1) et active (actif = 1)
         $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('user' => $user, 'actif' => 1, 'statut' => 1));
 
         $evenement_publics = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1, 'type' => 'public'));
@@ -78,6 +79,7 @@ class UserController extends Controller {
      */
     public function amiCommun(User $user) {
         $user_actuel = $this->getUser();
+        // ami validé: statut = 1 et active: actif = 1
         $amis_actuel = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user_actuel, 'statut' => 1, 'actif' => 1));
         $amis = $this->getDoctrine()->getManager()->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
         $amis_commun = array();
