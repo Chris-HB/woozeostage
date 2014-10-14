@@ -1,9 +1,5 @@
 <a href="{{path('fos_user_profile_show') }}">Votre Profil</a>
 {% if amis_att is not empty %}
-    {% if amis_att|length == 1%}
-        ({{ amis_att|length }} demande d'ami)
-    {% else %}
-        ({{ amis_att|length }} demandes d'amis)
-    {% endif %}  
+    <a href="{{path('fos_user_profile_show') }}"><img id="ami" src="{{asset('images/amis.png')}}"/></a> <span id="ami_nombre">{{ amis_att|length }}</span>
 {% endif %}
 

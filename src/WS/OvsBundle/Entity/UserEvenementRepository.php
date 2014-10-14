@@ -20,4 +20,17 @@ class UserEvenementRepository extends EntityRepository {
         ;
     }
 
+    public function listeTrierUsername($statut, $evenement) {
+        $qb = $this->createQueryBuilder('ue');
+        $qb->where('ue.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere('ue.statut=:statut')
+                ->setParameter('statut', $statut)
+                ->andWhere('ue.evenement=:evenement')
+                ->setParameter('evenement', $evenement)
+                ->leftJoin('ue.user', 'u')
+                ->orderBy('u.username');
+        return $qb->getQuery()->getResult();
+    }
+
 }

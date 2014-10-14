@@ -96,8 +96,8 @@ class EvenementController extends Controller {
         $dateE = $evenement->getDate()->format('Y-m-d') . $evenement->getHeure()->format('H:i');
         $dateEvenement = new \DateTime($dateE);
 
-        $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 1, 'evenement' => $evenement, 'actif' => 1));
-        $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('statut' => 2, 'evenement' => $evenement, 'actif' => 1));
+        $userEvenementValides = $em->getRepository('WSOvsBundle:UserEvenement')->listeTrierUsername(1, $evenement);
+        $userEvenementAttentes = $em->getRepository('WSOvsBundle:UserEvenement')->listeTrierUsername(2, $evenement);
 
         return array('evenement' => $evenement, 'dateEvenement' => $dateEvenement, 'userEvenementValides' => $userEvenementValides, 'userEvenementAttentes' => $userEvenementAttentes, 'map' => $map);
     }
@@ -179,7 +179,6 @@ class EvenementController extends Controller {
                 return $this->redirect($this->generateUrl('ws_ovs_evenement_voir', array('id' => $evenement->getId())));
             } else {
                 $em = $this->getDoctrine()->getManager();
-                $userEvenements = $em->getRepository('WSOvsBundle:UserEvenement')->findBy(array('evenement' => $evenement, 'actif' => 1));
                 $form = $this->createForm(new EvenementGererType(), $evenement);
                 $request = $this->get('request');
                 if ($request->getMethod() == 'POST') {

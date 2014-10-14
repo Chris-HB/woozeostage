@@ -22,6 +22,15 @@ class ProfileController extends BaseController {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
         $em = $this->getDoctrine()->getManager();
+        $ami_news = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'statut' => 1, 'actif' => 1, 'nouveau' => 1));
+        if ($ami_news != null) {
+            foreach ($ami_news as $ami_new) {
+                $ami_new->setNouveau(0);
+                $this->get('session')->getFlashBag()->add('info', $ami_new->getUser()->getUsername() . ' à accepté votre demande d\'ami');
+                $em->persist($ami_new);
+            }
+            $em->flush();
+        }
         $amis = $em->getRepository('WSUserBundle:Ami')->findBy(array('user' => $user, 'statut' => 1, 'actif' => 1));
         $amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'statut' => 2, 'actif' => 1));
         $evenements = $em->getRepository('WSOvsBundle:Evenement')->findBy(array('user' => $user, 'actif' => 1));

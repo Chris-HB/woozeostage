@@ -48,9 +48,19 @@ class Ami {
      */
     private $actif;
 
+    /**
+     * @var type
+     *
+     * @ORM\Column(name="nouveau", type="boolean")
+     *
+     * Nouvelle ami ou demande de contact (1) ou ancien (0).
+     */
+    private $nouveau;
+
     public function __construct() {
         $this->actif = 1;
         $this->statut = 2;
+        $this->nouveau = 1;
     }
 
     /**
@@ -135,6 +145,27 @@ class Ami {
      */
     public function getUserbis() {
         return $this->userbis;
+    }
+
+    /**
+     * Set nouveau
+     *
+     * @param boolean $nouveau
+     * @return Ami
+     */
+    public function setNouveau($nouveau) {
+        $this->nouveau = $nouveau;
+
+        return $this;
+    }
+
+    /**
+     * Get nouveau
+     *
+     * @return boolean
+     */
+    public function getNouveau() {
+        return $this->nouveau;
     }
 
 }

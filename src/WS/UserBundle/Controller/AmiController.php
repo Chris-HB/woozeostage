@@ -32,6 +32,7 @@ class AmiController extends Controller {
             if ($ami->getActif() == 0) {
                 $ami->setStatut(2);
                 $ami->setActif(1);
+                $ami->setNouveau(1);
             } else {
                 if ($ami->getStatut() == 1) {
                     $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà ami');
@@ -94,15 +95,17 @@ class AmiController extends Controller {
             $ami_reverse = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user, 'userbis' => $user_actuel));
             if ($accepter == 1) {
                 $ami = $em->getRepository('WSUserBundle:Ami')->findOneBy(array('user' => $user_actuel, 'userbis' => $user));
-                // Si on accepte et qu'on était déja ami alors on réactive la liaison si elel n'exister plus.
+                // Si on accepte et qu'on était déja ami alors on réactive la liaison si elle n'exister plus.
                 if ($ami != null) {
                     if ($ami->getActif() == 0) {
                         $ami->setActif(1);
                         $ami->setStatut(1);
+                        $ami->setNouveau(1);
                     } else {
                         // On valide la liaison dans le cas d'envoie simultaner.
                         if ($ami->getStatut() == 2) {
                             $ami->setStatut(1);
+                            $ami->setNouveau(1);
                         } else {
                             $this->get('session')->getFlashBag()->add('info', 'Vous êtes déjà ami');
                             return $this->redirect($this->generateUrl('fos_user_profile_show'));
@@ -114,6 +117,7 @@ class AmiController extends Controller {
                     $ami->setUserbis($user);
                     $ami->setStatut(1);
                 }
+                $ami_reverse->setNouveau(0);
                 $ami_reverse->setStatut(1);
                 $em->persist($ami, $ami_reverse);
                 $this->get('session')->getFlashBag()->add('info', 'Ami accepté');
@@ -141,7 +145,8 @@ class AmiController extends Controller {
     public function annonceAction() {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'statut' => 2, 'actif' => 1));
+        //$amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'statut' => 2, 'actif' => 1));
+        $amis_att = $em->getRepository('WSUserBundle:Ami')->findBy(array('userbis' => $user, 'nouveau' => 1, 'actif' => 1));
 
         return array('amis_att' => $amis_att);
     }
