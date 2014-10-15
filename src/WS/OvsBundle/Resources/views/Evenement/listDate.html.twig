@@ -53,8 +53,6 @@
                 </tr>
             {% endfor %}
         </table>
-    {% else %}
-        <p>Pas d'événement privé.</p>
     {% endif %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <p><a href="{{ path('ws_ovs_evenement_add') }}">ajouter événement</a></p>

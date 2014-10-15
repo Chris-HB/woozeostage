@@ -213,6 +213,31 @@ class EvenementRepository extends EntityRepository {
 
     /**
      *
+     * @param type $user
+     * @param type $amis
+     * @return type
+     *
+     * Méthode qui va renvoyer la liste de tout les événements privé de l'utilisateur et ses amis.
+     */
+    public function resultPriverAll($user, $amis) {
+        $ami_tab = array();
+        foreach ($amis as $ami) {
+            $ami_tab[] = $ami->getUserBis();
+        }
+        $ami_tab[] = $user;
+
+        $qb = $this->createQueryBuilder('e');
+        $qb->Where('e.user in (:user)')
+                ->setParameter('user', $ami_tab)
+                ->andWhere('e.actif=:actif')
+                ->setParameter('actif', 1)
+                ->andWhere('e.type=:type')
+                ->setParameter('type', 'priver');
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     *
      * @param type $date
      * @param type $user
      * @param type $amis

@@ -4,13 +4,17 @@
     {{ parent() }} - Resultat recherche
 {% endblock %}
 {% block ovs %}
-    {% if (ville is not empty) and (sport is empty) %}
-        <p>Vous avez recherché {{ ville.ville }}</p>
+    {% if (ville is empty) and (sport is empty) %}
+        <p>Vous n'avez pas spécifié de ville ou de sport</p>
     {% else %}
-        {% if (ville is empty) and (sport is not empty) %}
-            <p>Vous avez recherché {{ sport.nom }}</p>
+        {% if (ville is not empty) and (sport is empty) %}
+            <p>Vous avez recherché {{ ville.ville }}</p>
         {% else %}
-            <p>Vous avez recherché {{ ville.ville }} {{ sport.nom }}</p>
+            {% if (ville is empty) and (sport is not empty) %}
+                <p>Vous avez recherché {{ sport.nom }}</p>
+            {% else %}
+                <p>Vous avez recherché {{ ville.ville }} {{ sport.nom }}</p>
+            {% endif %}
         {% endif %}
     {% endif %}
     {% if evenements is not empty %}

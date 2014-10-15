@@ -23,6 +23,10 @@
         <span id="adresse">{{ evenement.adresse|nl2br }}</span>
         {{ google_map(map) }}
     </p>
+    <div class="steack">
+        <span id="lat">{{ evenement.latitude }}</span>
+        <span id="lon">{{ evenement.longitude }}</span>
+    </div>
     <p>Liste des inscrits ({{ userEvenementValides|length }}/{{ evenement.inscrit }} reste {{ evenement.inscrit - userEvenementValides|length }})<p>
     {% for ue in userEvenementValides %}
        <p><a href="{{ path('ws_user_user_profil', {'id': ue.user.id}) }}">{{ ue.user.username }}</a></p>

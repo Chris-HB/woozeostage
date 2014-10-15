@@ -6,6 +6,10 @@
     visibility: hidden;
 }
 
+.steack{
+    visibility: hidden;
+}
+
 #tableHistoriqueChat {
     border-collapse:collapse;
 }

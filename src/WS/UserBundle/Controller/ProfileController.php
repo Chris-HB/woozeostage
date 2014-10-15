@@ -28,7 +28,7 @@ class ProfileController extends BaseController {
             foreach ($ami_news as $ami_new) {
                 // elles ne sont plus nouvelle (0)
                 $ami_new->setNouveau(0);
-                $this->get('session')->getFlashBag()->add('info', $ami_new->getUser()->getUsername() . ' à accepté votre demande d\'ami');
+                $this->get('session')->getFlashBag()->add('info', $ami_new->getUser()->getUsername() . ' a accepté votre demande d\'ami');
                 $em->persist($ami_new);
             }
             $em->flush();

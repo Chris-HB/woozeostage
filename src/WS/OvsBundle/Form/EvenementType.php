@@ -35,7 +35,7 @@ class EvenementType extends AbstractType {
                 ->add('ville', 'text')
                 ->add('latitude', 'hidden')
                 ->add('longitude', 'hidden')
-                ->add('type', 'choice', array('choices' => array('public' => 'public', 'priver' => 'priver'), 'expanded' => true));
+                ->add('type', 'choice', array('choices' => array('public' => 'public', 'priver' => 'privé'), 'expanded' => true));
         ;
     }
 
